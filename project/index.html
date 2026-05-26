@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ondřej Kamarýt - Sales Consulting</title>
+<meta name="description" content="Stavím obchodní procesy, které fungují predikovatelně. Audit, coaching a externí obchodní ředitel pro firmy, které chtějí systém místo náhody." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+
+  :root {
+    --bg: #F1ECDF;
+    --bg-2: #E8E1D0;
+    --ink: #0A0907;
+    --ink-2: #2A2722;
+    --ink-3: #6E695E;
+    --rule: rgba(10, 9, 7, 0.92);
+    --rule-soft: rgba(10, 9, 7, 0.12);
+    --accent: #D8401C;
+    --sans: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --pad-x: clamp(20px, 4vw, 64px);
+    --container: 1260px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.45;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  /* ───────── Grid lines (subtle 12-col background) ───────── */
+  .grid-lines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    max-width: var(--container);
+    margin: 0 auto;
+    left: 0; right: 0;
+    padding: 0 var(--pad-x);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .grid-lines > i {
+    border-left: 0.5px solid rgba(10,9,7,0.045);
+    height: 100%;
+  }
+  .grid-lines > i:last-child {
+    border-right: 0.5px solid rgba(10,9,7,0.045);
+  }
+  @media (max-width: 900px) {
+    .grid-lines { display: none; }
+  }
+
+  /* ───────── Top status bar ───────── */
+  .statusbar {
+    position: relative;
+    z-index: 3;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 14px var(--pad-x);
+    border-top: 4px solid var(--ink);
+    border-bottom: 0.5px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr 1.6fr 1fr;
+    gap: 16px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--bg);
+  }
+  .statusbar .item { display: flex; gap: 10px; align-items: baseline; min-width: 0; }
+  .statusbar .item .l { color: var(--ink-3); font-size: 10px; letter-spacing: 0.16em; flex: 0 0 auto; }
+  .statusbar .item .v { color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .statusbar .item.c { justify-content: center; }
+  .statusbar .item.r { justify-content: flex-end; }
+  .statusbar .dot {
+    width: 8px; height: 8px; background: var(--accent);
+    display: inline-block; vertical-align: middle;
+    flex: 0 0 auto; align-self: center;
+    transform: translateY(-1px);
+  }
+  @media (max-width: 720px) {
+    .statusbar { grid-template-columns: 1fr 1fr; padding: 12px var(--pad-x); }
+    .statusbar .item.c { display: none; }
+  }
+
+  /* ───────── Sticky nav ───────── */
+  nav.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--rule-soft);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.sticky.scrolled {
+    background: rgba(241, 236, 223, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--ink);
+  }
+  nav.sticky .inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 14px var(--pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  nav.sticky .brand {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  nav.sticky .brand .mark {
+    display: inline-block;
+    width: 14px; height: 14px;
+    background: var(--accent);
+  }
+  nav.sticky .brand b { font-weight: 600; }
+  nav.sticky .brand .role {
+    color: var(--ink-3);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  nav.sticky .nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  nav.sticky .nav-links a {
+    color: var(--ink-3);
+    transition: color 0.2s;
+    position: relative;
+    padding: 4px 0;
+  }
+  nav.sticky .nav-links a:hover { color: var(--ink); }
+  nav.sticky .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  nav.sticky .nav-links a:hover::after { width: 100%; }
+  nav.sticky .nav-links a.cta {
+    color: var(--ink);
+    padding: 8px 14px;
+    border: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    transition: all 0.2s;
+  }
+  nav.sticky .nav-links a.cta::after { display: none; }
+  nav.sticky .nav-links a.cta:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  nav.sticky .menu-btn {
+    display: none;
+    background: none;
+    border: 1.5px solid var(--ink);
+    padding: 8px 14px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  @media (max-width: 840px) {
+    nav.sticky .nav-links { display: none; }
+    nav.sticky .menu-btn { display: block; }
+    nav.sticky .brand .role { display: none; }
+  }
+  /* Mobile menu drawer */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--bg);
+    display: none;
+    flex-direction: column;
+    padding: 32px var(--pad-x);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu .top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .mobile-menu .top .brand { font-family: var(--sans); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+  .mobile-menu .top .brand .mark { display: inline-block; width: 12px; height: 12px; background: var(--accent); }
+  .mobile-menu .top button { background: none; border: 1.5px solid var(--ink); padding: 8px 14px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; cursor: pointer; }
+  .mobile-menu .links { padding-top: 24px; display: flex; flex-direction: column; }
+  .mobile-menu .links a {
+    padding: 18px 0;
+    border-bottom: 0.5px solid var(--rule-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .mobile-menu .links a .n { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.18em; }
+  .mobile-menu .cta-block {
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mobile-menu .cta-block a {
+    display: block;
+    padding: 18px;
+    background: var(--ink);
+    color: var(--bg);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mobile-menu .cta-block .contact {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  /* ───────── Container ───────── */
+  .container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--pad-x);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ───────── Hero ───────── */
+  .hero {
+    padding: clamp(64px, 10vh, 120px) 0 clamp(72px, 12vh, 140px);
+    border-bottom: 0.5px solid var(--ink);
+    position: relative;
+  }
+  .hero .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .hero .eyebrow {
+    grid-column: 1 / span 12;
+    margin-bottom: clamp(24px, 4vh, 40px);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .hero .eyebrow .bar {
+    width: 28px; height: 2px; background: var(--accent); display: inline-block;
+  }
+  .hero .eyebrow b { color: var(--ink); font-weight: 500; }
+  .hero h1 {
+    grid-column: 1 / span 10;
+    font-size: clamp(48px, 8.5vw, 128px);
+    font-weight: 500;
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .hero h1 .accent { color: var(--accent); white-space: nowrap; }
+  .hero .sub {
+    grid-column: 1 / span 7;
+    margin-top: clamp(28px, 4vh, 40px);
+    font-size: clamp(17px, 1.5vw, 21px);
+    line-height: 1.4;
+    color: var(--ink-2);
+    letter-spacing: -0.005em;
+  }
+  .hero .ctas {
+    grid-column: 1 / span 7;
+    margin-top: clamp(28px, 4vh, 40px);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .hero .index {
+    grid-column: 10 / span 3;
+    grid-row: 2 / span 3;
+    align-self: end;
+    margin-top: clamp(28px, 4vh, 40px);
+    display: flex;
+    flex-direction: column;
+    border-top: 0.5px solid var(--ink);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .hero .index a {
+    padding: 11px 0;
+    border-bottom: 0.5px solid var(--rule-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink);
+    transition: padding 0.3s ease, color 0.2s;
+    position: relative;
+  }
+  .hero .index a:hover { padding-left: 8px; color: var(--accent); }
+  .hero .index a .n { color: var(--ink-3); font-size: 10px; }
+  @media (max-width: 1000px) {
+    .hero h1 { grid-column: 1 / span 12; }
+    .hero h1 .accent { white-space: normal; }
+    .hero .sub, .hero .ctas { grid-column: 1 / span 12; }
+    .hero .index { grid-column: 1 / span 12; grid-row: auto; margin-top: 32px; max-width: 380px; }
+  }
+
+  /* ───────── Buttons ───────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 26px;
+    border: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s;
+    border-radius: 0;
+  }
+  .btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translate(2px, -2px);
+    box-shadow: -2px 2px 0 var(--ink);
+  }
+  .btn .arrow { display: inline-block; transition: transform 0.3s; }
+  .btn:hover .arrow { transform: translateX(2px); }
+  .btn--ghost { background: transparent; color: var(--ink); }
+  .btn--ghost:hover { background: var(--ink); color: var(--bg); transform: translate(2px, -2px); box-shadow: -2px 2px 0 var(--accent); }
+
+  /* ───────── Section head ───────── */
+  section { position: relative; }
+  .sec-head { font-size: 11px; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; display: block; margin-bottom: 6px; }
+  .sec-title { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin: 0; color: var(--ink); }
+
+  /* ───────── Spolupráce (name / logo wall) ───────── */
+  .refs {
+    padding: clamp(44px, 6vh, 72px) 0;
+    border-bottom: 0.5px solid var(--ink);
+    background: var(--bg-2);
+  }
+  .refs .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+  .refs .meta {
+    grid-column: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 6px;
+  }
+  .refs .body {
+    grid-column: 3 / span 10;
+  }
+  .refs .intro {
+    margin: 0 0 clamp(22px, 3.4vh, 34px);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 500;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .refs .intro .dash { color: var(--accent); }
+  .refs .wall {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 0.5px solid var(--rule-soft);
+    border-left: 0.5px solid var(--rule-soft);
+  }
+  .refs .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(96px, 11vw, 124px);
+    padding: 20px 24px;
+    border-right: 0.5px solid var(--rule-soft);
+    border-bottom: 0.5px solid var(--rule-soft);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .refs .logo:hover { background: var(--bg); }
+  .refs .logo::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .refs .logo:hover::after { opacity: 1; }
+  .refs .logo img {
+    max-height: 32px;
+    max-width: 78%;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.5;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+  .refs .logo:hover img { opacity: 1; filter: grayscale(0); }
+  .refs .logo .wordmark {
+    font-family: var(--sans);
+    font-size: clamp(16px, 1.5vw, 20px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink-3);
+    text-align: center;
+    transition: color 0.25s ease;
+  }
+  .refs .logo:hover .wordmark { color: var(--ink); }
+  @media (max-width: 1000px) {
+    .refs .meta { grid-column: 1 / span 12; margin-bottom: 8px; }
+    .refs .body { grid-column: 1 / span 12; }
+  }
+  @media (max-width: 680px) {
+    .refs .wall { grid-template-columns: 1fr; }
+    .refs .logo { min-height: 76px; }
+  }
+
+  /* ───────── Numbers ───────── */
+  .numbers {
+    padding: clamp(48px, 7vh, 80px) 0 clamp(56px, 8vh, 90px);
+    border-bottom: 0.5px solid var(--ink);
+  }
+  .numbers .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .numbers .meta {
+    grid-column: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 6px;
+  }
+  .numbers .meta .y { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); margin-top: 14px; font-weight: 500; }
+  .numbers .triplet {
+    grid-column: 3 / span 10;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .numbers .stat {
+    padding-right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .numbers .stat + .stat { padding-left: 28px; border-left: 0.5px solid var(--rule-soft); }
+  .numbers .stat .num {
+    font-size: clamp(72px, 12vw, 168px);
+    font-weight: 500;
+    line-height: 0.86;
+    letter-spacing: -0.06em;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+  }
+  .numbers .stat .num .u {
+    font-size: 0.32em;
+    color: var(--accent);
+    margin-left: 6px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+  .numbers .stat .lbl {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 500;
+  }
+  .numbers .stat .desc { font-size: 13px; line-height: 1.5; color: var(--ink-2); max-width: 260px; }
+  @media (max-width: 900px) {
+    .numbers .meta { grid-column: 1 / span 12; flex-direction: row; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+    .numbers .meta .y { margin-top: 0; }
+    .numbers .triplet { grid-column: 1 / span 12; grid-template-columns: 1fr; }
+    .numbers .stat { padding: 28px 0; border-bottom: 0.5px solid var(--rule-soft); }
+    .numbers .stat + .stat { padding-left: 0; border-left: 0; }
+    .numbers .stat:last-child { border-bottom: 0; }
+  }
+
+  /* ───────── Services ───────── */
+  .services {
+    padding: clamp(64px, 9vh, 110px) 0 clamp(80px, 12vh, 130px);
+    border-bottom: 0.5px solid var(--ink);
+    background: var(--bg-2);
+  }
+  .services .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .services .head { grid-column: 1 / span 3; }
+  .services .head .h-big {
+    margin-top: 14px;
+    font-size: clamp(36px, 4.4vw, 56px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 0.96;
+    color: var(--ink);
+  }
+  .services .head .h-big em { font-style: normal; color: var(--accent); }
+  .services .head .h-note {
+    margin-top: 18px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-3);
+    max-width: 220px;
+  }
+  .services .grid3 {
+    grid-column: 5 / span 8;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-left: 0.5px solid var(--rule-soft);
+    align-self: end;
+  }
+  .services .svc {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 18px 24px 32px;
+    border-top: 3px solid var(--ink);
+    border-right: 0.5px solid var(--rule-soft);
+    background: transparent;
+    cursor: default;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .services .svc::before {
+    content: "";
+    position: absolute;
+    top: -3px; left: 0;
+    width: 0;
+    height: 6px;
+    background: var(--accent);
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .services .svc::after {
+    content: "";
+    position: absolute;
+    top: -3px; right: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .services .svc:hover::before { width: 100%; }
+  .services .svc:hover::after { opacity: 1; }
+  .services .svc:hover { background: var(--bg); }
+  .services .svc .row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .services .svc .id {
+    font-family: var(--sans);
+    font-size: clamp(48px, 4.5vw, 64px);
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+  }
+  .services .svc .tag {
+    font-size: 10px; letter-spacing: 0.16em; color: var(--ink-3);
+    text-transform: uppercase; font-weight: 500;
+    border: 1px solid var(--rule-soft);
+    padding: 5px 9px;
+    align-self: flex-start;
+    background: var(--bg);
+    transform: translateY(-4px);
+  }
+  .services .svc:hover .tag { border-color: var(--accent); color: var(--accent); }
+  .services .svc h3 {
+    font-size: clamp(28px, 2.8vw, 38px);
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    line-height: 1.02;
+    margin: 18px 0 26px;
+    color: var(--ink);
+  }
+  .services .svc .price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 14px 0 18px;
+    border-top: 0.5px solid var(--rule-soft);
+    border-bottom: 0.5px solid var(--rule-soft);
+    margin-bottom: 22px;
+  }
+  .services .svc .price .from { color: var(--ink-3); font-size: 12px; }
+  .services .svc .price .v {
+    color: var(--accent);
+    font-weight: 500;
+    font-size: clamp(22px, 2vw, 28px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .services .svc .price .per { color: var(--ink-3); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-left: auto; font-weight: 500; }
+  .services .svc p { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0 0 22px; }
+  .services .svc ul {
+    list-style: none;
+    padding: 0;
+    margin: auto 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-top: 18px;
+    border-top: 0.5px solid var(--rule-soft);
+  }
+  .services .svc ul li {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 500;
+  }
+  .services .svc ul li::before {
+    content: ""; width: 10px; height: 2px; background: var(--accent);
+    flex: 0 0 auto;
+  }
+  @media (max-width: 1000px) {
+    .services .head { grid-column: 1 / span 12; margin-bottom: 8px; }
+    .services .head .h-note { max-width: none; }
+    .services .grid3 { grid-column: 1 / span 12; grid-template-columns: 1fr; border-left: 0; }
+    .services .svc { border-right: 0; padding: 18px 0 32px; }
+    .services .svc::after { right: auto; left: 0; }
+  }
+
+  /* ───────── Process ───────── */
+  .process {
+    padding: clamp(56px, 8vh, 90px) 0 clamp(72px, 10vh, 110px);
+    border-bottom: 0.5px solid var(--ink);
+  }
+  .process .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .process .head { grid-column: 1 / span 2; }
+  .process .steps {
+    grid-column: 3 / span 10;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .process .s {
+    border-top: 2px solid var(--ink);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .process .s .id {
+    font-size: clamp(48px, 5vw, 72px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+  }
+  .process .s h4 { font-size: 17px; font-weight: 500; margin: 4px 0 0; letter-spacing: -0.005em; }
+  .process .s .dur { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  .process .s p { font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+  @media (max-width: 1000px) {
+    .process .head { grid-column: 1 / span 12; margin-bottom: 24px; }
+    .process .steps { grid-column: 1 / span 12; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+  @media (max-width: 520px) {
+    .process .steps { grid-template-columns: 1fr; }
+  }
+
+  /* ───────── About ───────── */
+  .about {
+    padding: clamp(64px, 10vh, 110px) 0 clamp(80px, 12vh, 130px);
+    border-bottom: 0.5px solid var(--ink);
+    background: var(--bg-2);
+  }
+  .about .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .about .head { grid-column: 1 / span 3; }
+  .about .head dl { margin: 24px 0 0; display: flex; flex-direction: column; gap: 18px; padding-top: 16px; border-top: 0.5px solid var(--rule-soft); }
+  .about .head dt {
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 4px; font-weight: 500;
+  }
+  .about .head dd {
+    margin: 0; font-size: 13px; line-height: 1.45;
+    color: var(--ink); font-weight: 500; letter-spacing: -0.005em;
+  }
+  .about .head dd .acc { color: var(--accent); }
+  .about .body {
+    grid-column: 5 / span 8;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .about .body .lead {
+    grid-column: 1 / span 2;
+    font-size: clamp(28px, 3.6vw, 44px);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .about .body .lead em { font-style: normal; color: var(--accent); }
+  .about .body p { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+  @media (max-width: 1000px) {
+    .about .head { grid-column: 1 / span 12; margin-bottom: 32px; }
+    .about .body { grid-column: 1 / span 12; grid-template-columns: 1fr; gap: 24px; }
+    .about .body .lead { grid-column: 1; }
+  }
+
+  /* ───────── Final CTA ───────── */
+  .cta {
+    padding: clamp(80px, 12vh, 130px) 0 clamp(80px, 12vh, 130px);
+    border-bottom: 0.5px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta::before {
+    content: "07";
+    position: absolute;
+    bottom: -40px;
+    right: -16px;
+    font-size: clamp(180px, 30vw, 380px);
+    font-weight: 500;
+    line-height: 0.8;
+    color: rgba(216, 64, 28, 0.07);
+    letter-spacing: -0.06em;
+    pointer-events: none;
+    font-family: var(--sans);
+  }
+  .cta .inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta .head { grid-column: 1 / span 2; }
+  .cta .body { grid-column: 3 / span 7; }
+  .cta h2 {
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.98;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    margin: 0 0 24px;
+    color: var(--ink);
+  }
+  .cta h2 em { font-style: normal; color: var(--accent); }
+  .cta p { font-size: 17px; line-height: 1.5; color: var(--ink-2); max-width: 560px; margin: 0 0 32px; }
+  .cta .contact {
+    grid-column: 11 / span 2;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 4px;
+    border-top: 2px solid var(--ink);
+    align-self: start;
+    font-weight: 500;
+  }
+  .cta .contact .block { display: flex; flex-direction: column; gap: 4px; }
+  .cta .contact span { color: var(--ink-3); font-size: 9px; letter-spacing: 0.22em; }
+  .cta .contact a {
+    color: var(--ink); text-decoration: none; font-weight: 500;
+    font-size: 12px; word-break: break-all;
+    transition: color 0.2s;
+  }
+  .cta .contact a:hover { color: var(--accent); }
+  @media (max-width: 1000px) {
+    .cta .head { grid-column: 1 / span 12; margin-bottom: 16px; }
+    .cta .body { grid-column: 1 / span 12; }
+    .cta .contact { grid-column: 1 / span 12; margin-top: 32px; flex-direction: row; gap: 32px; flex-wrap: wrap; }
+    .cta .contact .block { flex: 1; min-width: 200px; }
+  }
+
+  /* ───────── Footer ───────── */
+  footer {
+    padding: 32px var(--pad-x);
+    max-width: var(--container);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  footer .col { display: flex; gap: 10px; align-items: baseline; }
+  footer .col a { color: var(--ink); text-decoration: none; transition: color 0.2s; }
+  footer .col a:hover { color: var(--accent); }
+  footer .col:nth-child(1) { grid-column: 1 / span 4; }
+  footer .col:nth-child(2) { grid-column: 5 / span 4; justify-content: center; }
+  footer .col:nth-child(3) { grid-column: 9 / span 4; justify-content: flex-end; }
+  footer .arrow { display: inline-block; transition: transform 0.2s; }
+  footer a:hover .arrow { transform: translate(2px, -2px); }
+  @media (max-width: 720px) {
+    footer { grid-template-columns: 1fr; padding-top: 28px; padding-bottom: 28px; }
+    footer .col:nth-child(2) { display: none; }
+    footer .col:nth-child(3) { justify-content: flex-start; }
+  }
+
+  /* ───────── Scroll reveal ───────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal[data-delay="1"] { transition-delay: 0.06s; }
+  .reveal[data-delay="2"] { transition-delay: 0.12s; }
+  .reveal[data-delay="3"] { transition-delay: 0.18s; }
+  .reveal[data-delay="4"] { transition-delay: 0.24s; }
+
+  /* Hero load-in */
+  .hero h1 .line {
+    display: block;
+    opacity: 0;
+    transform: translateY(24px);
+    animation: heroRise 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .hero h1 .line:nth-child(1) { animation-delay: 0.2s; }
+  .hero h1 .line:nth-child(2) { animation-delay: 0.34s; }
+  .hero h1 .line:nth-child(3) { animation-delay: 0.48s; }
+  .hero .eyebrow, .hero .sub, .hero .ctas, .hero .index {
+    opacity: 0;
+    animation: heroRise 0.9s ease forwards;
+  }
+  .hero .eyebrow { animation-delay: 0.05s; }
+  .hero .sub { animation-delay: 0.7s; }
+  .hero .ctas { animation-delay: 0.85s; }
+  .hero .index { animation-delay: 1.0s; }
+  @keyframes heroRise { to { opacity: 1; transform: translateY(0); } }
+
+
+</style>
+</head>
+<body id="top">
+
+<div class="grid-lines" aria-hidden="true">
+  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+</div>
+
+<div class="statusbar">
+  <div class="item"><span class="dot"></span><span class="l">Available</span><span class="v">Prostor pro nové klienty</span></div>
+  <div class="item c"><span class="l">-</span><span class="v">Ondřej Kamarýt · Sales Consulting</span></div>
+  <div class="item r"><span class="l">Praha</span><span class="v">CZ · UTC+1</span></div>
+</div>
+
+<nav class="sticky" id="topnav">
+  <div class="inner">
+    <a class="brand" href="#top">
+      <span class="mark"></span>
+      <span><b>Ondřej Kamarýt</b></span>
+      <span class="role">Sales Consulting</span>
+    </a>
+    <div class="nav-links">
+      <a href="#cisla">Track Record</a>
+      <a href="#sluzby">Služby</a>
+      <a href="#proces">Proces</a>
+      <a href="#o-mne">O mně</a>
+      <a class="cta" href="mailto:ondrej.kamaryt@gmail.com">Konzultace →</a>
+    </div>
+    <button class="menu-btn" id="menu-open" aria-label="Otevřít menu">Menu</button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="top">
+    <span class="brand"><span class="mark"></span>Ondřej Kamarýt</span>
+    <button id="menu-close" aria-label="Zavřít menu">Zavřít</button>
+  </div>
+  <nav class="links">
+    <a href="#spoluprace" data-mm><span>Spolupráce</span><span class="n">01</span></a>
+    <a href="#cisla" data-mm><span>Track Record</span><span class="n">02</span></a>
+    <a href="#sluzby" data-mm><span>Služby</span><span class="n">03</span></a>
+    <a href="#proces" data-mm><span>Proces</span><span class="n">04</span></a>
+    <a href="#o-mne" data-mm><span>O mně</span><span class="n">05</span></a>
+    <a href="#kontakt" data-mm><span>Kontakt</span><span class="n">06</span></a>
+  </nav>
+  <div class="cta-block">
+    <a href="mailto:ondrej.kamaryt@gmail.com">Domluvit konzultaci →</a>
+    <div class="contact">ondrej.kamaryt@gmail.com · +420 606 786 231</div>
+  </div>
+</div>
+
+<!-- ───────── HERO ───────── -->
+<section class="hero">
+  <div class="container">
+    <div class="inner">
+      <div class="eyebrow">
+        <span class="bar"></span>
+        <b>Sales Consulting</b> - Audit · Coaching · Fractional Sales
+      </div>
+      <h1>
+        <span class="line">Stavím obchodní</span>
+        <span class="line">procesy, které</span>
+        <span class="line"><span class="accent">fungují predikovatelně.</span></span>
+      </h1>
+      <p class="sub">
+        Pomáhám firmám nastavit obchod, koučovat tým a postavit nástroje, které ho drží - automatizace, procesy, CRM. Aby výsledky nebyly o náhodě, ale o systému.
+      </p>
+      <div class="ctas">
+        <a class="btn" href="mailto:ondrej.kamaryt@gmail.com">Domluvit konzultaci <span class="arrow">→</span></a>
+        <a class="btn btn--ghost" href="#sluzby">Zjistit více <span class="arrow">↓</span></a>
+      </div>
+      <nav class="index" aria-label="Sekce">
+        <a href="#spoluprace"><span>Spolupráce</span><span class="n">01</span></a>
+        <a href="#cisla"><span>Track Record</span><span class="n">02</span></a>
+        <a href="#sluzby"><span>Služby</span><span class="n">03</span></a>
+        <a href="#proces"><span>Proces</span><span class="n">04</span></a>
+        <a href="#o-mne"><span>O mně</span><span class="n">05</span></a>
+        <a href="#kontakt"><span>Kontakt</span><span class="n">06</span></a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── SPOLUPRÁCE ───────── -->
+<section class="refs" id="spoluprace">
+  <div class="container">
+    <div class="inner">
+      <div class="meta reveal">
+        <span class="sec-head">- 01</span>
+        <h2 class="sec-title">Spolupráce</h2>
+      </div>
+      <div class="body">
+        <p class="intro reveal">Spolupracoval jsem s&nbsp;<span class="dash">-</span></p>
+        <div class="wall reveal" data-delay="1">
+          <!-- Logo místo textu: <div class="logo"><img src="assets/logos/firma.svg" alt="Název"></div> -->
+          <div class="logo"><img src="assets/logos/canadian-medical.svg" alt="Canadian Medical"></div>
+          <div class="logo"><img src="assets/logos/tchibo.svg" alt="Tchibo"></div>
+          <div class="logo"><img src="assets/logos/publicis.svg" alt="Publicis"></div>
+          <div class="logo"><img src="assets/logos/coders-lab.svg" alt="Coders Lab"></div>
+          <div class="logo"><img src="assets/logos/lifescale.svg" alt="LifeScale Group"></div>
+          <div class="logo"><img src="assets/logos/toyota-financial-services.svg" alt="Toyota Financial Services"></div>
+          <div class="logo"><img src="assets/logos/accenture.svg" alt="Accenture"></div>
+          <div class="logo"><img src="assets/logos/colas.svg" alt="Colas"></div>
+          <div class="logo"><img src="assets/logos/broker-consulting.svg" alt="Broker Consulting"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── NUMBERS ───────── -->
+<section class="numbers" id="cisla">
+  <div class="container">
+    <div class="inner">
+      <div class="meta reveal">
+        <span class="sec-head">- 02</span>
+        <span class="sec-title">Track Record</span>
+        <span class="y">FY 2025</span>
+      </div>
+      <div class="triplet">
+        <div class="stat reveal">
+          <span class="num">50<span class="u">%</span></span>
+          <span class="lbl">- Osobní přínos</span>
+          <span class="desc">obratu firmy, který jsem za poslední rok přinesl - a u toho rozvíjel vlastní tým, který vyrostl 3×.</span>
+        </div>
+        <div class="stat reveal" data-delay="1">
+          <span class="num">25<span class="u">h</span></span>
+          <span class="lbl">- Týdně z automatizací</span>
+          <span class="desc">ušetřených napříč rutinními procesy, které jsem zautomatizoval.</span>
+        </div>
+        <div class="stat reveal" data-delay="2">
+          <span class="num">100<span class="u">%</span></span>
+          <span class="lbl">- Focus firmy</span>
+          <span class="desc">cesta, kterou jsem objevil a na které dnes stojí celá firma.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── SERVICES ───────── -->
+<section class="services" id="sluzby">
+  <div class="container">
+    <div class="inner">
+      <div class="head reveal">
+        <span class="sec-head">- 03</span>
+        <h2 class="sec-title">Služby</h2>
+        <div class="h-big">Tři způsoby,<br/>jak <em>spolupracovat</em>.</div>
+        <div class="h-note">Od jednorázového auditu po externího obchodního ředitele - bez fixních nákladů na plný úvazek.</div>
+      </div>
+      <div class="grid3">
+        <article class="svc reveal">
+          <div class="row-top">
+            <span class="id">01</span>
+            <span class="tag">Jednorázově</span>
+          </div>
+          <h3>Obchodní<br/>audit</h3>
+          <div class="price"><span class="from">od</span><span class="v">15 000 Kč</span><span class="per">/ Projekt</span></div>
+          <p>Projdu váš obchod od leadu po deal - CRM, hovory, pipeline, konverze. Dostanete report s prioritami a co je technicky proveditelné (automatizace, CRM úpravy, nástroje na míru), rovnou nasadíme. Žádný handoff na další dodavatele.</p>
+          <ul>
+            <li>Mapování pipeline</li>
+            <li>Analýza CRM &amp; dat</li>
+            <li>Report, akční plán &amp; implementace</li>
+          </ul>
+        </article>
+        <article class="svc reveal" data-delay="1">
+          <div class="row-top">
+            <span class="id">02</span>
+            <span class="tag">Měsíčně</span>
+          </div>
+          <h3>Coaching<br/>týmu</h3>
+          <div class="price"><span class="from">od</span><span class="v">8 000 Kč</span><span class="per">/ Měsíc</span></div>
+          <p>Pravidelný feedback, přepis skriptů, individuální i skupinové session. Buduji tým, který umí prodávat konzultačně.</p>
+          <ul>
+            <li>1-on-1 sessions</li>
+            <li>Call review &amp; skripty</li>
+            <li>Skupinové workshopy</li>
+          </ul>
+        </article>
+        <article class="svc reveal" data-delay="2">
+          <div class="row-top">
+            <span class="id">03</span>
+            <span class="tag">Měsíčně</span>
+          </div>
+          <h3>Externí obchodní<br/>ředitel</h3>
+          <div class="price"><span class="from">od</span><span class="v">15 000 Kč</span><span class="per">/ Měsíc</span></div>
+          <p>Strategie, KPIs, pipeline review, forecasting, koučování. Vše bez fixních nákladů na plný úvazek.</p>
+          <ul>
+            <li>Strategie &amp; KPIs</li>
+            <li>Forecasting &amp; pipeline</li>
+            <li>Vedení týmu</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── PROCESS ───────── -->
+<section class="process" id="proces">
+  <div class="container">
+    <div class="inner">
+      <div class="head reveal">
+        <span class="sec-head">- 04</span>
+        <h2 class="sec-title">Proces</h2>
+      </div>
+      <div class="steps">
+        <div class="s reveal">
+          <span class="id">01</span>
+          <h4>Úvodní call</h4>
+          <span class="dur">15 min · bez závazků</span>
+          <p>Rychlé seznámení. Zjistím, kde dnes jste, kam chcete jít, a jestli si rozumíme.</p>
+        </div>
+        <div class="s reveal" data-delay="1">
+          <span class="id">02</span>
+          <h4>Audit</h4>
+          <span class="dur">Report do týdne</span>
+          <p>Projdu váš obchod, lidi, data, nástroje. Dostanete písemný akční plán s prioritami.</p>
+        </div>
+        <div class="s reveal" data-delay="2">
+          <span class="id">03</span>
+          <h4>Implementace</h4>
+          <span class="dur">Procesy &amp; nástroje</span>
+          <p>Nastavujeme procesy, automatizace, skripty, KPIs. Společně, krok po kroku.</p>
+        </div>
+        <div class="s reveal" data-delay="3">
+          <span class="id">04</span>
+          <h4>Výsledky</h4>
+          <span class="dur">Měříme dopad</span>
+          <p>Sledujeme konverzi, délku cyklu a hit-rate. Co nefunguje, ladíme. Co funguje, škálujeme.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── ABOUT ───────── -->
+<section class="about" id="o-mne">
+  <div class="container">
+    <div class="inner">
+      <div class="head reveal">
+        <span class="sec-head">- 05</span>
+        <h2 class="sec-title">O mně</h2>
+        <dl>
+          <div><dt>Současná role</dt><dd>Obchodní ředitel <span class="acc">@ LifeScale Group</span></dd></div>
+          <div><dt>Spoluzakladatel</dt><dd>FortiCore <span class="acc">- digitalizace &amp; automatizace</span></dd></div>
+          <div><dt>Background</dt><dd>IT · <span class="acc">Digitalizace zdravotnictví</span></dd></div>
+          <div><dt>Zaměření</dt><dd>Procesy, CRM, automatizace, custom nástroje, coaching</dd></div>
+          <div><dt>Přístup</dt><dd><span class="acc">Konzultační</span> obchod - řešení reálné potřeby, ne prezentace produktu</dd></div>
+        </dl>
+      </div>
+      <div class="body">
+        <p class="lead reveal">Konzultant i <em>stavitel</em>.</p>
+        <p class="reveal" data-delay="1">Začínal jsem v IT a pomáhal digitalizovat polikliniky, odtamtud jsem přešel do sales. Díky tomu se na obchod dívám zároveň jako konzultant i jako stavitel - když identifikuju, kde se ztrácí čas, často to dokážu i rovnou postavit. Dnes vedu obchod v LifeScale Group a spoluzakládám FortiCore.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CTA ───────── -->
+<section class="cta" id="kontakt">
+  <div class="container">
+    <div class="inner">
+      <div class="head reveal">
+        <span class="sec-head">- 06</span>
+        <span class="sec-title">Kontakt</span>
+      </div>
+      <div class="body reveal" data-delay="1">
+        <h2>Chcete vidět, jak by<br/>váš obchod mohl<br/><em>fungovat</em>?</h2>
+        <p>Ozvete se. Prvním klientům nabízím úvodní konzultaci zdarma - bez prezentací, bez závazků.</p>
+        <a class="btn" href="mailto:ondrej.kamaryt@gmail.com">Napsat email <span class="arrow">→</span></a>
+      </div>
+      <div class="contact reveal" data-delay="2">
+        <div class="block">
+          <span>- E-mail</span>
+          <a href="mailto:ondrej.kamaryt@gmail.com">ondrej.kamaryt<br/>@gmail.com</a>
+        </div>
+        <div class="block">
+          <span>- Telefon</span>
+          <a href="tel:+420606786231">+420 606<br/>786 231</a>
+        </div>
+        <div class="block">
+          <span>- LinkedIn</span>
+          <a href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener noreferrer">/in/ondrej-<br/>kamaryt ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="col">© 2026 Ondřej Kamarýt</div>
+  <div class="col">Set in Helvetica Neue &amp; JetBrains Mono</div>
+  <div class="col"><a href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗</span></a></div>
+</footer>
+
+
+<script>
+  // ── Sticky nav scroll effect
+  const nav = document.getElementById("topnav");
+  const onScroll = () => {
+    if (window.scrollY > 32) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // ── Mobile menu
+  const menuOpen = document.getElementById("menu-open");
+  const menuClose = document.getElementById("menu-close");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const openMenu = () => { mobileMenu.classList.add("open"); document.body.style.overflow = "hidden"; };
+  const closeMenu = () => { mobileMenu.classList.remove("open"); document.body.style.overflow = ""; };
+  menuOpen?.addEventListener("click", openMenu);
+  menuClose?.addEventListener("click", closeMenu);
+  document.querySelectorAll("[data-mm]").forEach(a => a.addEventListener("click", closeMenu));
+
+  // ── Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+</script>
+
+</body>
+</html>

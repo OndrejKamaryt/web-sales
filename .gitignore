@@ -1,0 +1,18 @@
+# Claude Code session/IDE data (keep launch.json for local dev)
+.claude/*
+!.claude/launch.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Backups
+*.bak
