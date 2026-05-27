@@ -743,7 +743,7 @@
 
   /* ───────── About ───────── */
   .about {
-    padding: clamp(64px, 10vh, 110px) 0 clamp(80px, 12vh, 130px);
+    padding: clamp(48px, 7vh, 80px) 0 clamp(56px, 8vh, 90px);
     border-bottom: 0.5px solid var(--ink);
     background: var(--bg-2);
   }
@@ -779,11 +779,13 @@
     color: var(--ink);
   }
   .about .body .lead em { font-style: normal; color: var(--accent); }
-  .about .body p { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+  .about .body p { grid-column: 1 / span 2; max-width: 70ch; font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
   @media (max-width: 1000px) {
-    .about .head { grid-column: 1 / span 12; margin-bottom: 32px; }
-    .about .body { grid-column: 1 / span 12; grid-template-columns: 1fr; gap: 24px; }
+    .about .inner { display: flex; flex-direction: column; }
+    .about .head { order: 2; margin-top: 32px; margin-bottom: 0; }
+    .about .body { grid-template-columns: 1fr; gap: 24px; order: 1; }
     .about .body .lead { grid-column: 1; }
+    .about .body p { grid-column: 1; max-width: none; }
   }
 
   /* ───────── Final CTA ───────── */
@@ -1081,7 +1083,7 @@
             <span class="tag">Měsíčně</span>
           </div>
           <h3>Coaching<br/>týmu</h3>
-          <div class="price"><span class="from">od</span><span class="v">12 000 Kč</span><span class="per">/ Měsíc</span></div>
+          <div class="price"><span class="from">od</span><span class="v">12 000 Kč</span><span class="per">/ Měsíc · ~4 h</span></div>
           <p>Pravidelný feedback, přepis skriptů, individuální i skupinové session. Buduji tým, který umí prodávat konzultačně.</p>
           <ul>
             <li>1-on-1 sessions</li>
@@ -1095,7 +1097,7 @@
             <span class="tag">Měsíčně</span>
           </div>
           <h3>Externí obchodní<br/>ředitel</h3>
-          <div class="price"><span class="from">od</span><span class="v">30 000 Kč</span><span class="per">/ Měsíc</span></div>
+          <div class="price"><span class="from">od</span><span class="v">30 000 Kč</span><span class="per">/ Měsíc · ~10 h</span></div>
           <p>Strategie, KPIs, pipeline review, forecasting, koučování. Vše bez fixních nákladů na plný úvazek.</p>
           <ul>
             <li>Strategie &amp; KPIs</li>
