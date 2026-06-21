@@ -14,15 +14,23 @@
 <meta property="og:url" content="https://ondrejkamaryt.cz/" />
 <meta property="og:title" content="Ondřej Kamarýt - Sales Consulting" />
 <meta property="og:description" content="Stavím obchodní procesy, které fungují predikovatelně. Audit, coaching a externí obchodní ředitel pro firmy, které chtějí systém místo náhody." />
+<meta property="og:image" content="https://ondrejkamaryt.cz/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Ondřej Kamarýt - Sales Consulting" />
 
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Ondřej Kamarýt - Sales Consulting" />
 <meta name="twitter:description" content="Stavím obchodní procesy, které fungují predikovatelně. Audit, coaching a externí obchodní ředitel pro firmy, které chtějí systém místo náhody." />
+<meta name="twitter:image" content="https://ondrejkamaryt.cz/assets/og-image.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- Umami analytics (privacy-friendly) -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="09bf3995-b08e-48a5-ab83-b7d53ffb7cb1"></script>
 <style>
 
   :root {
@@ -998,7 +1006,7 @@ Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"d
       <a href="#sluzby">Služby</a>
       <a href="#proces">Proces</a>
       <a href="#o-mne">O mně</a>
-      <a class="cta" href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Konzultace →&#xFE0E;</a>
+      <a class="cta" href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); if(window.umami)umami.track('booking-click'); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Konzultace →&#xFE0E;</a>
     </div>
     <button class="menu-btn" id="menu-open" aria-label="Otevřít menu">Menu</button>
   </div>
@@ -1019,7 +1027,7 @@ Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"d
     <a href="#kontakt" data-mm><span>Kontakt</span><span class="n">06</span></a>
   </nav>
   <div class="cta-block">
-    <a href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Domluvit konzultaci →&#xFE0E;</a>
+    <a href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); if(window.umami)umami.track('booking-click'); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Domluvit konzultaci →&#xFE0E;</a>
     <div class="contact">ondrej.kamaryt@gmail.com · +420 773 635 240</div>
   </div>
 </div>
@@ -1037,7 +1045,7 @@ Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"d
         Pomáhám firmám nastavit obchod, koučovat tým a postavit nástroje, které ho drží - automatizace, procesy, CRM. Aby výsledky nebyly o náhodě, ale o systému.
       </p>
       <div class="ctas">
-        <a class="btn" href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Domluvit konzultaci <span class="arrow">→&#xFE0E;</span></a>
+        <a class="btn" href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); if(window.umami)umami.track('booking-click'); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Domluvit konzultaci <span class="arrow">→&#xFE0E;</span></a>
         <a class="btn btn--ghost" href="#sluzby">Zjistit více <span class="arrow">↓&#xFE0E;</span></a>
       </div>
       <nav class="index" aria-label="Sekce">
@@ -1245,7 +1253,7 @@ Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"d
       <div class="body reveal" data-delay="1">
         <h2>Chcete vidět, jak by<br/>váš obchod mohl<br/><em>fungovat</em>?</h2>
         <p>Ozvete se. Prvním klientům nabízím úvodní konzultaci zdarma - bez prezentací, bez závazků.</p>
-        <a class="btn" href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Rezervovat konzultaci <span class="arrow">→&#xFE0E;</span></a>
+        <a class="btn" href="#kontakt" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); if(window.umami)umami.track('booking-click'); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Rezervovat konzultaci <span class="arrow">→&#xFE0E;</span></a>
       </div>
       <div class="contact reveal" data-delay="2">
         <div class="block">
