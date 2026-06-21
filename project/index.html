@@ -767,43 +767,76 @@
   .about .inner {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
+    gap: 16px 24px;
+    align-items: center;
+  }
+  .about .head {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
     gap: 16px;
-    align-items: start;
+    margin-bottom: clamp(32px, 5vh, 56px);
   }
-  .about .head { grid-column: 1 / span 3; }
-  .about .head dl { margin: 24px 0 0; display: flex; flex-direction: column; gap: 18px; padding-top: 16px; border-top: 0.5px solid var(--rule-soft); }
-  .about .head dt {
-    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--ink-3); margin-bottom: 4px; font-weight: 500;
+  .about .head .sec-head { margin-bottom: 0; }
+  .about .head .head-link {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 2px;
+    color: var(--ink-3);
+    transition: color 0.2s;
   }
-  .about .head dd {
-    margin: 0; font-size: 13px; line-height: 1.45;
-    color: var(--ink); font-weight: 500; letter-spacing: -0.005em;
+  .about .head .head-link:hover { color: var(--accent); }
+  .about .portrait {
+    grid-column: 1 / span 4;
+    align-self: center;
   }
-  .about .head dd .acc { color: var(--accent); }
+  .about .portrait .photo {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+  }
   .about .body {
-    grid-column: 5 / span 8;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    grid-column: 6 / span 7;
+    align-self: center;
   }
   .about .body .lead {
-    grid-column: 1 / span 2;
-    font-size: clamp(28px, 3.6vw, 44px);
+    font-size: clamp(32px, 4vw, 50px);
     font-weight: 500;
     line-height: 1.04;
     letter-spacing: -0.028em;
-    margin: 0 0 8px;
+    margin: 0 0 clamp(18px, 3vh, 28px);
     color: var(--ink);
   }
   .about .body .lead em { font-style: normal; color: var(--accent); }
-  .about .body p { grid-column: 1 / span 2; max-width: 70ch; font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+  .about .body p { max-width: 56ch; font-size: 15px; line-height: 1.65; color: var(--ink-2); margin: 0; }
+  .about .meta-bar {
+    grid-column: 1 / -1;
+    margin: clamp(48px, 8vh, 88px) 0 0;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+  }
+  .about .meta-bar > div { display: flex; flex-direction: column; gap: 6px; }
+  .about .meta-bar dt {
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 500;
+  }
+  .about .meta-bar dd {
+    margin: 0; font-size: 13px; line-height: 1.45;
+    color: var(--ink); font-weight: 500; letter-spacing: -0.005em;
+  }
+  .about .meta-bar dd .acc { color: var(--accent); }
   @media (max-width: 1000px) {
-    .about .inner { display: flex; flex-direction: column; }
-    .about .head { order: 2; margin-top: 32px; margin-bottom: 0; }
-    .about .body { grid-template-columns: 1fr; gap: 24px; order: 1; }
-    .about .body .lead { grid-column: 1; }
-    .about .body p { grid-column: 1; max-width: none; }
+    .about .inner { display: flex; flex-direction: column; align-items: stretch; }
+    .about .portrait { margin-bottom: 28px; }
+    .about .portrait .photo { max-width: 240px; }
+    .about .meta-bar { grid-template-columns: repeat(2, 1fr); gap: 24px 32px; }
+  }
+  @media (max-width: 620px) {
+    .about .meta-bar { grid-template-columns: 1fr; gap: 18px; }
   }
 
   /* ───────── Final CTA ───────── */
@@ -1062,14 +1095,14 @@ Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"d
           <span class="desc">který jsem za poslední rok přinesl osobně - a u toho rozvíjel vlastní tým, který vyrostl 3×.</span>
         </div>
         <div class="stat reveal" data-delay="1">
-          <span class="num">25<span class="u">h</span></span>
-          <span class="lbl">- Týdně</span>
-          <span class="desc">získaných automatizací rutinních procesů, které jsem nasadil.</span>
+          <span class="num">20<span class="u">h</span></span>
+          <span class="lbl">- Týdně ušetřeno</span>
+          <span class="desc">automatizací rutinních procesů, které jsem nasadil.</span>
         </div>
         <div class="stat reveal" data-delay="2">
-          <span class="num">100<span class="u">%</span></span>
-          <span class="lbl">- Změna firemní trajektorie</span>
-          <span class="desc">díky cestě, kterou jsem objevil - dnes na ní stojí celá firma.</span>
+          <span class="num">25<span class="u">%</span></span>
+          <span class="lbl">- Roční růst obratu</span>
+          <span class="desc">díky novému strategickému směru, který jsem objevil - a který se stal primárním focusem firmy.</span>
         </div>
       </div>
     </div>
@@ -1179,18 +1212,24 @@ Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"d
       <div class="head reveal">
         <span class="sec-head">- 05</span>
         <h2 class="sec-title">O mně</h2>
-        <dl>
-          <div><dt>Současná role</dt><dd>Obchodní ředitel <span class="acc">@ LifeScale Group</span></dd></div>
-          <div><dt>Spoluzakladatel</dt><dd>FortiCore <span class="acc">- digitalizace &amp; automatizace</span></dd></div>
-          <div><dt>Background</dt><dd>IT · <span class="acc">Digitalizace zdravotnictví</span></dd></div>
-          <div><dt>Zaměření</dt><dd>Procesy, CRM, automatizace, custom nástroje, coaching</dd></div>
-          <div><dt>Přístup</dt><dd><span class="acc">Konzultační</span> obchod - řešení reálné potřeby, ne prezentace produktu</dd></div>
-        </dl>
+        <a class="head-link" href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profil">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+      </div>
+      <div class="portrait reveal" data-delay="1">
+        <img class="photo" src="assets/photo.png" alt="Ondřej Kamarýt" />
       </div>
       <div class="body">
-        <p class="lead reveal">Konzultant i <em>stavitel</em>.</p>
-        <p class="reveal" data-delay="1">Beru sales jako řemeslo - proces, nástroje, lidi. Ne jako kouzlo nebo charisma. Než jsem přešel do obchodu, dělal jsem v IT a digitalizoval polikliniky. Díky tomu nejen vidím, kde se v obchodě ztrácí čas, ale dokážu to i nastavit. Jeden dodavatel, kompletní řešení.</p>
+        <p class="lead reveal" data-delay="1">Konzultant i <em>stavitel</em>.</p>
+        <p class="reveal" data-delay="2">Beru sales jako řemeslo - proces, nástroje, lidi. Ne jako kouzlo nebo charisma. Než jsem přešel do obchodu, dělal jsem v IT a digitalizoval polikliniky. Díky tomu nejen vidím, kde se v obchodě ztrácí čas, ale dokážu to i nastavit. Jeden dodavatel, kompletní řešení.</p>
       </div>
+      <dl class="meta-bar reveal" data-delay="2">
+        <div><dt>Současná role</dt><dd>Obchodní ředitel <span class="acc">@ LifeScale Group</span></dd></div>
+        <div><dt>Spoluzakladatel</dt><dd>FortiCore <span class="acc">- digitalizace &amp; automatizace</span></dd></div>
+        <div><dt>Background</dt><dd>IT · <span class="acc">Digitalizace zdravotnictví</span></dd></div>
+        <div><dt>Zaměření</dt><dd>Procesy, CRM, automatizace, custom nástroje, coaching</dd></div>
+        <div><dt>Přístup</dt><dd><span class="acc">Konzultační</span> obchod - řešení reálné potřeby, ne prezentace produktu</dd></div>
+      </dl>
     </div>
   </div>
 </section>
