@@ -1,34 +1,520 @@
 <!doctype html>
 <html lang="cs">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ondřej Kamarýt - Obchodní systém</title>
-<meta name="description" content="Uvidíte, kde váš obchod ztrácí peníze. Postavím vám obchodní systém: vyčištěné CRM, automatizace a čísla, podle kterých se dá řídit. Šest týdnů, pevná cena." />
-<link rel="canonical" href="https://ondrejkamaryt.cz/" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ondřej Kamarýt - externí vedení obchodu</title>
+<!--
+  ondrejkamaryt.cz · externí vedení obchodu.
+  Vlastní zařízení vyloučit z analytiky: /?notrack (zpět /?dotrack). Náhledy: ?utm_source=osloveni, ?stav=obsazeno.
+-->
+<meta name="description" content="Šéfa obchodu nemusíte hned zaměstnat. Na zkoušku povedu váš obchod externě: nastavím obchodní proces a vedu obchodníky. Úvodní hovor 25 minut zdarma.">
+<link rel="canonical" href="https://ondrejkamaryt.cz/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:title" content="Šéfa obchodu nemusíte hned zaměstnat.">
+<meta property="og:description" content="Šéfa obchodu nemusíte hned zaměstnat. Na zkoušku povedu váš obchod externě: nastavím obchodní proces a vedu obchodníky. Úvodní hovor 25 minut zdarma.">
+<meta property="og:url" content="https://ondrejkamaryt.cz/">
+<meta property="og:image" content="https://ondrejkamaryt.cz/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ondřej Kamarýt - Šéfa obchodu nemusíte hned zaměstnat.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Šéfa obchodu nemusíte hned zaměstnat.">
+<meta name="twitter:description" content="Šéfa obchodu nemusíte hned zaměstnat. Na zkoušku povedu váš obchod externě: nastavím obchodní proces a vedu obchodníky. Úvodní hovor 25 minut zdarma.">
+<meta name="twitter:image" content="https://ondrejkamaryt.cz/assets/og-image.png">
+<meta name="theme-color" content="#E3E9E4">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400..700&amp;family=Literata:ital,opsz,wght@0,7..72,600;1,7..72,400..500&amp;display=swap" rel="stylesheet">
+<!-- šipka ← v poznámce u karty: běžné podmnožiny Google Fonts ji nemají, tohle ji dotáhne z Literaty (při self-hostingu stačí U+2190 v podmnožině) -->
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@1,7..72,400..500&amp;text=%E2%86%90&amp;display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.f2ready)document.documentElement.classList.remove('js')},4000)</script>
+<style>
+@property --p { syntax: "<percentage>"; inherits: true; initial-value: 100%; }
 
-<!-- Open Graph (Facebook, LinkedIn) -->
-<meta property="og:type" content="website" />
-<meta property="og:locale" content="cs_CZ" />
-<meta property="og:url" content="https://ondrejkamaryt.cz/" />
-<meta property="og:title" content="Uvidíte, kde váš obchod ztrácí peníze." />
-<meta property="og:description" content="Postavím vám obchodní systém: vyčištěné CRM, automatizace a čísla, podle kterých se dá řídit. Šest týdnů, pevná cena, jasný konec." />
-<meta property="og:image" content="https://ondrejkamaryt.cz/assets/og-image.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Ondřej Kamarýt - Uvidíte, kde váš obchod ztrácí peníze." />
+:root {
+  --bg: #E3E9E4;
+  --board: #D2DCD5;
+  --card: #FFFFFF;
+  --ink: #142019;
+  --ink-2: #33433A;
+  --ink-3: #4F5E55;      /* ≥ 4,8 : 1 i na desce */
+  --wire: #8FA396;
+  --accent: #D8401C;     /* plochy a tahy */
+  --accent-d: #C2391A;   /* plocha s bílým textem (5,4 : 1) */
+  --accent-ink: #A8311A; /* drobný červený text (≥ 4,8 : 1) */
+  --accent-soft: #F7DBD1;
+  --av: #DCE2DE;         /* neutrální avatar */
+  --field: #8A958E;      /* okraj polí (3 : 1) */
+  --sh-1: 0 1px 1px rgba(20,32,25,.06), 0 3px 8px -2px rgba(20,32,25,.10);
+  --sh-2: 0 1px 2px rgba(20,32,25,.06), 0 10px 24px -8px rgba(20,32,25,.24);
+  --sh-3: 0 4px 8px rgba(20,32,25,.08), 0 24px 46px -14px rgba(20,32,25,.40);
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --nw: 216px; --nh: 58px;
+  /* písmo D: Literata 600 jen ve velkých nadpisech, Hanken Grotesk v textu a ovládání, poznámky kurzívou Literaty (žádný rukopis) */
+  --font-head: "Literata", "Literata Fallback", Georgia, "Times New Roman", serif;
+  --font-text: "Hanken Grotesk", "Hanken Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-note: "Literata", "Literata Fallback", Georgia, serif; /* vždy s font-style: italic */
+  --font: var(--font-text);
+  color-scheme: light;
+}
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Uvidíte, kde váš obchod ztrácí peníze." />
-<meta name="twitter:description" content="Postavím vám obchodní systém: vyčištěné CRM, automatizace a čísla, podle kterých se dá řídit. Šest týdnů, pevná cena, jasný konec." />
-<meta name="twitter:image" content="https://ondrejkamaryt.cz/assets/og-image.png" />
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 12px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: 0; font-synthesis: none; font-optical-sizing: auto; font-kerning: normal; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img, svg { display: block; max-width: 100%; }
+img { -webkit-user-drag: none; }
+a { color: inherit; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2.5px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+@media (min-width: 720px) { .wrap { padding-left: 32px; padding-right: 32px; } }
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+/* ───────── tlačítka ───────── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none; font-weight: 650; border-radius: 14px; border: 0; cursor: pointer; transition: transform .35s var(--spring), box-shadow .3s, background-color .3s, color .3s; -webkit-tap-highlight-color: transparent; }
+.btn:active { transform: scale(.97); }
+@media (hover: hover) { .btn:hover { transform: translateY(-2px); } }
+.btn-s { min-height: 44px; padding: 0 14px; font-size: 14.5px; font-weight: 650; background: var(--card); box-shadow: var(--sh-1); white-space: nowrap; gap: 7px; }
+.btn-l { min-height: 56px; padding: 0 9px 0 22px; font-size: 17px; background: var(--ink); color: #fff; box-shadow: 0 12px 26px -12px rgba(20,32,25,.75); }
+.btn-l .arr { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--accent); color: #fff; font-size: 18px; transition: transform .45s var(--spring); }
+@media (hover: hover) { .btn-l:hover .arr { transform: translateX(4px) rotate(-8deg); } }
+.btn-l.light { background: #fff; color: var(--ink); box-shadow: 0 12px 26px -12px rgba(0,0,0,.6); }
 
+/* ───────── hlavička (na desktopu se lepí, výzva v ní) ───────── */
+.hdr { position: relative; z-index: 40; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 60px; }
+.brand { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; font-weight: 650; font-size: 16px; letter-spacing: 0; text-decoration: none; white-space: nowrap; }
+.mark { width: 14px; height: 14px; border-radius: 3px; background: var(--accent); flex: none; }
+
+/* ───────── úvod ───────── */
+.hero { padding-bottom: 6px; }
+.stage { display: grid; gap: 26px; }
+.intro { padding-top: 10px; }
+.h1 { margin: 0; font-family: var(--font-head); font-size: 40px; line-height: 1.06; letter-spacing: -.01em; font-weight: 600; }
+/* "hned": rovná červená linka v tloušťce tahu písma, při načtení se jednou vykreslí zleva */
+.hned { position: relative; display: inline-block; }
+.hned::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.13em; height: .09em; border-radius: .04em; background: var(--accent); transform-origin: 0 50%; }
+html.js .hned::after { animation: drawU .6s var(--ease) .35s both; }
+@keyframes drawU { from { scale: 0 1; } }
+.sub { margin: 12px 0 0; font-size: 16.5px; line-height: 1.4; color: var(--ink-2); max-width: 31em; text-wrap: pretty; }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 18px; }
+.cta-note { font-size: 15px; color: var(--ink-2); font-weight: 500; }
+
+/* ───────── hračka: organigram ───────── */
+.game { position: relative; }
+.board { position: relative; z-index: 1; isolation: isolate; display: flex; flex-direction: column; align-items: center; padding: 30px 12px 14px; border-radius: 26px; background-color: var(--board); background-image: radial-gradient(rgba(20,32,25,.15) 1px, transparent 1.5px); background-size: 18px 18px; background-position: center; box-shadow: inset 0 0 0 1px rgba(20,32,25,.05); }
+.wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+.row { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; }
+.r-owner { margin-bottom: 24px; }
+.r-seat { margin-bottom: 30px; }
+.r-team { margin-bottom: 14px; }
+
+/* karta osoby */
+.node { position: relative; display: flex; align-items: center; gap: 10px; width: var(--nw); height: var(--nh); padding: 0 12px 0 9px; background: var(--card); border-radius: 16px; box-shadow: var(--sh-2); }
+.node .txt { display: flex; flex-direction: column; min-width: 0; }
+.node b { font-size: 16px; font-weight: 650; line-height: 1.15; letter-spacing: 0; white-space: nowrap; }
+.node small { font-size: 13px; font-weight: 500; line-height: 1.2; letter-spacing: .005em; color: var(--ink-3); white-space: nowrap; }
+.node .sq { margin-left: auto; width: 12px; height: 12px; border-radius: 3px; background: var(--accent); flex: none; }
+.ava { position: relative; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex: none; background: var(--av); }
+.ava svg { width: 100%; height: 100%; fill: rgba(20,32,25,.36); }
+.ava img { position: absolute; left: 50%; top: 0; width: 122%; max-width: none; height: auto; transform: translate(-50%, -7%); }
+.ava.me { background: #E9EDEA; }
+
+/* majitel */
+.owner { z-index: 1; }
+/* štítek na spojnici: k vám jde jen stručný přehled */
+.brief { position: absolute; top: 100%; left: calc(50% + 12px); margin-top: 2px; padding: 1px 8px; border-radius: 7px; background: #fff; box-shadow: var(--sh-1); font-size: 12px; font-weight: 600; line-height: 1.5; color: var(--accent-ink); white-space: nowrap; opacity: 0; visibility: hidden; scale: .8; transform-origin: 0 50%; transition: opacity .3s, scale .45s var(--spring), visibility .3s; z-index: 2; }
+
+/* volné místo šéfa obchodu */
+.seat { position: relative; width: var(--nw); height: var(--nh); border-radius: 16px; background: rgba(255,255,255,.42); transition: background-color .3s, scale .4s var(--spring); }
+.ants { position: absolute; left: 1px; top: 1px; width: calc(100% - 2px); height: calc(100% - 2px); overflow: visible; pointer-events: none; transition: opacity .2s; }
+.ants rect { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 7 6; }
+.seat.hot { background-color: var(--accent-soft); scale: 1.07; }
+.seat.beckon { scale: 1.04; }
+.seat-empty { position: absolute; inset: 0; display: flex; align-items: center; gap: 11px; padding: 0 14px; transition: opacity .2s; }
+.seat-empty .sq { width: 16px; height: 16px; border-radius: 4px; background: var(--accent); flex: none; }
+.seat-empty .txt { display: flex; flex-direction: column; }
+.seat-empty b { font-size: 16px; font-weight: 650; line-height: 1.15; letter-spacing: 0; }
+.seat-empty small { font-size: 13px; font-weight: 600; line-height: 1.2; letter-spacing: .005em; color: var(--accent-ink); }
+.seat-filled { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+.seat::after { content: ""; position: absolute; inset: -2px; border-radius: 18px; border: 2px solid var(--accent); opacity: 0; pointer-events: none; }
+.seat.ripple::after { animation: ripple .85s var(--ease); }
+@keyframes ripple { 0% { opacity: .9; scale: 1; } 100% { opacity: 0; scale: 1.25 1.7; } }
+
+/* obchodníci: neutrální siluety; ve stavu "majiteli" mírný nepořádek (2-3°), ve stavu "systému" se srovnají */
+.team { display: flex; gap: 10px; justify-content: center; }
+.mate { position: relative; width: 62px; height: 68px; border-radius: 14px; background: var(--card); box-shadow: var(--sh-1); transform: var(--mess); transition: transform .8s var(--spring); transition-delay: calc(var(--i) * 75ms + 200ms); }
+.mate:nth-child(1) { --mess: translate(-2px, 6px) rotate(-3deg); }
+.mate:nth-child(2) { --mess: translate(2px, -4px) rotate(2deg); }
+.mate:nth-child(3) { --mess: translate(-2px, 4px) rotate(-2deg); }
+.mate:nth-child(4) { --mess: translate(3px, 1px) rotate(3deg); }
+.mate-in { display: flex; align-items: center; justify-content: center; height: 100%; padding-bottom: 6px; }
+.mate .ava { width: 32px; height: 32px; }
+/* proužky (rozpracované obchody) jen ve stavu "systému", kde něco znamenají; absolutně, ať silueta neposkočí */
+.pipe { position: absolute; left: 50%; bottom: 10px; display: flex; gap: 3px; translate: -50% 0; opacity: 0; transition: opacity .3s var(--ease); }
+.pipe i { width: 10px; height: 4px; border-radius: 2px; background: var(--accent); }
+.mate:nth-child(2) .pipe i:nth-child(3), .mate:nth-child(4) .pipe i:nth-child(n+2) { background: rgba(216,64,28,.25); }
+.team-label { margin-top: 12px; font-size: 12.5px; font-weight: 600; color: var(--ink-3); }
+
+/* přepínač: na čem obchod stojí */
+.switch { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.sw-k { font-size: 14px; font-weight: 500; color: var(--ink-2); }
+.track { position: relative; display: grid; grid-template-columns: 1fr 1fr; height: 44px; padding: 4px; border-radius: 13px; background: var(--card); box-shadow: var(--sh-1); }
+.knob { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 9px; background: var(--ink); transition: translate .55s var(--spring), background-color .3s; }
+.sw-in:checked + .track .knob { translate: 100% 0; background: var(--accent-d); }
+.opt { position: relative; z-index: 1; display: grid; place-items: center; padding: 0 12px; font-size: 14px; font-weight: 600; color: var(--ink-3); transition: color .3s; }
+.sw-in:not(:checked) + .track .o1, .sw-in:checked + .track .o2 { color: #fff; }
+.sw-in:focus-visible + .track { outline: 2.5px solid var(--accent); outline-offset: 3px; }
+
+/* karta v ruce + pobídka; po posazení na stejném místě poděkování s výzvou (žádný posun rozvržení) */
+.hand { position: relative; z-index: 3; display: grid; }
+.hand > * { grid-area: 1 / 1; }
+.hand-pad { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 18px 0 2px; transition: opacity .25s, visibility .25s; }
+.pcard { --nx: 0px; --ny: -16px; flex: none; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; box-shadow: var(--sh-3); z-index: 5; transition: scale .25s var(--spring), box-shadow .25s; }
+.pcard.lift { cursor: grabbing; scale: 1.06; box-shadow: 0 8px 14px rgba(20,32,25,.10), 0 34px 60px -16px rgba(20,32,25,.48); }
+.pcard.nudge { animation: nudge 1.25s var(--ease); }
+@keyframes nudge { 0%, 100% { translate: 0 0; } 30% { translate: var(--nx) var(--ny); } 52% { translate: calc(var(--nx) * -.25) calc(var(--ny) * -.25); } 72% { translate: 0 0; } }
+/* poznámka u karty: redakční kurzíva, rovně, šipka je znak v textu */
+.hint { position: relative; margin: 0; padding-top: 6px; font-family: var(--font-note); font-style: italic; font-weight: 400; font-size: 15.5px; line-height: 1.3; letter-spacing: 0; color: var(--ink); max-width: 160px; text-wrap: balance; }
+.h-touch { display: none; }
+@media (hover: none), (pointer: coarse) { .h-fine { display: none; } .h-touch { display: inline; } .pcard { touch-action: pan-y; } }
+.won { align-self: center; justify-self: center; display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 0; padding-top: 16px; text-align: center; font-size: 15.5px; font-weight: 600; line-height: 1.35; color: var(--ink-2); opacity: 0; visibility: hidden; translate: 0 6px; transition: opacity .35s var(--ease), translate .5s var(--spring), visibility 0s .35s; }
+.won a { display: inline-block; padding: 10px 0; line-height: 24px; font-size: 16.5px; font-weight: 650; color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2.5px; text-underline-offset: 5px; }
+
+/* spojnice bez JS: obyčejný strom z CSS */
+html:not(.js) .r-owner::after { content: ""; position: absolute; top: 100%; left: 50%; height: 24px; border-left: 2px dashed var(--wire); }
+html:not(.js) .r-seat::after { content: ""; position: absolute; top: 100%; left: 50%; height: 16px; border-left: 2px dashed var(--wire); }
+html:not(.js) .team { position: relative; }
+html:not(.js) .team::before { content: ""; position: absolute; top: -16px; left: 31px; right: 31px; border-top: 2px dashed var(--wire); }
+html:not(.js) .mate::before { content: ""; position: absolute; bottom: 100%; left: 50%; height: 16px; border-left: 2px dashed var(--wire); }
+html:not(.js) .hero:has(.sw-in:checked) :is(.r-owner, .r-seat, .team, .mate)::after,
+html:not(.js) .hero:has(.sw-in:checked) :is(.team, .mate)::before { border-color: var(--accent); border-style: solid; }
+
+/* spojnice s JS: SVG, kreslí se podle skutečné polohy karet */
+.w { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.w-dash { stroke: var(--wire); stroke-width: 2; stroke-dasharray: 4 6; transition: opacity .3s; }
+.w-direct { stroke: var(--wire); stroke-width: 1.8; transition: opacity .4s var(--ease); }
+.w-lit, .w-glow { stroke: var(--accent); stroke-linecap: butt; stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset .55s var(--ease); }
+.w-lit { stroke-width: 2.5; }
+.w-glow { stroke-width: 10; opacity: .13; }
+.w-seat { transition-delay: calc(var(--i) * 90ms + 240ms); }
+.hero.on .w-direct, .hero.on .w-dash { opacity: 0; }
+.hero.on .w-lit, .hero.on .w-glow { stroke-dashoffset: 0; }
+
+/* ───────── stav "posazeno" (s JS třída .on, bez JS zaškrtnutý přepínač) ───────── */
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .pcard { visibility: hidden; opacity: 0; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .hand-pad { opacity: 0; visibility: hidden; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .won { opacity: 1; visibility: visible; translate: 0 0; transition: opacity .35s var(--ease) .3s, translate .5s var(--spring) .3s, visibility 0s; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .seat { background-color: transparent; scale: 1; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .ants,
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .seat-empty { opacity: 0; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .seat-filled { opacity: 1; visibility: visible; animation: land .5s var(--spring); }
+@keyframes land { 0% { scale: 1.03; } 35% { scale: .97 1.04; } 100% { scale: 1; } }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .brief { opacity: 1; visibility: visible; scale: 1; transition-delay: .5s; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .mate { transform: none; }
+:is(.hero.on, html:not(.js) .hero:has(.sw-in:checked)) .pipe { opacity: 1; transition-delay: calc(var(--i) * 75ms + 650ms); }
+.instant-hand .hand-pad, .instant-hand .pcard, .instant-hand .won { transition: none !important; }
+
+/* ───────── sekce ───────── */
+.sec { padding-top: 68px; }
+.h2 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 20px; font-family: var(--font-head); font-size: clamp(28px, 7.4vw, 46px); line-height: 1.1; letter-spacing: -.005em; font-weight: 600; }
+.why-lead { margin: -6px 0 24px; font-size: 18px; line-height: 1.45; color: var(--ink); max-width: 46ch; text-wrap: pretty; }
+.h2 .sq { width: .32em; height: .32em; border-radius: .07em; background: var(--accent); flex: none; translate: 0 -.04em; }
+.tile { position: relative; background: var(--card); border-radius: 24px; box-shadow: var(--sh-1); padding: 18px; }
+.proc { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.proc > * { min-width: 0; }
+
+/* závod: kdy kdo začne */
+.race { padding-top: 14px; }
+.lane { --p: 100%; margin-top: 14px; }
+.lane:first-child { margin-top: 0; }
+.lane-k { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px; margin-bottom: 6px; font-size: 15px; font-weight: 650; }
+.flag { padding: 2px 8px; border-radius: 7px; background: var(--accent-soft); color: var(--accent-ink); font-size: 13.5px; font-weight: 680; white-space: nowrap; }
+.track2 { position: relative; height: 38px; }
+.segs { position: absolute; inset: 0; display: flex; border-radius: 10px; overflow: hidden; }
+.seg { display: flex; align-items: center; padding: 0 5px; font-size: 11.5px; font-weight: 650; line-height: 1.1; overflow: hidden; }
+.seg + .seg { border-left: 2px solid var(--card); }
+.s-wait { background: #EEF1EE; color: var(--ink-3); }
+.s-wait2 { background: #E6EAE7; color: var(--ink-3); }
+.s-work { background: #FBE8E1; color: var(--accent-ink); }
+.lit { clip-path: inset(0 calc(100% - var(--p)) 0 0); }
+.lit .s-wait { background: repeating-linear-gradient(-45deg, #D4DBD6 0 6px, #C9D1CC 6px 12px); color: var(--ink-2); }
+.lit .s-wait2 { background: repeating-linear-gradient(-45deg, #C9D1CC 0 6px, #BEC7C1 6px 12px); color: var(--ink-2); }
+.lit .s-work { background: var(--accent-d); color: #fff; }
+.tok { position: absolute; top: 50%; left: clamp(17px, var(--p), 100%); width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; border: 3px solid #fff; box-shadow: var(--sh-2); overflow: hidden; background: var(--av); }
+.tok svg { width: 100%; height: 100%; fill: rgba(20,32,25,.38); }
+.tok img { position: absolute; left: 50%; top: 0; width: 122%; max-width: none; height: auto; transform: translate(-50%, -7%); }
+.tok.me { background: #E9EDEA; }
+html.js .race:not(.play) .lane { --p: 0%; }
+html.js .race:not(.play) .tok { opacity: 0; } /* žeton se ukáže až s rozjezdem, ať nezakrývá popisky */
+.race .tok { transition: opacity .3s; }
+.race.play .lane { animation: run 2.6s linear .2s both; }
+@keyframes run { from { --p: 0%; } to { --p: 100%; } }
+.race-note { margin: 14px 0 0; padding-right: 50px; font-size: 13.5px; line-height: 1.4; color: var(--ink-3); }
+.replay { position: absolute; right: 10px; bottom: 10px; width: 44px; height: 44px; border-radius: 12px; border: 0; background: #EEF1EE; display: grid; place-items: center; cursor: pointer; transition: background-color .2s, rotate .5s var(--spring); }
+.replay svg { width: 20px; height: 20px; fill: none; stroke: var(--ink-2); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.replay:hover { background: var(--accent-soft); }
+.replay:active { rotate: -120deg; }
+html:not(.js) .replay { display: none; }
+
+.facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.facts li { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 16px 12px 12px; background: var(--card); border-radius: 18px; box-shadow: var(--sh-1); font-weight: 600; font-size: 16.5px; line-height: 1.3; }
+.ico { width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft); display: grid; place-items: center; flex: none; }
+.ico svg { width: 22px; height: 22px; fill: none; stroke: var(--accent-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: rotate .5s var(--spring), translate .5s var(--spring); }
+@media (hover: hover) { .facts li:hover .i-key { rotate: -35deg; } .facts li:hover .i-door { translate: 3px 0; } .facts li:hover .i-tag { rotate: 12deg; } }
+
+/* kroky */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.step { background: var(--card); border-radius: 24px; box-shadow: var(--sh-1); padding: 10px 10px 18px; }
+.viz { position: relative; height: 118px; border-radius: 16px; background-color: var(--board); background-image: radial-gradient(rgba(20,32,25,.13) 1px, transparent 1.5px); background-size: 14px 14px; overflow: hidden; }
+html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.play) *::after { animation-play-state: paused !important; }
+.st-t { display: flex; align-items: center; gap: 10px; margin: 14px 8px 4px; }
+.num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 650; flex: none; }
+.step h3 { margin: 0; font-size: 21px; font-weight: 650; letter-spacing: 0; }
+.step p { margin: 0 8px; color: var(--ink-2); font-size: 16px; line-height: 1.4; }
+
+/* 1 rozhovory */
+.v1 .ava { position: absolute; bottom: 18px; width: 46px; height: 46px; box-shadow: 0 0 0 3px #fff, var(--sh-1); }
+.v1 .a-o { left: 14%; }
+.v1 .a-m { right: 14%; }
+.bub { position: absolute; display: flex; gap: 4px; padding: 10px 12px; border-radius: 14px; background: #fff; box-shadow: var(--sh-1); opacity: 0; scale: .5; animation: bub 4.8s var(--ease) infinite; }
+.bub i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); animation: typing .9s ease-in-out infinite; }
+.bub i:nth-child(2) { animation-delay: .15s; } .bub i:nth-child(3) { animation-delay: .3s; }
+.b1 { left: calc(14% + 34px); top: 16px; border-bottom-left-radius: 4px; transform-origin: 0 100%; }
+.b2 { right: calc(14% + 34px); top: 30px; border-bottom-right-radius: 4px; background: var(--accent); transform-origin: 100% 100%; animation-delay: 1.6s; }
+.b2 i { background: #fff; }
+.b3 { left: calc(14% + 34px); top: 40px; border-bottom-left-radius: 4px; transform-origin: 0 100%; animation-delay: 3.2s; }
+@keyframes bub { 0% { opacity: 0; scale: .5; } 8%, 30% { opacity: 1; scale: 1; } 38%, 100% { opacity: 0; scale: .9; } }
+@keyframes typing { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+
+/* 2 proces: poptávka → nabídka → zakázka; lístek se zápisem z hovoru, tečka dalšího kroku v kalendáři */
+.pc { position: absolute; top: 30px; width: 25%; height: 58px; padding: 9px 8px 0; border-radius: 10px; background: #fff; box-shadow: var(--sh-1); display: flex; flex-direction: column; gap: 6px; }
+.pc b { font-size: 12.5px; font-weight: 650; line-height: 1.1; letter-spacing: .01em; color: var(--ink); white-space: nowrap; }
+.pc i { display: block; height: 4px; border-radius: 2px; background: rgba(20,32,25,.13); }
+.pc i + i { width: 62%; }
+.pc1 { left: 4%; } .pc2 { left: 37.5%; } .pc3 { left: 71%; }
+.pc3::after { content: ""; position: absolute; left: 8px; right: 26px; bottom: 9px; height: 4px; border-radius: 2px; background: var(--accent); transform-origin: 0 50%; scale: 0 1; animation: deal 6s var(--ease) infinite; }
+.pw { position: absolute; top: 58px; height: 2px; background: repeating-linear-gradient(90deg, var(--wire) 0 4px, transparent 4px 8px); }
+.pw1 { left: 29%; width: 8.5%; } .pw2 { left: 62.5%; width: 8.5%; }
+.pw::after { content: ""; position: absolute; left: 0; right: 0; top: -.5px; height: 3px; border-radius: 2px; background: var(--accent); transform-origin: 0 50%; scale: 0 1; animation: pw1 6s var(--ease) infinite; }
+.pw2::after { animation-name: pw2; }
+.memo { position: absolute; top: -9px; right: -7px; width: 22px; height: 22px; border-radius: 5px; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat; box-shadow: 0 4px 10px -3px rgba(216,64,28,.55); scale: 0; rotate: 8deg; animation: memo 6s var(--spring) infinite; }
+.cal { position: absolute; bottom: -10px; right: -8px; width: 28px; height: 25px; border-radius: 6px; background: #fff; box-shadow: var(--sh-2); overflow: hidden; }
+.cal::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px; background: var(--ink); }
+.cal::after { content: ""; position: absolute; left: 5px; top: 10px; width: 12px; height: 3px; border-radius: 2px; background: rgba(20,32,25,.15); box-shadow: 0 5px 0 rgba(20,32,25,.15); }
+.cal i { position: absolute; right: 4px; bottom: 4px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); scale: 0; animation: cald 6s var(--spring) infinite; }
+@keyframes pw1 { 0%, 6% { scale: 0 1; opacity: 1; } 16%, 88% { scale: 1 1; opacity: 1; } 96%, 100% { scale: 1 1; opacity: 0; } }
+@keyframes pw2 { 0%, 38% { scale: 0 1; opacity: 1; } 48%, 88% { scale: 1 1; opacity: 1; } 96%, 100% { scale: 1 1; opacity: 0; } }
+@keyframes memo { 0%, 20% { scale: 0; } 28%, 88% { scale: 1; } 96%, 100% { scale: 0; } }
+@keyframes deal { 0%, 50% { scale: 0 1; opacity: 1; } 60%, 88% { scale: 1 1; opacity: 1; } 96%, 100% { scale: 1 1; opacity: 0; } }
+@keyframes cald { 0%, 64% { scale: 0; } 70%, 88% { scale: 1; } 96%, 100% { scale: 0; } }
+
+/* 3 vedení: čísla a stručný přehled pro majitele */
+.bars { position: absolute; left: 10%; bottom: 18px; width: 36%; height: 76px; display: flex; align-items: flex-end; gap: 9%; }
+.bars i { flex: 1; height: var(--h); border-radius: 4px 4px 2px 2px; background: var(--ink); transform-origin: 50% 100%; animation: grow 5s var(--spring) infinite; animation-delay: calc(var(--k) * 80ms); }
+.bars i:last-child { background: var(--accent); }
+@keyframes grow { 0% { scale: 1 .15; } 24%, 86% { scale: 1 1; } 100% { scale: 1 .15; } }
+.sheet { position: absolute; left: 46%; top: 24px; width: 30px; height: 38px; border-radius: 5px; background: #fff; box-shadow: var(--sh-2); padding: 8px 6px; display: flex; flex-direction: column; gap: 5px; animation: sheet 5s var(--ease) infinite; }
+.sheet i { height: 3px; border-radius: 2px; background: rgba(20,32,25,.2); }
+.sheet i:first-child { width: 60%; background: var(--accent); }
+@keyframes sheet { 0%, 30% { opacity: 0; left: 44%; translate: 0 14px; rotate: -10deg; } 40% { opacity: 1; left: 46%; translate: 0 0; rotate: -6deg; } 68% { opacity: 1; left: 66%; translate: 0 6px; rotate: 6deg; } 76%, 100% { opacity: 0; left: 70%; translate: 0 16px; rotate: 0deg; } }
+.v3 .a-own { position: absolute; right: 9%; bottom: 22px; width: 50px; height: 50px; box-shadow: 0 0 0 3px #fff, var(--sh-1); overflow: visible; }
+.v3 .a-own svg { border-radius: 50%; }
+.v3 .a-own::after { content: ""; position: absolute; top: -4px; right: -6px; width: 18px; height: 18px; border-radius: 5px; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; scale: 0; animation: chk 5s var(--spring) infinite; }
+@keyframes chk { 0%, 72% { scale: 0; } 78%, 92% { scale: 1; } 100% { scale: 0; } }
+
+/* P.S.: druhá cesta jako lístek s pevnou cenou */
+.ticket { position: relative; display: flex; align-items: stretch; min-height: 92px; margin-top: 18px; text-decoration: none; background: var(--card); border-radius: 20px; box-shadow: var(--sh-2); transition: transform .45s var(--spring); }
+.ticket::before, .ticket::after { content: ""; position: absolute; right: 64px; width: 18px; height: 18px; margin-right: -9px; border-radius: 50%; background: var(--bg); z-index: 2; }
+.ticket::before { top: -9px; } .ticket::after { bottom: -9px; }
+.t-main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 14px 16px 16px 18px; }
+.t-q { font-size: 18px; font-weight: 650; line-height: 1.3; letter-spacing: 0; }
+.t-q .ps { font-family: var(--font-note); font-style: italic; font-weight: 500; font-size: 1.05em; line-height: 1; letter-spacing: 0; color: var(--accent-ink); margin-right: .3em; }
+.t-a { font-size: 15.5px; color: var(--ink-2); line-height: 1.35; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.t-stub { flex: 0 0 64px; display: grid; place-items: center; border-left: 2px dashed rgba(20,32,25,.2); border-radius: 0 20px 20px 0; background: var(--accent); color: #fff; font-size: 22px; transform-origin: 0 100%; transition: transform .5s var(--spring); }
+.ticket:active .t-stub { transform: rotate(7deg) translate(3px, 2px); }
+@media (hover: hover) { .ticket:hover { transform: translateY(-2px); } .ticket:hover .t-stub { transform: rotate(7deg) translate(3px, 2px); } }
+
+/* kdo povede váš obchod */
+.kdo-grid { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 18px 16px; align-items: center; }
+.idcard { position: relative; margin: 0; width: 100%; aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden; background-color: var(--board); background-image: radial-gradient(rgba(20,32,25,.13) 1px, transparent 1.5px); background-size: 14px 14px; box-shadow: var(--sh-3); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotate(-2.5deg); transition: transform .7s var(--spring); }
+.idcard.tilting { transition-duration: .12s; }
+.idcard img { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; translate: 0 5%; }
+.id-sheen { position: absolute; inset: 0; background: radial-gradient(circle at var(--mx, 30%) var(--my, 18%), rgba(255,255,255,.5), transparent 48%); mix-blend-mode: soft-light; pointer-events: none; }
+.id-sq { position: absolute; top: 12px; left: 12px; width: 14px; height: 14px; border-radius: 4px; background: var(--accent); }
+.name { margin: 0 0 8px; font-family: var(--font-head); font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: -.005em; }
+.bio { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.bio li { position: relative; padding-left: 20px; font-size: 15.5px; line-height: 1.35; color: var(--ink-2); }
+.bio li::before { content: ""; position: absolute; left: 0; top: .42em; width: 9px; height: 9px; border-radius: 2px; background: var(--accent); }
+.tr { grid-column: 1 / -1; min-width: 0; }
+.tr-k { display: inline-flex; margin: 0 0 10px; padding: 3px 10px; border-radius: 8px; background: var(--card); box-shadow: var(--sh-1); font-size: 13px; font-weight: 650; color: var(--ink-2); }
+.stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.stats li { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; gap: 12px; padding: 12px 16px; background: var(--card); border-radius: 18px; box-shadow: var(--sh-1); }
+.stats b { position: relative; justify-self: start; font-family: var(--font-head); font-size: 38px; line-height: 1; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; padding-bottom: 8px; white-space: nowrap; }
+.stats b::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 4px; border-radius: 2px; background: var(--accent); }
+.stats span { font-size: 15px; font-weight: 500; line-height: 1.3; color: var(--ink-2); }
+
+/* kontakt */
+.contact { position: relative; background: var(--ink); color: #EAF0EC; border-radius: 30px; padding: 30px 18px 18px; }
+.c-h { margin: 0; font-family: var(--font-head); font-size: clamp(32px, 8.6vw, 58px); line-height: 1.08; letter-spacing: -.01em; font-weight: 600; text-wrap: balance; }
+.cw { display: inline-block; padding: 0 .16em .04em; border-radius: .16em; background: #fff; color: var(--ink); box-shadow: 0 10px 20px -10px rgba(0,0,0,.6); rotate: -3deg; }
+.c-cta { margin-top: 22px; }
+.flow { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0; }
+.flow li { font-size: 15px; font-weight: 600; line-height: 1.35; color: #DCE5DF; white-space: nowrap; }
+.flow li + li::before { content: "→\FE0E"; content: "→\FE0E" / ""; margin: 0 10px; color: #F08A6E; }
+@media (max-width: 599px) { .flow li { font-size: 14px; } .flow li + li::before { margin: 0 6px; } }
+.cap { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; font-size: 16px; font-weight: 600; color: #DCE5DF; }
+.dot { position: relative; width: 10px; height: 10px; border-radius: 2px; background: var(--accent); flex: none; }
+.dot::after { content: ""; position: absolute; inset: -4px; border-radius: 4px; border: 2px solid var(--accent); opacity: 0; animation: radar 2.2s var(--ease) infinite; }
+@keyframes radar { 0% { opacity: .75; scale: .6; } 100% { opacity: 0; scale: 1.7; } }
+.c-links { list-style: none; margin: 18px 0 24px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.c-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 12px; background: rgba(255,255,255,.08); text-decoration: none; font-weight: 600; font-size: 15px; transition: background-color .2s; }
+.c-links a:hover { background: rgba(255,255,255,.16); }
+.fcard { position: relative; background: var(--card); color: var(--ink); border-radius: 22px; padding: 20px 16px 16px; }
+.fcard h3 { margin: 0 0 14px; font-size: 20px; font-weight: 650; letter-spacing: 0; }
+.fld { display: block; margin-bottom: 12px; }
+.fld > span { display: block; margin-bottom: 5px; font-size: 13.5px; font-weight: 620; color: var(--ink-3); }
+.fld input { width: 100%; min-height: 48px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--field); background: #F7F9F8; font-size: 16px; transition: border-color .2s, background-color .2s, box-shadow .2s; }
+.fld input:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(216,64,28,.13); }
+.f2 { display: grid; gap: 0 12px; }
+.chips { border: 0; margin: 4px 0 16px; padding: 0; min-width: 0; }
+.chips legend { padding: 0; margin-bottom: 7px; font-size: 13.5px; font-weight: 620; color: var(--ink-3); }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; display: inline-flex; }
+.chip input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.pill { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 14px 0 11px; border-radius: 12px; border: 1.5px solid rgba(20,32,25,.2); font-size: 15px; font-weight: 620; transition: background-color .25s, border-color .25s, box-shadow .25s, scale .35s var(--spring); }
+.rd { position: relative; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--field); flex: none; transition: border-color .2s; }
+.rd::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent); scale: 0; transition: scale .35s var(--spring); }
+.chip input:checked + .pill { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: #F7F9F8; }
+.chip input:checked + .pill .rd { border-color: var(--ink); }
+.chip input:checked + .pill .rd::after { scale: 1; }
+.chip input:focus-visible + .pill { outline: 2.5px solid var(--accent); outline-offset: 2px; }
+.chip.pop .pill { animation: pop .55s var(--spring); }
+@keyframes pop { 40% { scale: 1.08; } }
+.fcard .btn-l { width: 100%; justify-content: space-between; }
+.fcard .btn-l:disabled { opacity: .7; cursor: progress; }
+.priv { margin: 10px 0 0; font-size: 13.5px; color: var(--ink-3); }
+.err { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-ink); font-size: 14.5px; font-weight: 600; line-height: 1.4; }
+.err a { color: inherit; }
+.hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.thanks { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 20px; text-align: center; border-radius: 22px; background: var(--card); opacity: 0; transition: opacity .3s; }
+.thanks[hidden] { display: none; }
+.fcard.sent .thanks { opacity: 1; }
+.stamp { width: 68px; height: 68px; border-radius: 15px; background: var(--accent); display: grid; place-items: center; rotate: -8deg; opacity: 0; scale: 2.2; }
+.stamp svg { width: 36px; height: 36px; }
+.fcard.sent .stamp { animation: stamp .55s var(--spring) .1s forwards; }
+@keyframes stamp { 0% { opacity: 0; scale: 2.2; } 55% { opacity: 1; } 100% { opacity: 1; scale: 1; } }
+.thanks p { margin: 0; font-family: var(--font-head); font-size: 22px; font-weight: 600; letter-spacing: -.005em; }
+.thanks a { display: inline-block; padding: 10px 0; line-height: 24px; font-weight: 650; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.thanks:focus { outline: none; }
+
+/* patička */
+.foot { display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: space-between; padding-top: 26px; padding-bottom: 20px; font-size: 13px; color: var(--ink-3); }
+
+/* spodní lišta s výzvou (jen mobil) */
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; padding: 18px 16px calc(12px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(227,233,228,.97) 68%, rgba(227,233,228,0)); transform: translateY(110%); visibility: hidden; transition: transform .45s var(--spring), visibility 0s .45s; }
+.bar.show { transform: none; visibility: visible; transition: transform .45s var(--spring), visibility 0s; }
+.bar .btn-l { width: 100%; justify-content: space-between; }
+
+@media (max-width: 399px) { .top { gap: 8px; } .btn-s { padding: 0 12px; font-size: 13.5px; } }
+
+/* ───────── velmi úzké telefony ───────── */
+@media (max-width: 359px) {
+  :root { --nw: 198px; }
+  .h1 { font-size: 36px; }
+  .board { padding-left: 8px; padding-right: 8px; }
+  .team { gap: 7px; }
+  .mate { width: 56px; height: 64px; }
+  .mate .ava { width: 30px; height: 30px; }
+  .pipe i { width: 9px; }
+  .sw-k { font-size: 13px; }
+  .opt { padding: 0 9px; font-size: 13px; }
+  .hand-pad { gap: 14px; }
+  .hint { font-size: 15px; max-width: 110px; }
+  .node { gap: 8px; padding: 0 10px 0 8px; }
+  .node small, .seat-empty small { font-size: 12.5px; }
+  .seg { font-size: 10.5px; padding: 0 4px; }
+  .kdo-grid { grid-template-columns: 104px minmax(0, 1fr); }
+}
+
+/* ───────── širší obrazovky ───────── */
+@media (min-width: 600px) {
+  .f2 { grid-template-columns: 1fr 1fr; }
+  .contact { padding: 44px 36px 36px; }
+  .fcard { padding: 24px; }
+  .h1 { font-size: 52px; }
+  .seg { font-size: 12.5px; padding: 0 9px; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stats li { grid-template-columns: 1fr; gap: 10px; align-content: start; padding: 16px 18px 18px; }
+}
+@media (min-width: 820px) {
+  .steps { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .kdo-grid { grid-template-columns: 260px minmax(0, 1fr); gap: 22px 52px; align-items: start; }
+  .idcard { grid-row: 1 / span 2; border-radius: 26px; }
+  .id-sq { top: 16px; left: 16px; width: 18px; height: 18px; }
+  .kdo-txt { padding-top: 6px; }
+  .tr { grid-column: 2; }
+  .name { font-size: 28px; margin-bottom: 12px; }
+  .bio li { font-size: 18px; }
+  .stats b { font-size: 50px; }
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; align-items: start; }
+  .contact .lead { grid-column: 1; }
+  .contact .fcard { grid-column: 2; grid-row: 1; }
+}
+@media (min-width: 900px) {
+  .why-lead { font-size: 21px; margin: -10px 0 28px; max-width: 52ch; }
+  :root { --nw: 236px; --nh: 68px; }
+  html { scroll-padding-top: 92px; }
+  .hdr { position: sticky; top: 0; background: rgba(227,233,228,.88); -webkit-backdrop-filter: saturate(1.2) blur(10px); backdrop-filter: saturate(1.2) blur(10px); transition: box-shadow .3s; }
+  .hdr.stuck { box-shadow: 0 1px 0 rgba(20,32,25,.08), 0 10px 26px -18px rgba(20,32,25,.35); }
+  .hdr.stuck .btn-h { background: var(--ink); color: #fff; }
+  .top { min-height: 76px; }
+  .btn-s { min-height: 46px; padding: 0 18px; font-size: 15px; }
+  .hero { padding-top: 8px; }
+  .stage { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
+  .intro { padding-top: 0; }
+  .h1 { font-size: clamp(50px, 4.9vw, 64px); line-height: 1.05; letter-spacing: -.012em; }
+  .sub { margin-top: 18px; font-size: 19px; }
+  .cta-row { margin-top: 26px; }
+  .board { padding: 44px 24px 22px; border-radius: 34px; }
+  .r-owner { margin-bottom: 40px; } .r-seat { margin-bottom: 48px; } .r-team { margin-bottom: 22px; }
+  .brief { margin-top: 9px; font-size: 13px; }
+  .team { gap: clamp(10px, calc(17.5vw - 148px), 22px); }
+  .mate { width: 80px; height: 88px; border-radius: 18px; }
+  .mate .ava { width: 44px; height: 44px; }
+  .pipe i { width: 13px; height: 5px; }
+  .ava { width: 48px; height: 48px; }
+  .node { gap: 12px; padding: 0 14px 0 11px; border-radius: 18px; }
+  .node b, .seat-empty b { font-size: 17.5px; }
+  .node small, .seat-empty small { font-size: 14px; }
+  .seat, .seat::after { border-radius: 18px; }
+  .team-label { font-size: 13.5px; }
+  .hand-pad { gap: 30px; padding-top: 20px; }
+  .hint { font-size: 16px; max-width: 180px; }
+  .won { font-size: 17px; }
+  .proc { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+  .facts { align-content: space-between; }
+  .sec { padding-top: 96px; }
+  .tile { padding: 24px; }
+  .bar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .bub { opacity: 1; scale: 1; animation: none !important; }
+  .b3 { display: none; }
+  .sheet { opacity: 1; left: 58%; animation: none !important; }
+  .bars i { animation: none !important; }
+  .pw::after, .pc3::after { animation: none !important; scale: 1 1; }
+  .memo, .cal i { animation: none !important; scale: 1; }
+  .v3 .a-own::after { animation: none !important; scale: 1; }
+}
+</style>
 <!-- Vlastní zařízení vyloučit z analytiky: navštiv /?notrack jednou (zpět /?dotrack) -->
 <script>
 (function () {
@@ -41,1460 +527,692 @@
 </script>
 <!-- Umami analytics (privacy-friendly) -->
 <script defer src="https://cloud.umami.is/script.js" data-website-id="09bf3995-b08e-48a5-ab83-b7d53ffb7cb1"></script>
-
-<!-- Cal.com (sekundární cesta: rovnou termín) -->
-<script type="text/javascript">
-(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-Cal("init", {origin: "https://app.cal.com"});
-Cal("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#D8401C"},"dark":{"cal-brand":"#D8401C"}},"hideEventTypeDetails":false,"layout":"month_view"});
-</script>
-
-<style>
-
-  :root {
-    --bg: #F1ECDF;
-    --bg-2: #E8E1D0;
-    --ink: #0A0907;
-    --ink-2: #2A2722;
-    --ink-3: #6E695E;
-    --rule: rgba(10, 9, 7, 0.92);
-    --rule-soft: rgba(10, 9, 7, 0.12);
-    --accent: #D8401C;
-    --sans: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-    --pad-x: clamp(20px, 4vw, 64px);
-    --container: 1260px;
-  }
-
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.45;
-    font-weight: 400;
-    letter-spacing: -0.005em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
-
-  a { color: inherit; text-decoration: none; }
-  img, svg { display: block; max-width: 100%; }
-
-  /* ───────── Grid lines (subtle 12-col background) ───────── */
-  .grid-lines {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    max-width: var(--container);
-    margin: 0 auto;
-    left: 0; right: 0;
-    padding: 0 var(--pad-x);
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-  }
-  .grid-lines > i {
-    border-left: 0.5px solid rgba(10,9,7,0.045);
-    height: 100%;
-  }
-  .grid-lines > i:last-child {
-    border-right: 0.5px solid rgba(10,9,7,0.045);
-  }
-  @media (max-width: 900px) {
-    .grid-lines { display: none; }
-  }
-
-  /* ───────── Top status bar ───────── */
-  .statusbar {
-    position: relative;
-    z-index: 3;
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 14px var(--pad-x);
-    border-bottom: 0.5px solid var(--ink);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    background: var(--bg);
-  }
-  .statusbar .item { display: flex; gap: 10px; align-items: baseline; min-width: 0; }
-  .statusbar .item .l { color: var(--ink-3); font-size: 10px; letter-spacing: 0.16em; flex: 0 0 auto; }
-  .statusbar .item .v { color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .statusbar .item.r { justify-content: flex-end; }
-  .statusbar .dot {
-    width: 8px; height: 8px; background: var(--accent);
-    display: inline-block; vertical-align: middle;
-    flex: 0 0 auto; align-self: center;
-    transform: translateY(-1px);
-  }
-  @media (max-width: 720px) {
-    .statusbar { grid-template-columns: 1fr 1fr; padding: 12px var(--pad-x); }
-    .statusbar .item .v { white-space: normal; }
-    .statusbar .dot { align-self: flex-start; margin-top: 5px; }
-  }
-
-  /* ───────── Sticky nav ───────── */
-  nav.sticky {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--bg);
-    border-bottom: 0.5px solid var(--rule-soft);
-    transition: border-color 0.3s, background 0.3s;
-  }
-  nav.sticky.scrolled {
-    background: rgba(241, 236, 223, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom-color: var(--ink);
-  }
-  nav.sticky .inner {
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 14px var(--pad-x);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-  }
-  nav.sticky .brand {
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: -0.005em;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  nav.sticky .brand .mark {
-    display: inline-block;
-    width: 14px; height: 14px;
-    background: var(--accent);
-  }
-  nav.sticky .brand b { font-weight: 600; }
-  nav.sticky .nav-links {
-    display: flex;
-    gap: 22px;
-    align-items: center;
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  nav.sticky .nav-links a {
-    color: var(--ink-3);
-    transition: color 0.2s;
-    position: relative;
-    padding: 4px 0;
-  }
-  nav.sticky .nav-links a:hover { color: var(--ink); }
-  nav.sticky .nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 0;
-    height: 1px;
-    background: var(--accent);
-    transition: width 0.3s ease;
-  }
-  nav.sticky .nav-links a:hover::after { width: 100%; }
-  nav.sticky .nav-links a.cta {
-    color: var(--bg);
-    padding: 8px 14px;
-    border: 1.5px solid var(--ink);
-    background: var(--ink);
-    transition: all 0.2s;
-  }
-  nav.sticky .nav-links a.cta::after { display: none; }
-  nav.sticky .nav-links a.cta:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--bg);
-  }
-  nav.sticky .menu-btn {
-    display: none;
-    background: none;
-    border: 1.5px solid var(--ink);
-    padding: 8px 14px;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    color: var(--ink);
-  }
-  @media (max-width: 940px) {
-    nav.sticky .nav-links { display: none; }
-    nav.sticky .menu-btn { display: block; }
-  }
-  /* Mobile menu drawer */
-  .mobile-menu {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: var(--bg);
-    display: none;
-    flex-direction: column;
-    padding: 32px var(--pad-x);
-    overflow-y: auto;
-  }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu .top {
-    display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--ink);
-  }
-  .mobile-menu .top .brand { font-family: var(--sans); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 10px; }
-  .mobile-menu .top .brand .mark { display: inline-block; width: 12px; height: 12px; background: var(--accent); }
-  .mobile-menu .top button { background: none; border: 1.5px solid var(--ink); padding: 8px 14px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; cursor: pointer; }
-  .mobile-menu .links { padding-top: 16px; display: flex; flex-direction: column; }
-  .mobile-menu .links a {
-    padding: 14px 0;
-    border-bottom: 0.5px solid var(--rule-soft);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 21px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-  .mobile-menu .links a .n { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.18em; }
-  .mobile-menu .cta-block {
-    margin-top: auto;
-    padding-top: 28px;
-    border-top: 1px solid var(--ink);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .mobile-menu .cta-block a {
-    display: block;
-    padding: 18px;
-    background: var(--ink);
-    color: var(--bg);
-    text-align: center;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .mobile-menu .cta-block .contact {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-3);
-    text-align: center;
-    letter-spacing: 0.04em;
-  }
-
-  /* ───────── Container ───────── */
-  .container {
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 0 var(--pad-x);
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ───────── Hero ───────── */
-  .hero {
-    padding: clamp(56px, 9vh, 110px) 0 clamp(64px, 11vh, 130px);
-    border-bottom: 0.5px solid var(--ink);
-    position: relative;
-  }
-  .hero .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-  }
-  .hero h1 {
-    grid-column: 1 / span 9;
-    font-size: clamp(40px, 6.6vw, 96px);
-    font-weight: 500;
-    line-height: 0.98;
-    letter-spacing: -0.042em;
-    margin: 0;
-    color: var(--ink);
-  }
-  .hero h1 .accent { color: var(--accent); }
-  .hero .sub {
-    grid-column: 1 / span 7;
-    margin-top: clamp(26px, 4vh, 38px);
-    font-size: clamp(16px, 1.4vw, 20px);
-    line-height: 1.5;
-    color: var(--ink-2);
-    letter-spacing: -0.005em;
-  }
-  .hero .ctas {
-    grid-column: 1 / span 8;
-    margin-top: clamp(26px, 4vh, 36px);
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .hero .micro {
-    grid-column: 1 / span 7;
-    margin-top: 16px;
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--ink-3);
-    display: flex;
-    gap: 9px;
-    align-items: baseline;
-  }
-  .hero .micro::before {
-    content: "";
-    width: 12px; height: 2px; background: var(--accent);
-    flex: 0 0 auto; transform: translateY(-4px);
-  }
-  .hero .index {
-    grid-column: 10 / span 3;
-    grid-row: 1 / span 4;
-    align-self: end;
-    display: flex;
-    flex-direction: column;
-    border-top: 0.5px solid var(--ink);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  .hero .index a {
-    padding: 9px 0;
-    border-bottom: 0.5px solid var(--rule-soft);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    color: var(--ink);
-    transition: padding 0.3s ease, color 0.2s;
-  }
-  .hero .index a:hover { padding-left: 8px; color: var(--accent); }
-  .hero .index a .n { color: var(--ink-3); font-size: 10px; }
-  @media (max-width: 1000px) {
-    .hero h1 { grid-column: 1 / span 12; }
-    .hero .sub, .hero .ctas, .hero .micro { grid-column: 1 / span 12; }
-    .hero .index { grid-column: 1 / span 12; grid-row: auto; margin-top: 34px; max-width: 380px; }
-  }
-
-  /* ───────── Buttons ───────── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 16px 26px;
-    border: 1.5px solid var(--ink);
-    background: var(--ink);
-    color: var(--bg);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.2s;
-    border-radius: 0;
-  }
-  .btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    transform: translate(2px, -2px);
-    box-shadow: -2px 2px 0 var(--ink);
-  }
-  .btn .arrow { display: inline-block; transition: transform 0.3s; }
-  .btn:hover .arrow { transform: translateX(2px); }
-  .btn--ghost { background: transparent; color: var(--ink); }
-  .btn--ghost:hover { background: var(--ink); color: var(--bg); transform: translate(2px, -2px); box-shadow: -2px 2px 0 var(--accent); }
-
-  /* ───────── Section head ───────── */
-  section { position: relative; }
-  .sec-head { font-size: 11px; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; display: block; margin-bottom: 6px; }
-  .sec-title { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin: 0; color: var(--ink); }
-  .h-big {
-    font-size: clamp(30px, 4vw, 52px);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1.02;
-    color: var(--ink);
-    margin: 0;
-  }
-  .h-big em { font-style: normal; color: var(--accent); }
-
-  /* ───────── 01 Problém ───────── */
-  .problem {
-    padding: clamp(56px, 9vh, 100px) 0 clamp(64px, 10vh, 110px);
-    border-bottom: 0.5px solid var(--ink);
-  }
-  .problem .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-  }
-  .problem .head { grid-column: 1 / span 2; }
-  .problem .body { grid-column: 3 / span 9; }
-  .problem .body p:not(.h-big) {
-    max-width: 62ch;
-    font-size: clamp(15px, 1.15vw, 17px);
-    line-height: 1.6;
-    color: var(--ink-2);
-    margin: clamp(20px, 3vh, 28px) 0 0;
-  }
-  .problem .points {
-    margin: clamp(34px, 5vh, 52px) 0 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border-top: 0.5px solid var(--rule-soft);
-  }
-  .problem .pt {
-    padding: 22px 24px 6px 0;
-    border-top: 3px solid var(--ink);
-    margin-top: -1px;
-  }
-  .problem .pt + .pt { padding-left: 26px; border-left: 0.5px solid var(--rule-soft); }
-  .problem .pt b {
-    display: block;
-    font-size: clamp(16px, 1.3vw, 19px);
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.25;
-    margin-bottom: 10px;
-    color: var(--ink);
-  }
-  .problem .pt span { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
-  @media (max-width: 1000px) {
-    .problem .head { grid-column: 1 / span 12; margin-bottom: 8px; }
-    .problem .body { grid-column: 1 / span 12; }
-    .problem .points { grid-template-columns: 1fr; }
-    .problem .pt { padding: 20px 0 18px; }
-    .problem .pt + .pt { padding-left: 0; border-left: 0; }
-  }
-
-  /* ───────── 02 Rozbor zdarma ───────── */
-  .free {
-    padding: clamp(60px, 9vh, 110px) 0 clamp(70px, 11vh, 120px);
-    border-bottom: 0.5px solid var(--ink);
-    background: var(--bg-2);
-  }
-  .free .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-  }
-  .free .head { grid-column: 1 / span 2; }
-  .free .body { grid-column: 3 / span 6; }
-  .free .body .lead {
-    max-width: 54ch;
-    font-size: clamp(15px, 1.15vw, 17px);
-    line-height: 1.6;
-    color: var(--ink-2);
-    margin: clamp(20px, 3vh, 28px) 0 0;
-  }
-  .free ul.deliver {
-    grid-column: 9 / span 4;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    align-self: start;
-    border-top: 3px solid var(--ink);
-  }
-  .free ul.deliver li {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    padding: 13px 0;
-    border-bottom: 0.5px solid var(--rule-soft);
-    font-size: 13.5px;
-    line-height: 1.5;
-    color: var(--ink-2);
-  }
-  .free ul.deliver li::before {
-    content: "";
-    width: 10px; height: 2px; background: var(--accent);
-    flex: 0 0 auto; transform: translateY(-4px);
-  }
-  .free .cta-row { grid-column: 3 / span 9; margin-top: clamp(32px, 5vh, 48px); }
-  @media (max-width: 1000px) {
-    .free .head { grid-column: 1 / span 12; margin-bottom: 8px; }
-    .free .body, .free .cta-row { grid-column: 1 / span 12; }
-    .free ul.deliver { grid-column: 1 / span 12; margin-top: 32px; }
-  }
-
-  /* ───────── 03 Produkt ───────── */
-  .product {
-    padding: clamp(60px, 9vh, 110px) 0 clamp(70px, 11vh, 120px);
-    border-bottom: 0.5px solid var(--ink);
-  }
-  .product .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-  }
-  .product .head { grid-column: 1 / span 2; }
-  .product .top { grid-column: 3 / span 9; }
-  .product .price {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 10px 18px;
-    margin: clamp(18px, 3vh, 26px) 0 0;
-    padding-bottom: 20px;
-    border-bottom: 0.5px solid var(--rule-soft);
-  }
-  .product .price .v {
-    font-size: clamp(46px, 7vw, 92px);
-    font-weight: 500;
-    line-height: 0.9;
-    letter-spacing: -0.05em;
-    color: var(--accent);
-  }
-  .product .price .meta {
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    font-weight: 500;
-    line-height: 1.7;
-  }
-  .product .price .meta b { color: var(--ink); font-weight: 600; }
-  .product .top p:not(.h-big) {
-    max-width: 60ch;
-    font-size: clamp(15px, 1.15vw, 17px);
-    line-height: 1.6;
-    color: var(--ink-2);
-    margin: clamp(18px, 3vh, 26px) 0 0;
-  }
-  .product .steps {
-    grid-column: 3 / span 9;
-    margin-top: clamp(40px, 6vh, 64px);
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-  }
-  .product .s {
-    border-top: 2px solid var(--ink);
-    padding-top: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .product .s .id {
-    font-size: clamp(34px, 3.4vw, 46px);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.05em;
-    color: var(--ink);
-  }
-  .product .s .wk { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-  .product .s h4 { font-size: 16px; font-weight: 500; margin: 2px 0 0; letter-spacing: -0.008em; }
-  .product .s p { font-size: 12.5px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: none; }
-  .product .exclude {
-    grid-column: 3 / span 9;
-    margin-top: clamp(36px, 5vh, 56px);
-    padding: 20px 24px;
-    border-left: 3px solid var(--accent);
-    background: var(--bg-2);
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--ink-2);
-    max-width: 76ch;
-  }
-  .product .exclude b { color: var(--ink); font-weight: 600; }
-  .product .next {
-    grid-column: 3 / span 9;
-    margin-top: clamp(26px, 4vh, 38px);
-    padding-top: 20px;
-    border-top: 0.5px solid var(--rule-soft);
-    max-width: 76ch;
-  }
-  .product .next .k {
-    display: block;
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin-bottom: 10px;
-  }
-  .product .next p {
-    margin: 0;
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--ink-2);
-    max-width: none;
-  }
-  @media (max-width: 1000px) {
-    .product .head { grid-column: 1 / span 12; margin-bottom: 8px; }
-    .product .top, .product .steps, .product .exclude, .product .next { grid-column: 1 / span 12; }
-    .product .steps { grid-template-columns: repeat(2, 1fr); gap: 28px; }
-  }
-  @media (max-width: 560px) {
-    .product .steps { grid-template-columns: 1fr; }
-  }
-
-  /* ───────── 04 Track record ───────── */
-  .numbers {
-    padding: clamp(56px, 8vh, 100px) 0 clamp(64px, 9vh, 110px);
-    border-bottom: 0.5px solid var(--ink);
-    background: var(--bg-2);
-  }
-  .numbers .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-  }
-  .numbers .head { grid-column: 1 / span 2; }
-  .numbers .intro { grid-column: 3 / span 9; }
-  .numbers .intro p:not(.h-big) {
-    max-width: 62ch;
-    font-size: clamp(15px, 1.15vw, 17px);
-    line-height: 1.6;
-    color: var(--ink-2);
-    margin: clamp(18px, 3vh, 26px) 0 0;
-  }
-  .numbers .triplet {
-    grid-column: 3 / span 9;
-    margin-top: clamp(36px, 5vh, 56px);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-  }
-  .numbers .stat {
-    padding-right: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .numbers .stat + .stat { padding-left: 28px; border-left: 0.5px solid var(--rule-soft); }
-  .numbers .stat .num {
-    font-size: clamp(58px, 9vw, 128px);
-    font-weight: 500;
-    line-height: 0.86;
-    letter-spacing: -0.06em;
-    color: var(--ink);
-    display: flex;
-    align-items: baseline;
-  }
-  .numbers .stat .num .u {
-    font-size: 0.34em;
-    color: var(--accent);
-    margin-left: 6px;
-    font-weight: 500;
-    letter-spacing: -0.04em;
-  }
-  .numbers .stat .lbl { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-  .numbers .stat .desc { font-size: 13px; line-height: 1.5; color: var(--ink-2); max-width: 260px; }
-  .numbers .fy {
-    grid-column: 3 / span 9;
-    margin-top: clamp(26px, 4vh, 38px);
-    padding-top: 14px;
-    border-top: 0.5px solid var(--rule-soft);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-  @media (max-width: 1000px) {
-    .numbers .head { grid-column: 1 / span 12; margin-bottom: 8px; }
-    .numbers .intro, .numbers .triplet, .numbers .fy { grid-column: 1 / span 12; }
-    .numbers .triplet { grid-template-columns: 1fr; }
-    .numbers .stat { padding: 26px 0; border-bottom: 0.5px solid var(--rule-soft); }
-    .numbers .stat + .stat { padding-left: 0; border-left: 0; }
-    .numbers .stat:last-child { border-bottom: 0; }
-  }
-
-  /* ───────── 05 Pro koho ───────── */
-  .fit {
-    padding: clamp(56px, 9vh, 100px) 0 clamp(64px, 10vh, 110px);
-    border-bottom: 0.5px solid var(--ink);
-  }
-  .fit .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-  }
-  .fit .head { grid-column: 1 / span 2; }
-  .fit .title { grid-column: 3 / span 9; margin-bottom: clamp(28px, 4vh, 44px); }
-  .fit .cols {
-    grid-column: 3 / span 9;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-  }
-  .fit .col { padding-right: 32px; }
-  .fit .col + .col { padding-left: 34px; border-left: 0.5px solid var(--rule-soft); }
-  .fit .col .k {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 600;
-    padding-bottom: 14px;
-    border-bottom: 3px solid var(--ink);
-    margin-bottom: 4px;
-  }
-  .fit .col.yes .k { color: var(--accent); }
-  .fit .col.no .k { color: var(--ink-3); }
-  .fit .col ul { list-style: none; margin: 0; padding: 0; }
-  .fit .col li {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    padding: 14px 0;
-    border-bottom: 0.5px solid var(--rule-soft);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--ink-2);
-  }
-  .fit .col.yes li::before {
-    content: "";
-    width: 10px; height: 2px; background: var(--accent);
-    flex: 0 0 auto; transform: translateY(-4px);
-  }
-  .fit .col.no li::before {
-    content: "";
-    width: 10px; height: 2px; background: var(--rule-soft);
-    flex: 0 0 auto; transform: translateY(-4px);
-  }
-  .fit .col.no li { color: var(--ink-3); }
-  @media (max-width: 1000px) {
-    .fit .head { grid-column: 1 / span 12; margin-bottom: 8px; }
-    .fit .title, .fit .cols { grid-column: 1 / span 12; }
-    .fit .cols { grid-template-columns: 1fr; gap: 36px; }
-    .fit .col { padding-right: 0; }
-    .fit .col + .col { padding-left: 0; border-left: 0; }
-  }
-
-  /* ───────── 06 O mně ───────── */
-  .about {
-    padding: clamp(56px, 8vh, 100px) 0 clamp(64px, 9vh, 110px);
-    border-bottom: 0.5px solid var(--ink);
-    background: var(--bg-2);
-  }
-  .about .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px 24px;
-    align-items: center;
-  }
-  .about .head {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: clamp(30px, 5vh, 52px);
-  }
-  .about .head .sec-head { margin-bottom: 0; }
-  .about .head .head-link {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 2px;
-    color: var(--ink-3);
-    transition: color 0.2s;
-  }
-  .about .head .head-link:hover { color: var(--accent); }
-  .about .portrait { grid-column: 1 / span 4; align-self: center; }
-  .about .portrait picture { display: block; }
-  .about .portrait .photo { width: 100%; max-width: 300px; height: auto; display: block; }
-  .about .body { grid-column: 6 / span 7; align-self: center; }
-  .about .body p {
-    max-width: 58ch;
-    font-size: 14.5px;
-    line-height: 1.65;
-    color: var(--ink-2);
-    margin: 0 0 16px;
-  }
-  .about .body p:last-child { margin-bottom: 0; }
-  .about .meta-bar {
-    grid-column: 1 / -1;
-    margin: clamp(40px, 7vh, 76px) 0 0;
-    padding-top: 24px;
-    border-top: 0.5px solid var(--rule-soft);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-  }
-  .about .meta-bar > div { display: flex; flex-direction: column; gap: 6px; }
-  .about .meta-bar dt {
-    font-family: var(--mono);
-    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--ink-3); font-weight: 500;
-  }
-  .about .meta-bar dd {
-    margin: 0; font-size: 13px; line-height: 1.45;
-    color: var(--ink); font-weight: 500; letter-spacing: -0.005em;
-  }
-  .about .meta-bar dd .acc { color: var(--accent); }
-  @media (max-width: 1000px) {
-    .about .inner { display: flex; flex-direction: column; align-items: stretch; }
-    .about .portrait { margin-bottom: 26px; }
-    .about .portrait .photo { max-width: 220px; }
-    .about .meta-bar { grid-template-columns: repeat(2, 1fr); gap: 24px 32px; }
-  }
-  @media (max-width: 620px) {
-    .about .meta-bar { grid-template-columns: 1fr; gap: 18px; }
-  }
-
-  /* ───────── 07 Kontakt + formulář ───────── */
-  .contact {
-    padding: clamp(64px, 10vh, 120px) 0 clamp(64px, 10vh, 120px);
-    border-bottom: 0.5px solid var(--ink);
-    position: relative;
-    overflow: hidden;
-  }
-  .contact::before {
-    content: "07";
-    position: absolute;
-    bottom: -40px;
-    right: -16px;
-    font-size: clamp(160px, 26vw, 340px);
-    font-weight: 500;
-    line-height: 0.8;
-    color: rgba(216, 64, 28, 0.07);
-    letter-spacing: -0.06em;
-    pointer-events: none;
-    font-family: var(--sans);
-  }
-  .contact .inner {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-    position: relative;
-    z-index: 1;
-  }
-  .contact .head { grid-column: 1 / span 2; }
-  .contact .body { grid-column: 3 / span 5; }
-  .contact .body h2 {
-    font-size: clamp(34px, 4.6vw, 64px);
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    margin: 0 0 22px;
-    color: var(--ink);
-  }
-  .contact .body h2 em { font-style: normal; color: var(--accent); }
-  .contact .body p {
-    font-size: clamp(15px, 1.2vw, 17px);
-    line-height: 1.55;
-    color: var(--ink-2);
-    max-width: 46ch;
-    margin: 0 0 28px;
-  }
-  .contact .details {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 20px;
-    border-top: 0.5px solid var(--rule-soft);
-  }
-  .contact .details .block { display: flex; flex-direction: column; gap: 3px; }
-  .contact .details span {
-    font-family: var(--mono);
-    color: var(--ink-3);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-  .contact .details a {
-    color: var(--ink); font-weight: 500;
-    font-size: 13px;
-    transition: color 0.2s;
-  }
-  .contact .details a:hover { color: var(--accent); }
-
-  /* form */
-  .contact .formwrap { grid-column: 9 / span 4; align-self: start; }
-  .contact form { display: flex; flex-direction: column; gap: 0; border-top: 3px solid var(--ink); }
-  .contact .field { display: flex; flex-direction: column; gap: 6px; padding: 16px 0 18px; border-bottom: 0.5px solid var(--rule-soft); }
-  .contact .field label {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-  .contact .field input {
-    border: 0;
-    background: transparent;
-    padding: 2px 0;
-    font-family: var(--sans);
-    font-size: 15px;
-    color: var(--ink);
-    letter-spacing: -0.005em;
-    width: 100%;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
-  }
-  .contact .field input::placeholder { color: rgba(10,9,7,0.28); }
-  .contact .field input:focus { outline: none; border-bottom-color: var(--accent); }
-  .contact form .btn { margin-top: 22px; width: 100%; }
-  .contact .hp { position: absolute; left: -9999px; opacity: 0; }
-  .contact .alt {
-    margin-top: 16px;
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--ink-3);
-  }
-  .contact .alt a { color: var(--ink); border-bottom: 1px solid var(--rule-soft); transition: color 0.2s, border-color 0.2s; }
-  .contact .alt a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  .contact .formnote {
-    margin-top: 14px;
-    font-size: 11.5px;
-    line-height: 1.5;
-    color: var(--ink-3);
-  }
-  .form-status {
-    display: none;
-    margin-top: 18px;
-    padding: 18px 20px;
-    border: 1px solid var(--ink);
-    background: var(--bg-2);
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--ink);
-  }
-  .form-status.show { display: block; }
-  .form-status.err { border-color: var(--accent); }
-  .form-status b { display: block; margin-bottom: 4px; font-weight: 600; }
-  @media (max-width: 1000px) {
-    .contact .head { grid-column: 1 / span 12; margin-bottom: 12px; }
-    .contact .body { grid-column: 1 / span 12; }
-    .contact .formwrap { grid-column: 1 / span 12; margin-top: 40px; }
-    .contact .details { flex-direction: row; flex-wrap: wrap; gap: 26px; }
-    .contact .details .block { flex: 1; min-width: 160px; }
-  }
-
-  /* ───────── Footer ───────── */
-  footer {
-    padding: 30px var(--pad-x);
-    max-width: var(--container);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 16px;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    font-weight: 500;
-  }
-  footer .col { display: flex; gap: 10px; align-items: baseline; }
-  footer .col a { color: var(--ink); transition: color 0.2s; }
-  footer .col a:hover { color: var(--accent); }
-  footer .col:nth-child(1) { grid-column: 1 / span 4; }
-  footer .col:nth-child(2) { grid-column: 5 / span 4; justify-content: center; }
-  footer .col:nth-child(3) { grid-column: 9 / span 4; justify-content: flex-end; }
-  footer .arrow { display: inline-block; transition: transform 0.2s; }
-  footer a:hover .arrow { transform: translate(2px, -2px); }
-  @media (max-width: 720px) {
-    footer { grid-template-columns: 1fr; padding-top: 26px; padding-bottom: 26px; }
-    footer .col:nth-child(2) { display: none; }
-    footer .col:nth-child(3) { justify-content: flex-start; }
-  }
-
-  /* ───────── Scroll reveal ───────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .reveal.in { opacity: 1; transform: translateY(0); }
-  .reveal[data-delay="1"] { transition-delay: 0.06s; }
-  .reveal[data-delay="2"] { transition-delay: 0.12s; }
-  .reveal[data-delay="3"] { transition-delay: 0.18s; }
-  .reveal[data-delay="4"] { transition-delay: 0.24s; }
-
-  /* Hero load-in */
-  .hero h1 .line {
-    display: block;
-    opacity: 0;
-    transform: translateY(22px);
-    animation: heroRise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  .hero h1 .line:nth-child(1) { animation-delay: 0.12s; }
-  .hero h1 .line:nth-child(2) { animation-delay: 0.24s; }
-  .hero h1 .line:nth-child(3) { animation-delay: 0.36s; }
-  .hero .sub, .hero .ctas, .hero .micro, .hero .index {
-    opacity: 0;
-    animation: heroRise 0.85s ease forwards;
-  }
-  .hero .sub { animation-delay: 0.52s; }
-  .hero .ctas { animation-delay: 0.64s; }
-  .hero .micro { animation-delay: 0.74s; }
-  .hero .index { animation-delay: 0.84s; }
-  @keyframes heroRise { to { opacity: 1; transform: translateY(0); } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reveal, .hero h1 .line, .hero .sub, .hero .ctas, .hero .micro, .hero .index {
-      opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important;
-    }
-    html { scroll-behavior: auto; }
-  }
-
-</style>
 </head>
-<body id="top">
+<body>
 
-<div class="grid-lines" aria-hidden="true">
-  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-</div>
-
-<div class="statusbar">
-  <div class="item"><span class="dot"></span><span class="v">Prostor pro nové klienty</span></div>
-  <div class="item r"><span class="l">Praha</span><span class="v">CZ · UTC+1</span></div>
-</div>
-
-<nav class="sticky" id="topnav">
-  <div class="inner">
-    <a class="brand" href="#top">
-      <span class="mark"></span>
-      <span><b>Ondřej Kamarýt</b></span>
-    </a>
-    <div class="nav-links">
-      <a href="#problem">Problém</a>
-      <a href="#rozbor">Rozbor</a>
-      <a href="#produkt">Produkt</a>
-      <a href="#pro-koho">Pro koho</a>
-      <a href="#o-mne">O mně</a>
-      <a class="cta" href="#kontakt">Chci svá čísla →&#xFE0E;</a>
-    </div>
-    <button class="menu-btn" id="menu-open" aria-label="Otevřít menu">Menu</button>
+<header class="hdr">
+  <div class="top wrap">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>Ondřej Kamarýt</a>
+    <a class="btn btn-s btn-h" data-cal data-umami-event="cta-header" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit hovor <span aria-hidden="true">→&#xFE0E;</span></a>
   </div>
-</nav>
+</header>
 
-<!-- Mobile menu -->
-<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-  <div class="top">
-    <span class="brand"><span class="mark"></span>Ondřej Kamarýt</span>
-    <button id="menu-close" aria-label="Zavřít menu">Zavřít</button>
-  </div>
-  <nav class="links">
-    <a href="#problem" data-mm><span>Problém</span><span class="n">01</span></a>
-    <a href="#rozbor" data-mm><span>Rozbor zdarma</span><span class="n">02</span></a>
-    <a href="#produkt" data-mm><span>Produkt</span><span class="n">03</span></a>
-    <a href="#track-record" data-mm><span>Track record</span><span class="n">04</span></a>
-    <a href="#pro-koho" data-mm><span>Pro koho</span><span class="n">05</span></a>
-    <a href="#o-mne" data-mm><span>O mně</span><span class="n">06</span></a>
-    <a href="#kontakt" data-mm><span>Kontakt</span><span class="n">07</span></a>
-  </nav>
-  <div class="cta-block">
-    <a href="#kontakt" data-mm>Chci se podívat do svých čísel →&#xFE0E;</a>
-    <div class="contact">ondrej.kamaryt@gmail.com · +420 773 635 240</div>
-  </div>
-</div>
+<main>
+<!-- ═════════ ÚVOD: sdělení a výzva hned, hra s organigramem jako volitelný bonus ═════════ -->
+<section class="hero wrap" id="top" aria-labelledby="h1">
+  <div class="stage">
 
-<!-- ───────── HERO ───────── -->
-<section class="hero">
-  <div class="container">
-    <div class="inner">
-      <h1>
-        <span class="line">Uvidíte, kde váš obchod</span>
-        <span class="line"><span class="accent">ztrácí peníze.</span></span>
-        <span class="line">A jak to napravit.</span>
-      </h1>
-      <p class="sub">
-        Postavím vám obchodní systém: vyčištěné CRM, automatizace, které týmu vrátí hodiny týdně, a čísla, podle kterých se dá řídit. Šest týdnů, pevná cena, jasný konec.
-      </p>
-      <div class="ctas">
-        <a class="btn" href="#kontakt">Chci se podívat do svých čísel <span class="arrow">→&#xFE0E;</span></a>
-        <a class="btn btn--ghost" href="#produkt">Jak to probíhá <span class="arrow">↓&#xFE0E;</span></a>
+    <div class="intro">
+      <h1 class="h1" id="h1">Šéfa obchodu nemusíte <span class="hned">hned</span> zaměstnat.</h1>
+      <p class="sub">Na zkoušku povedu váš obchod externě: nejdřív nastavím obchodní proces, pak vedu obchodníky.</p>
+      <div class="cta-row">
+        <a class="btn btn-l" id="hero-cta" data-cal data-umami-event="cta-hero" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a>
+        <span class="cta-note">25&nbsp;minut zdarma, bez závazku</span>
       </div>
-      <p class="micro">Začínáme rozborem vašich čísel. Zdarma a nezávazně.</p>
-      <nav class="index" aria-label="Sekce">
-        <a href="#problem"><span>Problém</span><span class="n">01</span></a>
-        <a href="#rozbor"><span>Rozbor zdarma</span><span class="n">02</span></a>
-        <a href="#produkt"><span>Produkt</span><span class="n">03</span></a>
-        <a href="#track-record"><span>Track record</span><span class="n">04</span></a>
-        <a href="#pro-koho"><span>Pro koho</span><span class="n">05</span></a>
-        <a href="#o-mne"><span>O mně</span><span class="n">06</span></a>
-        <a href="#kontakt"><span>Kontakt</span><span class="n">07</span></a>
-      </nav>
     </div>
-  </div>
-</section>
 
-<!-- ───────── 01 PROBLÉM ───────── -->
-<section class="problem" id="problem">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 01</span>
-        <h2 class="sec-title">Problém</h2>
-      </div>
-      <div class="body">
-        <p class="h-big reveal">Většina firem neví, kde jim obchod <em>umírá</em>.</p>
-        <p class="reveal" data-delay="1">Ne proto, že by to nikoho nezajímalo. Ale protože ta informace není nikde vidět. CRM se plní jen napůl, důvody ztrát se nevyplňují, u půlky příležitostí není naplánovaný další krok. Majitel pak řídí obchod podle pocitu a podle toho, kdo zrovna hlasitěji mluví na poradě.</p>
-        <div class="points">
-          <div class="pt reveal">
-            <b>Nevíte, kolik z příležitostí reálně skončí obchodem.</b>
-            <span>A tím pádem nevíte, kolik jich potřebujete, aby vyšel rok.</span>
+    <div class="game">
+      <p id="hra-popis" hidden>Dnes chodí všichni obchodníci přímo za vámi a místo šéfa obchodu je volné. Se mnou jdou přese mě a vy dostáváte stručný přehled.</p>
+      <div class="board" id="board">
+        <svg class="wires" id="wires" aria-hidden="true"></svg>
+
+        <div class="row r-owner">
+          <div class="node owner" id="owner">
+            <span class="ava"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span>
+            <span class="txt"><b>Vy</b><small>majitel</small></span>
           </div>
-          <div class="pt reveal" data-delay="1">
-            <b>Nevíte, kde přesně to padá.</b>
-            <span>Jestli se nedovoláte, jestli neumíte nacenit, nebo jestli se jen zapomíná ozvat.</span>
-          </div>
-          <div class="pt reveal" data-delay="2">
-            <b>Nevíte, co vás to stálo.</b>
-            <span>Ztracené příležitosti nikdo nesčítá, protože v žádném reportu nejsou.</span>
+          <span class="brief">stručný přehled</span>
+        </div>
+
+        <div class="row r-seat">
+          <div class="seat" id="seat">
+            <svg class="ants" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="15"/></svg>
+            <span class="seat-empty"><span class="sq" aria-hidden="true"></span><span class="txt"><b>Šéf obchodu</b><small>volné místo</small></span></span>
+            <span class="node seat-filled" aria-hidden="true">
+              <span class="ava me"><picture><source srcset="assets/photo.webp" type="image/webp"><img src="assets/photo.png" alt="" width="600" height="800" draggable="false" decoding="async"></picture></span>
+              <span class="txt"><b>Ondřej</b><small>externě</small></span><span class="sq"></span>
+            </span>
           </div>
         </div>
+
+        <div class="row r-team">
+          <div class="team">
+            <span class="mate" style="--i:0"><span class="mate-in"><span class="ava"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span><span class="pipe"><i></i><i></i><i></i></span></span></span>
+            <span class="mate" style="--i:1"><span class="mate-in"><span class="ava"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span><span class="pipe"><i></i><i></i><i></i></span></span></span>
+            <span class="mate" style="--i:2"><span class="mate-in"><span class="ava"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span><span class="pipe"><i></i><i></i><i></i></span></span></span>
+            <span class="mate" style="--i:3"><span class="mate-in"><span class="ava"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span><span class="pipe"><i></i><i></i><i></i></span></span></span>
+          </div>
+          <span class="team-label">obchodníci</span>
+        </div>
+
+        <div class="row r-switch">
+          <label class="switch">
+            <span class="sw-k">Obchod stojí na</span>
+            <input class="sw-in sr" type="checkbox" id="sw" role="switch" aria-label="Obchod stojí na systému" aria-describedby="hra-popis">
+            <span class="track" aria-hidden="true"><span class="knob"></span><span class="opt o1">majiteli</span><span class="opt o2">systému</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="hand" id="hand">
+        <div class="hand-pad">
+          <label for="sw" class="node pcard" id="ondrej">
+            <span class="ava me"><picture><source srcset="assets/photo.webp" type="image/webp"><img src="assets/photo.png" alt="" width="600" height="800" draggable="false" decoding="async"></picture></span>
+            <span class="txt"><b>Ondřej</b><small>externě</small></span><span class="sq" aria-hidden="true"></span>
+          </label>
+          <p class="hint" aria-hidden="true"><span class="h-fine">←&#xFE0E;&nbsp;Přetáhněte kartu na volné místo.</span><span class="h-touch">←&#xFE0E;&nbsp;Ťukněte na kartu.</span></p>
+        </div>
+        <p class="won" role="status"><span>Postavím systém, aby obchod stál na sobě.</span><a data-cal data-umami-event="cta-hra" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit úvodní hovor<span aria-hidden="true">&nbsp;→&#xFE0E;</span></a></p>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ───────── 02 ROZBOR ZDARMA ───────── -->
-<section class="free" id="rozbor">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 02</span>
-        <h2 class="sec-title">Rozbor</h2>
+<!-- ═════════ PROČ NE HNED ZAMĚSTNANEC ═════════ -->
+<section class="sec wrap" id="proc">
+  <h2 class="h2"><span class="sq" aria-hidden="true"></span>Proč ne hned zaměstnanec?</h2>
+  <p class="why-lead">Co dřív chtělo člověka na plný úvazek, dnes zvládnu externě. Rutinu za mě dělá AI, takže můj čas patří vašim obchodníkům.</p>
+  <div class="proc">
+
+    <div class="tile race" id="race">
+      <div class="lane">
+        <span class="lane-k">Zaměstnanec <span class="flag">nástup často až <span id="nastup">za&nbsp;2&nbsp;měsíce</span>*</span></span>
+        <div class="track2">
+          <div class="segs"><span class="seg s-wait" style="width:18%">inzerát</span><span class="seg s-wait2" style="width:16%">nábor</span><span class="seg s-wait" style="width:28%">výpovědní doba</span><span class="seg s-work" style="width:38%">nástup</span></div>
+          <div class="segs lit" aria-hidden="true"><span class="seg s-wait" style="width:18%">inzerát</span><span class="seg s-wait2" style="width:16%">nábor</span><span class="seg s-wait" style="width:28%">výpovědní doba</span><span class="seg s-work" style="width:38%">nástup</span></div>
+          <span class="tok" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span>
+        </div>
       </div>
-      <div class="body">
-        <p class="h-big reveal">Rozbor vašich čísel.<br/><em>Zdarma</em> a nezávazně.</p>
-        <p class="lead reveal" data-delay="1">Z dat ve vašem CRM zpracuji analýzu obchodního procesu: kde se příležitosti zastavují, kolik jich propadá a co to firmu stojí. Výstup spolu projdeme na krátkém hovoru. Nepotřebuji od vás žádnou přípravu, stačí přístup pro čtení nebo export dat.</p>
+      <div class="lane">
+        <span class="lane-k">Externě</span>
+        <div class="track2">
+          <div class="segs"><span class="seg s-wait" style="width:18%">dohoda</span><span class="seg s-work" style="width:82%">začínáme</span></div>
+          <div class="segs lit" aria-hidden="true"><span class="seg s-wait" style="width:18%">dohoda</span><span class="seg s-work" style="width:82%">začínáme</span></div>
+          <span class="tok me" aria-hidden="true"><picture><source srcset="assets/photo.webp" type="image/webp"><img src="assets/photo.png" alt="" width="600" height="800" draggable="false" loading="lazy" decoding="async"></picture></span>
+        </div>
       </div>
-      <ul class="deliver reveal" data-delay="1">
-        <li>Kolik z vaší pipeline reálně končí obchodem a jestli se to mezi lidmi liší</li>
-        <li>V které fázi se příležitosti nejčastěji ztrácejí a jak dlouho tam leží</li>
-        <li>Kolik příležitostí nemá naplánovaný žádný další krok</li>
-        <li>Jak dlouho trvá vyhraný obchod proti prohranému</li>
-        <li>Kolik hodnoty leží v kategorii „ozveme se později" a jestli se někdo ozval</li>
-        <li>Tři věci, které se s tím dají udělat, a která z nich se vyplatí první</li>
+      <p class="race-note">* při výpovědi doručené dnes (§&nbsp;51 zákoníku práce)</p>
+      <button class="replay" id="replay" type="button" aria-label="Přehrát znovu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg></button>
+    </div>
+
+    <ul class="facts">
+      <li><span class="ico" aria-hidden="true"><svg class="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="M11.2 11.8L20 3M16.5 6.5l2.5 2.5M14 9l2 2"/></svg></span>Systém a&nbsp;postupy zůstanou vaše.</li>
+      <li><span class="ico" aria-hidden="true"><svg class="i-door" viewBox="0 0 24 24"><path d="M14 4H6v16h8"/><path d="M11 12h10M17.5 8.5L21 12l-3.5 3.5"/></svg></span>Dá se ukončit. Podmínky znáte předem.</li>
+      <li><span class="ico" aria-hidden="true"><svg class="i-tag" viewBox="0 0 24 24"><path d="M3.5 4.5h7.5l9.5 9.5-6.5 6.5L4.5 11z"/><circle cx="8.5" cy="9" r="1.6"/></svg></span>Pevná měsíční cena, bez odvodů a&nbsp;náboru.</li>
+    </ul>
+
+  </div>
+</section>
+
+<!-- ═════════ JAK TO PROBÍHÁ ═════════ -->
+<section class="sec wrap" id="jak">
+  <h2 class="h2"><span class="sq" aria-hidden="true"></span>Jak to probíhá</h2>
+  <ol class="steps">
+    <li class="step">
+      <div class="viz v1" aria-hidden="true">
+        <span class="ava me a-o"><picture><source srcset="assets/photo.webp" type="image/webp"><img src="assets/photo.png" alt="" width="600" height="800" draggable="false" loading="lazy" decoding="async"></picture></span>
+        <span class="ava a-m"><svg viewBox="0 0 40 40"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span>
+        <span class="bub b1"><i></i><i></i><i></i></span><span class="bub b2"><i></i><i></i><i></i></span><span class="bub b3"><i></i><i></i><i></i></span>
+      </div>
+      <div class="st-t"><span class="num">1</span><h3>Rozhovory</h3></div>
+      <p>S&nbsp;vámi i&nbsp;s&nbsp;obchodníky.</p>
+    </li>
+    <li class="step">
+      <!-- karty poptávka → nabídka → zakázka propojené spojnicí; na nabídce lístek se zápisem z hovoru, u zakázky tečka dalšího kroku v kalendáři -->
+      <div class="viz v2" aria-hidden="true">
+        <span class="pc pc1"><b>poptávka</b><i></i><i></i></span>
+        <span class="pw pw1"></span>
+        <span class="pc pc2"><b>nabídka</b><i></i><i></i><span class="memo"></span></span>
+        <span class="pw pw2"></span>
+        <span class="pc pc3"><b>zakázka</b><i></i><i></i><span class="cal"><i></i></span></span>
+      </div>
+      <div class="st-t"><span class="num">2</span><h3>Proces</h3></div>
+      <p>Od poptávky po zakázku: kdo co dělá, CRM, přehled čísel. AI tam, kde šetří čas: připraví podklady na schůzku, sepíše zápis z&nbsp;hovoru, pohlídá další krok.</p>
+    </li>
+    <li class="step">
+      <div class="viz v3" aria-hidden="true">
+        <span class="bars"><i style="--h:42%;--k:0"></i><i style="--h:66%;--k:1"></i><i style="--h:54%;--k:2"></i><i style="--h:84%;--k:3"></i></span>
+        <span class="sheet"><i></i><i></i><i></i></span>
+        <span class="ava a-own"><svg viewBox="0 0 40 40"><circle cx="20" cy="16" r="7.5"/><path d="M5 40c0-9 6.5-14.5 15-14.5S35 31 35 40z"/></svg></span>
+      </div>
+      <div class="st-t"><span class="num">3</span><h3>Vedení</h3></div>
+      <p>Porady nad čísly. Odpovídám za to, že každý týden víte, co se děje.</p>
+    </li>
+  </ol>
+
+  <a class="ticket" href="#kontakt" data-choice="crm" data-umami-event="ps-system">
+    <span class="t-main">
+      <span class="t-q"><span class="ps">P.S.</span>Šéfa nehledáte, jen chcete obchod zefektivnit?</span>
+      <span class="t-a">Obchodní systém: celý proces od poptávky po zakázku za 6&nbsp;týdnů. 120&nbsp;000&nbsp;Kč, pevná cena</span>
+    </span>
+    <span class="t-stub" aria-hidden="true">→&#xFE0E;</span>
+  </a>
+</section>
+
+<!-- ═════════ KDO POVEDE VÁŠ OBCHOD ═════════ -->
+<section class="sec wrap kdo" id="kdo">
+  <h2 class="h2"><span class="sq" aria-hidden="true"></span>Kdo povede váš obchod</h2>
+  <div class="kdo-grid">
+    <figure class="idcard" id="idcard">
+      <picture><source srcset="assets/photo.webp" type="image/webp"><img src="assets/photo.png" alt="Ondřej Kamarýt" width="600" height="800" draggable="false" loading="lazy" decoding="async"></picture>
+      <span class="id-sheen" aria-hidden="true"></span><span class="id-sq" aria-hidden="true"></span>
+    </figure>
+    <div class="kdo-txt">
+      <p class="name">Ondřej Kamarýt</p>
+      <ul class="bio">
+        <li>7 let v&nbsp;obchodě, předtím digitalizace poliklinik</li>
+        <li>proto systém i&nbsp;nastavím v&nbsp;CRM</li>
       </ul>
-      <div class="cta-row reveal" data-delay="2">
-        <a class="btn" href="#kontakt">Chci se podívat do svých čísel <span class="arrow">→&#xFE0E;</span></a>
-      </div>
+    </div>
+    <div class="tr">
+      <p class="tr-k">Výsledky z&nbsp;mé role v&nbsp;zaměstnání · FY&nbsp;2025</p>
+      <ul class="stats">
+        <li><b>50&#8239;%</b><span>obratu firmy jsem přinesl osobně</span></li>
+        <li><b>3×</b><span>větší tým</span></li>
+        <li><b>25&#8239;%</b><span>roční růst obratu</span></li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- ───────── 03 PRODUKT ───────── -->
-<section class="product" id="produkt">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 03</span>
-        <h2 class="sec-title">Produkt</h2>
-      </div>
-      <div class="top">
-        <p class="h-big reveal">Obchodní systém</p>
-        <div class="price reveal" data-delay="1">
-          <span class="v">120 000 Kč</span>
-          <span class="meta">/ Projekt · <b>6 týdnů</b><br/>Pevná cena</span>
+<!-- ═════════ KONTAKT ═════════ -->
+<section class="sec wrap" id="kontakt">
+  <div class="contact">
+    <div class="lead">
+      <h2 class="c-h">Poskládáme si <span class="cw">váš</span> obchod?</h2>
+      <div class="c-cta"><a class="btn btn-l light" data-cal data-umami-event="cta-kontakt" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a></div>
+      <ol class="flow" aria-label="Co bude po kliknutí">
+        <li>25&nbsp;minut zdarma</li>
+        <li>cena a&nbsp;rozsah</li>
+        <li>zkouška</li>
+      </ol>
+      <!-- Varianta po obsazení vedení (bez data, dokud ho Ondřej nerozhodne); náhled: ?stav=obsazeno -->
+      <p class="cap"><span class="dot" aria-hidden="true"></span><span id="cap" data-obsazeno="Vedení obchodu mám teď obsazené. Obchodní systém můžu začít hned.">Obchod vedu jen v&nbsp;jedné firmě. Teď můžu začít.</span></p>
+      <ul class="c-links">
+        <li><a href="mailto:ondrej.kamaryt@gmail.com">ondrej.kamaryt@gmail.com</a></li>
+        <li><a href="tel:+420773635240">+420&nbsp;773&nbsp;635&nbsp;240</a></li>
+        <li><a href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗&#xFE0E;</span></a></li>
+      </ul>
+    </div>
+
+    <div class="fcard" id="fcard">
+      <!-- Netlify Forms (formulář "rozbor" - stejný název jako dřív, ať platí nastavená upozornění). -->
+      <form id="form" name="rozbor" method="POST" action="/" netlify data-netlify="true" data-netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="rozbor">
+        <input type="hidden" name="zdroj" id="f-zdroj" value="">
+        <p class="hp" aria-hidden="true"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <h3>Nebo napište</h3>
+        <div class="f2">
+          <label class="fld"><span>Jméno</span><input name="jmeno" autocomplete="name" required></label>
+          <label class="fld"><span>Firma (nepovinné)</span><input name="firma" autocomplete="organization"></label>
         </div>
-        <p class="reveal" data-delay="1">Nedostanete report a rozloučení. Za šest týdnů vám postavím obchod tak, aby bylo vidět, co se v něm děje, a aby lidem přestalo mizet půl dne v administrativě.</p>
-      </div>
-      <div class="steps">
-        <div class="s reveal">
-          <span class="id">01</span>
-          <span class="wk">Týden 1</span>
-          <h4>Diagnostika</h4>
-          <p>Projdu data i lidi. Rozhovory s obchodníky, rozbor CRM, poslech hovorů. Výstup: co se děje a proč.</p>
+        <label class="fld"><span>E-mail nebo telefon</span><input name="kontakt" id="f-kontakt" autocomplete="email" required></label>
+        <fieldset class="chips">
+          <legend>S čím přicházíte</legend>
+          <div class="opts">
+            <label class="chip"><input type="radio" name="duvod" value="sef"><span class="pill"><i class="rd" aria-hidden="true"></i>Hledáme šéfa obchodu</span></label>
+            <label class="chip"><input type="radio" name="duvod" value="crm"><span class="pill"><i class="rd" aria-hidden="true"></i>Chceme zefektivnit obchod</span></label>
+            <label class="chip"><input type="radio" name="duvod" value="nevim"><span class="pill"><i class="rd" aria-hidden="true"></i>Zatím nevím</span></label>
+          </div>
+        </fieldset>
+        <button class="btn btn-l" type="submit" data-umami-event="form-submit"><span class="bl">Odeslat</span> <span class="arr" aria-hidden="true">→&#xFE0E;</span></button>
+        <p class="priv">Údaje použiji jen k&nbsp;odpovědi.</p>
+        <p class="err" id="form-err" role="alert" hidden>Zprávu se nepodařilo odeslat. Napište mi na <a href="mailto:ondrej.kamaryt@gmail.com">ondrej.kamaryt@gmail.com</a> nebo zavolejte <a href="tel:+420773635240">+420&nbsp;773&nbsp;635&nbsp;240</a>.</p>
+        <div class="thanks" id="thanks" tabindex="-1" hidden>
+          <span class="stamp" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <p>Díky! Ozvu se vám.</p>
+          <a data-cal data-umami-event="cta-dekuji" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Termín si můžete vybrat i&nbsp;hned<span aria-hidden="true">&nbsp;→&#xFE0E;</span></a>
         </div>
-        <div class="s reveal" data-delay="1">
-          <span class="id">02</span>
-          <span class="wk">Týden 2</span>
-          <h4>Návrh</h4>
-          <p>Fáze obchodu, co která znamená, co musí být vyplněné a co se v ní má stát. Dohodneme se, než se do čehokoli sáhne.</p>
-        </div>
-        <div class="s reveal" data-delay="2">
-          <span class="id">03</span>
-          <span class="wk">Týden 3 a 4</span>
-          <h4>CRM</h4>
-          <p>Nastavení fází a polí, vyčištění dat, sloučení duplicit, reporty, na kterých je vidět, kde to stojí.</p>
-        </div>
-        <div class="s reveal" data-delay="3">
-          <span class="id">04</span>
-          <span class="wk">Týden 4 a 5</span>
-          <h4>Automatizace a AI</h4>
-          <p>Příprava podkladů na schůzku, zápisy z hovorů, hlídání propadlých kroků, follow-upy. To, co dnes zabírá lidem hodiny, se děje samo.</p>
-        </div>
-        <div class="s reveal" data-delay="4">
-          <span class="id">05</span>
-          <span class="wk">Týden 6</span>
-          <h4>Předání</h4>
-          <p>Zaškolím tým na to, co vzniklo, a předám postupy zapsané tak, aby to fungovalo i beze mě.</p>
-        </div>
-      </div>
-      <div class="exclude reveal">
-        <b>Co v tom není:</b> nábor lidí a převzetí odpovědnosti za vaše obchodní výsledky. Soustředím se na systém, tedy na procesy, data a nástroje. Rozvoj obchodních dovedností řeším ve spolupráci s partnery z LifeScale Group, takže i na to umím navázat.
-      </div>
-      <div class="next reveal">
-        <span class="k">Co bývá dál</span>
-        <p>Většina spoluprací projektem končí a systém si firma vede sama, což je záměr. Někdy ale dává smysl pokračovat: pravidelný pipeline review, práce s daty a vedení obchodu na částečný úvazek.</p>
-      </div>
+      </form>
     </div>
   </div>
 </section>
+</main>
 
-<!-- ───────── 04 TRACK RECORD ───────── -->
-<section class="numbers" id="track-record">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 04</span>
-        <h2 class="sec-title">Track record</h2>
-      </div>
-      <div class="intro">
-        <p class="h-big reveal">Neradím <em>od stolu</em>.</p>
-        <p class="reveal" data-delay="1">Začínal jsem jako organizátor vzdělávacích kurzů a skončil jako obchodní ředitel celé skupiny. Vím, co váš obchodník během dne dělá a čemu se vyhýbá, protože jsem to dělal taky. A protože jsem předtím pracoval v IT a digitalizoval polikliniky, umím to nejen popsat, ale i postavit.</p>
-        <p class="reveal" data-delay="1">Obchod jsem stavěl pro firmy od pěti lidí po korporát, naposledy jako obchodní ředitel skupiny s vlastním týmem.</p>
-      </div>
-      <div class="triplet">
-        <div class="stat reveal">
-          <span class="num">50<span class="u">%</span></span>
-          <span class="lbl">- Obratu firmy</span>
-          <span class="desc">který jsem za poslední rok přinesl osobně - a u toho rozvíjel vlastní tým, který vyrostl 3×.</span>
-        </div>
-        <div class="stat reveal" data-delay="1">
-          <span class="num">20<span class="u">h</span></span>
-          <span class="lbl">- Týdně ušetřeno</span>
-          <span class="desc">automatizací rutinních procesů, které jsem nasadil.</span>
-        </div>
-        <div class="stat reveal" data-delay="2">
-          <span class="num">25<span class="u">%</span></span>
-          <span class="lbl">- Roční růst obratu</span>
-          <span class="desc">díky novému strategickému směru, který se stal hlavním zaměřením firmy.</span>
-        </div>
-      </div>
-      <div class="fy reveal">FY 2025 · LifeScale Group</div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────── 05 PRO KOHO ───────── -->
-<section class="fit" id="pro-koho">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 05</span>
-        <h2 class="sec-title">Pro koho</h2>
-      </div>
-      <div class="title reveal">
-        <p class="h-big">Pro koho je to <em>určené</em>.</p>
-      </div>
-      <div class="cols">
-        <div class="col yes reveal">
-          <div class="k">Dává to smysl, když</div>
-          <ul>
-            <li>Obchodní tým tvoří dva až osm lidí</li>
-            <li>CRM máte, ale tým v něm nepracuje důsledně, nebo evidujete v Excelu</li>
-            <li>Firma roste a začíná se to projevovat na efektivitě obchodu</li>
-            <li>Majitel musí do obchodu opakovaně zasahovat, aby se věci pohnuly</li>
-          </ul>
-        </div>
-        <div class="col no reveal" data-delay="1">
-          <div class="k">Nedává to smysl, když</div>
-          <ul>
-            <li>Hledáte rozvoj obchodních dovedností, ne systém</li>
-            <li>Očekáváte převzetí odpovědnosti za obchodní výsledky</li>
-            <li>Obchod máte nastavený a potřebujete rozšířit kapacitu týmu</li>
-            <li>Potřebujete výsledek v řádu dnů</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────── 06 O MNĚ ───────── -->
-<section class="about" id="o-mne">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 06</span>
-        <h2 class="sec-title">O mně</h2>
-        <a class="head-link" href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profil">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-        </a>
-      </div>
-      <div class="portrait reveal" data-delay="1">
-        <picture>
-          <source srcset="assets/photo.webp" type="image/webp" />
-          <img class="photo" src="assets/photo.png" alt="Ondřej Kamarýt" width="600" height="800" />
-        </picture>
-      </div>
-      <div class="body">
-        <p class="reveal" data-delay="1">Obchodu se věnuji sedm let. Začínal jsem u telefonu, prošel jsem si pozicí obchodníka i vedoucího a skončil jako obchodní ředitel celé skupiny. Cestou jsem zjistil, že většina problémů v obchodě nejsou lidé, ale to, že jim nikdo nedal systém, ve kterém se dá efektivně pracovat.</p>
-        <p class="reveal" data-delay="2">Předtím jsem pracoval v IT a digitalizoval polikliniky. Díky tomu nekončím u doporučení. Co navrhnu, umím i postavit, a nemusíte kvůli tomu shánět další firmu.</p>
-        <p class="reveal" data-delay="2">Beru obchod jako řemeslo. Proces, nástroje, lidi. Ne jako kouzlo nebo charisma.</p>
-      </div>
-      <dl class="meta-bar reveal" data-delay="2">
-        <div><dt>Současná role</dt><dd>Obchodní ředitel <span class="acc">@ LifeScale Group</span></dd></div>
-        <div><dt>Background</dt><dd>IT · <span class="acc">Digitalizace zdravotnictví</span></dd></div>
-        <div><dt>Zaměření</dt><dd>CRM, automatizace, AI v obchodě, reporting</dd></div>
-        <div><dt>Přístup</dt><dd><span class="acc">Postavím to</span>, nejen poradím</dd></div>
-      </dl>
-    </div>
-  </div>
-</section>
-
-<!-- ───────── 07 KONTAKT ───────── -->
-<section class="contact" id="kontakt">
-  <div class="container">
-    <div class="inner">
-      <div class="head reveal">
-        <span class="sec-head">- 07</span>
-        <h2 class="sec-title">Kontakt</h2>
-      </div>
-      <div class="body reveal" data-delay="1">
-        <h2>Chcete vidět<br/>svoje <em>čísla</em>?</h2>
-        <p>Napište mi pár řádků o tom, jak dnes obchod evidujete. Ozvu se do jednoho pracovního dne, domluvíme si krátký hovor a rozbor vašich čísel pak zpracuji. Bez závazku.</p>
-        <div class="details">
-          <div class="block">
-            <span>E-mail</span>
-            <a href="mailto:ondrej.kamaryt@gmail.com">ondrej.kamaryt@gmail.com</a>
-          </div>
-          <div class="block">
-            <span>Telefon</span>
-            <a href="tel:+420773635240">+420 773 635 240</a>
-          </div>
-          <div class="block">
-            <span>LinkedIn</span>
-            <a href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener noreferrer">/in/ondrej-kamaryt ↗&#xFE0E;</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="formwrap reveal" data-delay="2">
-        <form id="lead-form" name="rozbor" method="POST" netlify data-netlify="true" data-netlify-honeypot="bot-field" action="/">
-          <input type="hidden" name="form-name" value="rozbor" />
-          <p class="hp"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
-
-          <div class="field">
-            <label for="f-jmeno">Jméno</label>
-            <input id="f-jmeno" name="jmeno" type="text" required autocomplete="name" placeholder="Jan Novák" />
-          </div>
-          <div class="field">
-            <label for="f-firma">Firma</label>
-            <input id="f-firma" name="firma" type="text" required autocomplete="organization" placeholder="Novák s.r.o." />
-          </div>
-          <div class="field">
-            <label for="f-kontakt">E-mail nebo telefon</label>
-            <input id="f-kontakt" name="kontakt" type="text" required autocomplete="email" placeholder="jan@novak.cz" />
-          </div>
-          <div class="field">
-            <label for="f-crm">Co používáte za CRM</label>
-            <input id="f-crm" name="crm" type="text" required placeholder="Pipedrive, Excel, nic…" />
-          </div>
-
-          <button class="btn" type="submit">Odeslat <span class="arrow">→&#xFE0E;</span></button>
-        </form>
-
-        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
-
-        <p class="formnote">Ozvu se do jednoho pracovního dne. Vaše údaje nikam nepředávám.</p>
-        <p class="alt">Preferujete rovnou termín? <a href="#" data-cal-link="ondrej-kamaryt/vstupni-konzultace-zdarma" onclick="event.preventDefault(); event.stopPropagation(); if(window.umami)umami.track('booking-click'); Cal('modal', {calLink: 'ondrej-kamaryt/vstupni-konzultace-zdarma'});">Vyberte si 25 minut v kalendáři →&#xFE0E;</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="col">© 2026 Ondřej Kamarýt</div>
-  <div class="col">Set in Helvetica Neue &amp; JetBrains Mono</div>
-  <div class="col"><a href="https://www.linkedin.com/in/ondrej-kamaryt/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗&#xFE0E;</span></a></div>
+<footer class="foot wrap">
+  <span>© 2026 Ondřej Kamarýt · Praha · osobně i&nbsp;online</span>
 </footer>
 
+
+<div class="bar" id="bar" aria-hidden="true">
+  <a class="btn btn-l" data-cal data-umami-event="cta-lista" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener" tabindex="-1">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a>
+</div>
+
 <script>
-  // ── Sticky nav scroll effect
-  const nav = document.getElementById("topnav");
-  const onScroll = () => {
-    if (window.scrollY > 32) nav.classList.add("scrolled");
-    else nav.classList.remove("scrolled");
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+(() => {
+  'use strict';
+  // Odkaz do kalendáře pro odkazy s data-cal. Po založení události přepnout na https://cal.com/ondrej-kamaryt/uvodni-hovor,
+  // a to zároveň se 6 statickými href u odkazů s data-cal (běh bez JS). Kontrola: v souboru nesmí zůstat jiný odkaz na cal.com než .../uvodni-hovor.
+  const CAL_URL = 'https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma';
 
-  // ── Mobile menu
-  const menuOpen = document.getElementById("menu-open");
-  const menuClose = document.getElementById("menu-close");
-  const mobileMenu = document.getElementById("mobile-menu");
-  const openMenu = () => { mobileMenu.classList.add("open"); document.body.style.overflow = "hidden"; };
-  const closeMenu = () => { mobileMenu.classList.remove("open"); document.body.style.overflow = ""; };
-  menuOpen?.addEventListener("click", openMenu);
-  menuClose?.addEventListener("click", closeMenu);
-  document.querySelectorAll("[data-mm]").forEach(a => a.addEventListener("click", closeMenu));
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const qs = new URLSearchParams(location.search);
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  // každá část zvlášť: když jedna spadne, ostatní (hlavně formulář a výzvy) běží dál
+  const part = (name, fn) => { try { fn(); } catch (e) { console.error('[' + name + ']', e); } };
 
-  // ── Scroll reveal
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("in");
-        io.unobserve(e.target);
+  /* ───────── výzvy do kalendáře ───────── */
+  part('cal', () => { $$('[data-cal]').forEach((a) => { a.href = CAL_URL; }); });
+
+  /* ───────── datum nástupu zaměstnance (§ 51 ZP po novele 120/2025 Sb.) ─────────
+     Výpovědní doba začíná dnem doručení výpovědi a končí dnem, který se s ním číslem shoduje
+     (2 měsíce); není-li takový den v posledním měsíci, končí posledním dnem měsíce. Nástup = den poté.
+     Bez JS zůstává „za 2 měsíce“. */
+  part('nastup', () => {
+    const el = $('#nastup');
+    if (!el) return;
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    const last = new Date(t.getFullYear(), t.getMonth() + 3, 0).getDate();
+    const end = new Date(t.getFullYear(), t.getMonth() + 2, Math.min(t.getDate(), last));
+    const start = new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1);
+    const NB = ' ';
+    el.textContent = `${start.getDate()}.${NB}${start.getMonth() + 1}.` + (start.getFullYear() !== t.getFullYear() ? NB + start.getFullYear() : '');
+  });
+
+  /* ───────── hra s organigramem ───────── */
+  part('hra', () => {
+    const hero = $('#top'), board = $('#board'), svg = $('#wires');
+    const owner = $('#owner'), seat = $('#seat'), card = $('#ondrej'), sw = $('#sw');
+    const mates = $$('.mate');
+    const seatEmpty = $('.seat-empty'), seatFilled = $('.seat-filled'), wonLink = $('.won a');
+    let on = false, busy = false, returning = false, touched = false;
+
+    // tlačítko až se skriptem: bez JS je karta obyčejný label přepínače (klávesnice má checkbox)
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', 'Ondřej externě: posadit na volné místo šéfa obchodu');
+    card.setAttribute('aria-describedby', 'hra-popis');
+
+    /* spojnice (SVG) */
+    const NS = 'http://www.w3.org/2000/svg';
+    const mk = (cls, attrs) => {
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', cls);
+      if (attrs) for (const k in attrs) p.setAttribute(k, attrs[k]);
+      svg.appendChild(p);
+      return p;
+    };
+    const wDash = mk('w w-dash');
+    const wDirect = mates.map(() => mk('w w-direct'));
+    const wOsGlow = mk('w w-glow', { pathLength: 1 });
+    const wOs = mk('w w-lit', { pathLength: 1 });
+    const wSeatGlow = mates.map((_, i) => mk('w w-glow w-seat', { pathLength: 1, style: '--i:' + i }));
+    const wSeat = mates.map((_, i) => mk('w w-lit w-seat', { pathLength: 1, style: '--i:' + i }));
+
+    let B = null;
+    const rel = (el) => {
+      const r = el.getBoundingClientRect();
+      const x = r.left - B.left, y = r.top - B.top;
+      return { x, y, w: r.width, h: r.height, cx: x + r.width / 2, cy: y + r.height / 2, r: x + r.width, b: y + r.height };
+    };
+    // horní střed karty i když je natočená (čte aktuální matici transformace)
+    const topOf = (el) => {
+      const c = rel(el), h = el.offsetHeight;
+      let mc = 0, md = 1;
+      const m = getComputedStyle(el).transform;
+      if (m && m !== 'none') {
+        const v = m.match(/matrix\(([^)]+)\)/);
+        if (v) { const n = v[1].split(',').map(parseFloat); mc = n[2]; md = n[3]; }
       }
-    });
-  }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+      return { x: c.cx - mc * h / 2, y: c.cy - md * h / 2 };
+    };
 
-  // ── Formulář: odeslání bez opuštění stránky (Netlify Forms)
-  const form = document.getElementById("lead-form");
-  const statusEl = document.getElementById("form-status");
-
-  form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector("button[type=submit]");
-    const original = btn.innerHTML;
-    btn.disabled = true;
-    btn.textContent = "Odesílám…";
-
-    try {
-      const data = new FormData(form);
-      await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(data).toString(),
+    function draw() {
+      B = board.getBoundingClientRect();
+      if (!B.width) return;
+      const o = rel(owner), s = rel(seat);
+      const n = mates.length, mid = (n - 1) / 2;
+      wDash.setAttribute('d', `M${o.cx},${o.b}L${s.cx},${s.y}`);
+      const os = `M${o.cx},${o.b - 8}L${s.cx},${s.y + 8}`;
+      wOs.setAttribute('d', os);
+      wOsGlow.setAttribute('d', os);
+      mates.forEach((m, i) => {
+        const t = topOf(m);
+        // přímé dráty od majitele ke každému obchodníkovi, obtáčí prázdné místo
+        const side = i < mid ? -1 : 1;
+        const outer = Math.abs(i - mid) > 1 ? 1 : 0;
+        const lane = side < 0 ? s.x - 13 - outer * 11 : s.r + 13 + outer * 11;
+        const sx = o.cx + (i - mid) * 12, sy = o.b - 10, my = s.cy;
+        const k1 = (my - sy) * 0.6, k2 = (t.y - my) * 0.55;
+        wDirect[i].setAttribute('d', `M${sx},${sy}C${sx},${sy + k1 * 0.5} ${lane},${my - k1 * 0.55} ${lane},${my}S${t.x},${t.y - k2} ${t.x},${t.y + 6}`);
+        // čistý strom: šéf obchodu - obchodníci
+        const bx = s.cx, by = s.b - 8, ey = t.y + 6, ym = s.b + (t.y - s.b) * 0.5;
+        const dx = t.x - bx, dir = Math.sign(dx) || 1;
+        const r = Math.max(0, Math.min(12, Math.abs(dx) / 2, (t.y - s.b) / 3));
+        const p = Math.abs(dx) < 1
+          ? `M${bx},${by}V${ey}`
+          : `M${bx},${by}V${ym - r}Q${bx},${ym} ${bx + dir * r},${ym}H${t.x - dir * r}Q${t.x},${ym} ${t.x},${ym + r}V${ey}`;
+        wSeat[i].setAttribute('d', p);
+        wSeatGlow[i].setAttribute('d', p);
       });
-      form.style.display = "none";
-      statusEl.className = "form-status show";
-      statusEl.innerHTML = "<b>Odesláno.</b>Ozvu se vám do jednoho pracovního dne a domluvíme si těch patnáct minut.";
-      if (window.umami) umami.track("form-submit");
-    } catch (err) {
-      btn.disabled = false;
-      btn.innerHTML = original;
-      statusEl.className = "form-status show err";
-      statusEl.innerHTML = "<b>Nepodařilo se odeslat.</b>Napište mi prosím přímo na ondrej.kamaryt@gmail.com nebo zavolejte na +420 773 635 240.";
     }
-  });
 
-  // ── Měření: kolik lidí došlo k formuláři
-  const formWrap = document.querySelector(".formwrap");
-  if (formWrap) {
-    const fio = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (en.isIntersecting) {
-          if (window.umami) umami.track("form-view");
-          fio.unobserve(en.target);
+    /* překreslení spojnic: jen po změně (kick), smyčka se sama zastaví, když se nic nehýbe.
+       Jediný pohyb: pobídka, dosednutí karty a přechod obchodníků do stavu „systému“ (kick na dobu přechodu). */
+    let raf = 0, inView = true, until = 0;
+    function frame(now) {
+      raf = 0;
+      draw();
+      if (now < until) raf = requestAnimationFrame(frame);
+    }
+    function kick(ms) {
+      until = Math.max(until, performance.now() + (ms || 0));
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) kick(); }).observe(board);
+    }
+    if ('ResizeObserver' in window) new ResizeObserver(() => kick(80)).observe(board);
+    else addEventListener('resize', () => kick(80));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+    if (document.fonts) { document.fonts.ready.then(() => kick(80)); document.fonts.addEventListener('loadingdone', () => kick(80)); }
+
+    /* fyzika karty */
+    const REST = { x: 0, y: 0, r: 0 };
+    const st = { x: 0, y: 0, r: 0 }, vel = { x: 0, y: 0, r: 0 };
+    const apply = () => { card.style.transform = `translate(${st.x.toFixed(2)}px,${st.y.toFixed(2)}px) rotate(${st.r.toFixed(2)}deg)`; };
+    let sAnim = 0;
+    function springTo(tg, k, c, done, onStep) {
+      cancelAnimationFrame(sAnim);
+      let last = performance.now();
+      const t0 = last;
+      const step = (now) => {
+        const dt = Math.min(0.1, (now - last) / 1000), sub = Math.max(1, Math.ceil(dt / 0.006)), h = dt / sub;
+        last = now;
+        let settled = true;
+        for (const key in tg) {
+          for (let j = 0; j < sub; j++) {
+            const f = -k * (st[key] - tg[key]) - c * vel[key];
+            vel[key] += f * h; st[key] += vel[key] * h;
+          }
+          if (Math.abs(st[key] - tg[key]) > 1 || Math.abs(vel[key]) > 25) settled = false;
         }
+        if (now - t0 > 1600) settled = true; // pojistka pro přiškrcené snímky
+        apply();
+        if (onStep) onStep();
+        if (settled) {
+          Object.assign(st, tg); vel.x = vel.y = vel.r = 0; apply(); sAnim = 0;
+          if (done) done();
+        } else sAnim = requestAnimationFrame(step);
+      };
+      sAnim = requestAnimationFrame(step);
+    }
+
+    function setAria(isOn) {
+      seatEmpty.setAttribute('aria-hidden', String(isOn));
+      seatFilled.setAttribute('aria-hidden', String(!isOn));
+    }
+
+    /* posadit na volné místo */
+    function place() {
+      if (on || (busy && !returning)) return;
+      cancelAnimationFrame(sAnim); returning = false;
+      busy = true; stopNudge(); seat.classList.remove('hot');
+      const c = card.getBoundingClientRect(), s = seat.getBoundingClientRect();
+      const lx = c.left + c.width / 2 - st.x, ly = c.top + c.height / 2 - st.y;
+      const tg = { x: s.left + s.width / 2 - lx, y: s.top + s.height / 2 - ly, r: 0 };
+      if (RM) { Object.assign(st, tg); commit(); return; }
+      card.classList.add('lift');
+      const d0 = Math.hypot(tg.x - st.x, tg.y - st.y);
+      springTo(tg, 230, 24, commit, () => {
+        if (Math.hypot(tg.x - st.x, tg.y - st.y) < Math.min(44, d0 * 0.35)) card.classList.remove('lift');
       });
-    }, { threshold: 0.4 });
-    fio.observe(formWrap);
-  }
+    }
+    function commit() {
+      const hadFocus = document.activeElement === card; // karta teď zmizí: fokus převezme výzva na jejím místě
+      card.classList.remove('lift');
+      on = true; busy = false;
+      hero.classList.add('on');
+      sw.checked = true;
+      if (hadFocus && wonLink) wonLink.focus({ preventScroll: true });
+      card.style.transform = ''; Object.assign(st, REST);
+      seat.classList.remove('ripple'); void seat.offsetWidth; seat.classList.add('ripple');
+      setAria(true);
+      kick(1900);
+    }
+    /* zpět: obchod zase stojí na majiteli */
+    function unplace() {
+      if (!on || busy) return;
+      busy = true;
+      const s = seat.getBoundingClientRect();
+      hero.classList.add('instant-hand');
+      hero.classList.remove('on');
+      on = false; sw.checked = false; setAria(false);
+      const c = card.getBoundingClientRect();
+      st.x = s.left + s.width / 2 - (c.left + c.width / 2);
+      st.y = s.top + s.height / 2 - (c.top + c.height / 2);
+      st.r = 0; apply();
+      void hero.offsetWidth;
+      requestAnimationFrame(() => hero.classList.remove('instant-hand'));
+      kick(1900);
+      if (RM) { Object.assign(st, REST); card.style.transform = ''; busy = false; return; }
+      card.classList.add('lift'); returning = true;
+      springTo(REST, 200, 20, () => { card.style.transform = ''; busy = false; returning = false; }, () => {
+        if (Math.hypot(st.x, st.y) < 40) card.classList.remove('lift');
+      });
+    }
 
-  // ── Měření: kliknutí na hlavní CTA
-  document.querySelectorAll('a.btn[href="#kontakt"], nav.sticky a.cta').forEach((el) => {
-    el.addEventListener("click", () => { if (window.umami) umami.track("cta-click"); });
+    /* tah myší / prstem */
+    let drag = null, dRaf = 0;
+    function isHot() {
+      const c = card.getBoundingClientRect(), s = seat.getBoundingClientRect();
+      const dist = Math.hypot((c.left + c.width / 2) - (s.left + s.width / 2), (c.top + c.height / 2) - (s.top + s.height / 2));
+      const hot = dist < Math.max(84, s.height * 1.5);
+      seat.classList.toggle('hot', hot);
+      return hot;
+    }
+    function dragLoop() {
+      if (!drag) return;
+      drag.vx *= 0.86;
+      const tr = Math.max(-16, Math.min(16, drag.vx * 0.035));
+      st.r += (tr - st.r) * 0.22;
+      apply(); isHot();
+      dRaf = requestAnimationFrame(dragLoop);
+    }
+    card.addEventListener('pointerdown', (e) => {
+      if (on || (busy && !returning) || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      e.preventDefault();
+      touch();
+      cancelAnimationFrame(sAnim);
+      busy = false; returning = false; // kartu jde chytit i cestou zpět
+      try { card.setPointerCapture(e.pointerId); } catch (_) { /* nic */ }
+      drag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: st.x, oy: st.y, moved: false, lx: e.clientX, lt: performance.now(), vx: 0 };
+      card.classList.add('lift');
+      dRaf = requestAnimationFrame(dragLoop);
+    });
+    card.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+      if (!drag.moved && Math.hypot(dx, dy) > 6) drag.moved = true;
+      const now = performance.now(), dt = Math.max(8, now - drag.lt);
+      drag.vx = drag.vx * 0.5 + ((e.clientX - drag.lx) / dt * 1000) * 0.5;
+      drag.lx = e.clientX; drag.lt = now;
+      st.x = drag.ox + dx; st.y = drag.oy + dy;
+    });
+    const release = (e, cancel) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const moved = drag.moved;
+      drag = null; cancelAnimationFrame(dRaf);
+      const hot = isHot();
+      card.classList.remove('lift');
+      if (!cancel && (!moved || hot)) { place(); return; }
+      seat.classList.remove('hot');
+      busy = true; returning = true;
+      springTo(REST, 210, 19, () => { card.style.transform = ''; busy = false; returning = false; });
+    };
+    let lastPtr = -1e9;
+    card.addEventListener('pointerup', (e) => { lastPtr = performance.now(); release(e, false); });
+    card.addEventListener('pointercancel', (e) => { lastPtr = performance.now(); release(e, true); });
+    card.addEventListener('click', (e) => {
+      e.preventDefault(); // label by jinak přepnul checkbox sám
+      // klik bez ukazatele (čtečka, hlasové ovládání, el.click()) kartu posadí; klik po tahu už obsloužil pointerup
+      if (e.detail === 0 || performance.now() - lastPtr > 400) { touch(); place(); }
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); touch(); place(); }
+    });
+    card.addEventListener('focus', () => touch()); // kdo je na kartě klávesnicí, tomu se sama neposadí
+    sw.addEventListener('change', () => {
+      touch();
+      if (busy && !returning) { sw.checked = on; return; }
+      if (sw.checked) place(); else unplace();
+    });
+
+    /* pobídka: karta se jednou pohne k volnému místu; kdo nehraje, tomu se asi po 5 s (od zobrazení desky)
+       jednou posadí sama (sdělení „se mnou“ nesmí být jen za hrou). Přepínač „majiteli“ ji vrátí a hru jde zopakovat. */
+    let nudgeT = 0, nudges = 0;
+    function nudge() {
+      if (touched || on) return;
+      if (inView && !document.hidden) {
+        nudges++;
+        card.classList.remove('nudge'); void card.offsetWidth; card.classList.add('nudge');
+        seat.classList.add('beckon');
+        setTimeout(() => seat.classList.remove('beckon'), 1300);
+      }
+      nudgeT = nudges < 1 ? setTimeout(nudge, 1500) : setTimeout(autoPlace, 3200);
+    }
+    function autoPlace() {
+      if (touched || on) return;
+      if (inView && !document.hidden && !busy) place();
+      else nudgeT = setTimeout(autoPlace, 1500);
+    }
+    function stopNudge() { clearTimeout(nudgeT); card.classList.remove('nudge'); seat.classList.remove('beckon'); }
+    function touch() { if (touched) return; touched = true; stopNudge(); }
+
+    if (RM) commit(); // omezený pohyb: rovnou stav „systému“, bez pobídek
+    else nudgeT = setTimeout(nudge, 1800);
+    kick(200);
   });
-</script>
 
+  /* ───────── spuštění animací při zobrazení ───────── */
+  const watch = (el, fn, th, both) => {
+    if (!('IntersectionObserver' in window)) { fn(el, true); return; }
+    const ob = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { fn(e.target, true); if (!both) ob.unobserve(e.target); }
+      else if (both) fn(e.target, false);
+    }), { threshold: th });
+    ob.observe(el);
+  };
+  part('zavod', () => {
+    const race = $('#race');
+    const playRace = () => { race.classList.remove('play'); void race.offsetWidth; race.classList.add('play'); };
+    watch(race, playRace, 0.5, false);
+    $('#replay').addEventListener('click', playRace);
+  });
+  part('kroky', () => { $$('.viz').forEach((v) => watch(v, (el, vis) => el.classList.toggle('play', vis), 0.25, true)); });
+
+  /* ───────── karta s fotkou se naklání za kurzorem ───────── */
+  part('foto', () => {
+    const idc = $('#idcard');
+    if (!idc || RM || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    idc.addEventListener('pointermove', (e) => {
+      const r = idc.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      idc.classList.add('tilting');
+      idc.style.setProperty('--ry', ((px - 0.5) * 16).toFixed(2) + 'deg');
+      idc.style.setProperty('--rx', ((0.5 - py) * 12).toFixed(2) + 'deg');
+      idc.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+      idc.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    });
+    idc.addEventListener('pointerleave', () => {
+      idc.classList.remove('tilting');
+      ['--rx', '--ry', '--mx', '--my'].forEach((p) => idc.style.removeProperty(p));
+    });
+  });
+
+  /* ───────── lepivá výzva: na desktopu ztmavne v hlavičce, na mobilu vyjede spodní lišta ───────── */
+  part('lista', () => {
+    const hdr = $('.hdr'), bar = $('#bar'), heroCta = $('#hero-cta'), contact = $('#kontakt');
+    if (!('IntersectionObserver' in window) || !heroCta || !bar) return;
+    const link = $('a', bar);
+    let passed = false, inContact = false;
+    const upd = () => {
+      hdr.classList.toggle('stuck', passed);
+      const show = passed && !inContact;
+      bar.classList.toggle('show', show);
+      bar.setAttribute('aria-hidden', String(!show));
+      link.tabIndex = show ? 0 : -1;
+    };
+    new IntersectionObserver(([e]) => { passed = !e.isIntersecting && e.boundingClientRect.top < 0; upd(); }).observe(heroCta);
+    new IntersectionObserver(([e]) => { inContact = e.isIntersecting; upd(); }, { rootMargin: '0px 0px -25% 0px' }).observe(contact);
+  });
+
+  /* ───────── kapacita: náhled varianty pro obsazené vedení (?stav=obsazeno) ───────── */
+  part('kapacita', () => {
+    const cap = $('#cap');
+    if (cap && qs.get('stav') === 'obsazeno') cap.textContent = cap.dataset.obsazeno;
+  });
+
+  /* ───────── formulář ───────── */
+  part('formular', () => {
+    const form = $('#form');
+    if (!form) return;
+    const fcard = $('#fcard'), th = $('#thanks'), err = $('#form-err');
+    const btn = $('button[type="submit"]', form), btnLabel = $('.bl', btn);
+    const kontakt = form.elements.kontakt;
+    const pick = (v, pop) => {
+      const r = $(`input[name="duvod"][value="${v}"]`, form);
+      if (!r) return;
+      r.checked = true;
+      if (pop) { const ch = r.closest('.chip'); ch.classList.remove('pop'); void ch.offsetWidth; ch.classList.add('pop'); }
+    };
+
+    // Předvolba jen z kontextu: odkaz z oslovení dá "Hledáme šéfa obchodu", P.S. dá "Chceme zefektivnit obchod".
+    if (qs.get('utm_source') === 'osloveni') pick('sef');
+    $$('[data-choice]').forEach((a) => a.addEventListener('click', () => pick(a.dataset.choice, true)));
+    // Skrytý zdroj: utm parametry z adresy, ať je v Netlify vidět, odkud poptávka přišla.
+    const zdroj = $('#f-zdroj');
+    if (zdroj) zdroj.value = [...qs].filter(([k]) => k.startsWith('utm_')).map(([k, v]) => `${k}=${v}`).join('&');
+
+    // Kontakt: e-mail (obsahuje @), nebo telefon (aspoň 9 číslic).
+    const checkK = () => {
+      const v = kontakt.value.trim();
+      const ok = v.includes('@') || (v.match(/\d/g) || []).length >= 9;
+      kontakt.setCustomValidity(ok ? '' : 'Zadejte e-mail nebo telefon.');
+      return ok;
+    };
+    checkK();
+    kontakt.addEventListener('input', checkK);
+    kontakt.addEventListener('blur', () => { kontakt.value = kontakt.value.trim(); checkK(); });
+
+    const send = async () => {
+      if (form.dataset.proto) { // prototyp: nic neodesílat, jen nasimulovat odpověď serveru
+        await sleep(450);
+        return { ok: !/[?&]chyba/.test(location.search) };
+      }
+      return fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString(),
+      });
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      kontakt.value = kontakt.value.trim(); checkK();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      err.hidden = true; btn.disabled = true; btnLabel.textContent = 'Odesílám…';
+      let ok = false;
+      try { const res = await send(); ok = !!(res && res.ok); } catch (_) { ok = false; }
+      btn.disabled = false; btnLabel.textContent = 'Odeslat';
+      if (!ok) { err.hidden = false; return; }
+      if (window.umami) window.umami.track('form-ok');
+      // pole pod poděkováním už nejsou v pořadí tabulátoru ani pro čtečku
+      [...form.children].forEach((el) => { if (el !== th) el.inert = true; });
+      if (!('inert' in HTMLElement.prototype)) $$('input, button', form).forEach((el) => { el.tabIndex = -1; });
+      th.hidden = false;
+      requestAnimationFrame(() => fcard.classList.add('sent'));
+      th.focus({ preventScroll: true });
+    });
+  });
+
+  // pojistka v <head>: bez tohoto příznaku se stránka po 4 s vrátí do režimu bez JS; když skript doběhne později, režim s JS se vrátí
+  document.documentElement.classList.add('js');
+  window.f2ready = true;
+})();
+</script>
 </body>
 </html>

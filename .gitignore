@@ -16,3 +16,6 @@ desktop.ini
 
 # Backups
 *.bak
+
+# Lokální prototypy redesignu (nepublikovat, necommitovat)
+prototypes/
