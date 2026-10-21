@@ -680,10 +680,10 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
       </div>
       <div class="c-bars">
         <div class="c-bar emp"><p class="k">Zaměstnanec <b id="c-emp">133&nbsp;800&nbsp;Kč</b></p><span class="track"><span class="fill" id="c-emp-bar"></span></span><small>měsíčně s&nbsp;odvody, k&nbsp;tomu nábor</small></div>
-        <div class="c-bar ext"><p class="k">Externě <b id="c-ext">zhruba 80&nbsp;000&nbsp;Kč</b></p><span class="track"><span class="fill" id="c-ext-bar" style="--w:60%"></span></span><small>měsíčně, bez odvodů a&nbsp;náboru</small></div>
+        <div class="c-bar ext"><p class="k">Externě <b id="c-ext">zhruba 80&nbsp;000&nbsp;Kč</b></p><span class="track"><span class="fill" id="c-ext-bar" style="--w:60%"></span></span><small id="c-ext-note">měsíčně, bez odvodů a&nbsp;náboru</small></div>
         <p class="c-diff" id="c-diff">Rozdíl: zhruba <b id="c-diff-v">646&nbsp;000&nbsp;Kč</b> ročně</p>
       </div>
-      <p class="c-note">Odvody 33,8&nbsp;% (24,8&nbsp;% + 9&nbsp;%). Cena externě je orientační, odvíjí se od vaší firmy. Nejsem plátce DPH.</p>
+      <p class="c-note">Odvody 33,8&nbsp;% (24,8&nbsp;% + 9&nbsp;%). Cena externě je orientační, odvíjí se od vaší firmy. Nad 8&nbsp;obchodníků řeším spolupráci individuálně. Nejsem plátce DPH.</p>
     </div>
 
   </div>
@@ -1258,19 +1258,21 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
     const sal = $('#c-sal'); if (!sal) return;
     const salOut = $('#c-sal-out'), nOut = $('#c-n'), minus = $('#c-minus'), plus = $('#c-plus');
     const emp = $('#c-emp'), ext = $('#c-ext'), empBar = $('#c-emp-bar'), extBar = $('#c-ext-bar'), diff = $('#c-diff'), diffV = $('#c-diff-v');
-    const N_MIN = 2, N_MAX = 8;
-    const extPrice = (n) => (n <= 3 ? 65000 : n <= 5 ? 80000 : 95000);
+    const N_MIN = 2, N_MAX = 9; // 9 = „9+“: nad 8 obchodníků individuálně, bez orientační ceny
+    const extNote = $('#c-ext-note'), extNoteText = extNote.textContent;
+    const extPrice = (n) => (n <= 3 ? 65000 : n <= 5 ? 80000 : n <= 8 ? 95000 : null);
     const kc = (v) => v.toLocaleString('cs-CZ') + ' Kč';
     let n = 4, tracked = false;
     function render() {
-      const e = Math.round(+sal.value * 1.338 / 100) * 100, x = extPrice(n), top = Math.max(e, x);
+      const e = Math.round(+sal.value * 1.338 / 100) * 100, x = extPrice(n), top = Math.max(e, x || 0);
       salOut.textContent = kc(+sal.value);
-      nOut.textContent = String(n);
+      nOut.textContent = n > 8 ? '9+' : String(n);
       emp.textContent = kc(e);
-      ext.textContent = 'zhruba ' + kc(x);
+      ext.textContent = x ? 'zhruba ' + kc(x) : 'individuálně';
+      extNote.textContent = x ? extNoteText : 'nad 8 obchodníků domluvíme na hovoru';
       empBar.style.setProperty('--w', (e / top * 100).toFixed(1) + '%');
-      extBar.style.setProperty('--w', (x / top * 100).toFixed(1) + '%');
-      const d = Math.round((e - x) * 12 / 1000) * 1000;
+      extBar.style.setProperty('--w', x ? (x / top * 100).toFixed(1) + '%' : '0%');
+      const d = x ? Math.round((e - x) * 12 / 1000) * 1000 : 0;
       diff.hidden = d <= 0; diffV.textContent = kc(d);
       minus.disabled = n <= N_MIN; plus.disabled = n >= N_MAX;
     }
