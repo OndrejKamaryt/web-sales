@@ -1,0 +1,1543 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Obchodní systém na klíč - Ondřej Kamarýt</title>
+<!--
+  ondrejkamaryt.cz/obchodni-system/ · druhá cesta z lístku P.S. na hlavní stránce: obchod postavený efektivně, bez externího šéfa.
+  Středobodem je interaktivní ukázka (kokpit) s vymyšlenou firmou a daty. Vlastní zařízení vyloučit z analytiky: ?notrack (zpět ?dotrack).
+-->
+<meta name="description" content="Postavím vám obchod od poptávky po zakázku: jasné fáze, CRM a AI, která obchodníkům ušetří rutinu. Podívejte se na ukázku. Úvodní hovor 25 minut zdarma.">
+<link rel="canonical" href="https://ondrejkamaryt.cz/obchodni-system/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:title" content="Každý obchod má další krok. Vy máte v pondělí jasno.">
+<meta property="og:description" content="Obchodní systém od poptávky po zakázku, s AI uvnitř. Podívejte se, jak může vypadat váš obchod, až bude hotový.">
+<meta property="og:url" content="https://ondrejkamaryt.cz/obchodni-system/">
+<meta property="og:image" content="https://ondrejkamaryt.cz/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ondřej Kamarýt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Každý obchod má další krok. Vy máte v pondělí jasno.">
+<meta name="twitter:description" content="Obchodní systém od poptávky po zakázku, s AI uvnitř. Podívejte se, jak může vypadat váš obchod, až bude hotový.">
+<meta name="twitter:image" content="https://ondrejkamaryt.cz/assets/og-image.png">
+<meta name="theme-color" content="#E3E9E4">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400..700&amp;family=Literata:ital,opsz,wght@0,7..72,600;1,7..72,400..500&amp;display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.osready)document.documentElement.classList.remove('js')},4000)</script>
+<style>
+:root {
+  --bg: #E3E9E4;
+  --board: #D2DCD5;
+  --card: #FFFFFF;
+  --ink: #142019;
+  --ink-2: #33433A;
+  --ink-3: #4F5E55;      /* ≥ 4,8 : 1 i na desce */
+  --wire: #8FA396;
+  --accent: #D8401C;     /* plochy a tahy */
+  --accent-d: #C2391A;   /* plocha s bílým textem (5,4 : 1) */
+  --accent-ink: #A8311A; /* drobný červený text (≥ 4,8 : 1) */
+  --accent-soft: #F7DBD1;
+  --av: #DCE2DE;         /* neutrální avatar */
+  --sh-1: 0 1px 1px rgba(20,32,25,.06), 0 3px 8px -2px rgba(20,32,25,.10);
+  --sh-2: 0 1px 2px rgba(20,32,25,.06), 0 10px 24px -8px rgba(20,32,25,.24);
+  --sh-3: 0 4px 8px rgba(20,32,25,.08), 0 24px 46px -14px rgba(20,32,25,.40);
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --font-head: "Literata", "Literata Fallback", Georgia, "Times New Roman", serif;
+  --font-text: "Hanken Grotesk", "Hanken Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font: var(--font-text);
+  /* ukázka (kokpit) */
+  --app: #F4F7F5;
+  --col: #E8EDEA;
+  --line: rgba(20,32,25,.09);
+  --soft: #EEF1EE;
+  --ok: #2A6346;         /* zelený text na bílé (≥ 6,5 : 1) */
+  --ok-soft: #DDEBE2;
+  --on-ink: #B4C2BA;     /* tlumený text na tmavé (≥ 9 : 1) */
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 12px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5; font-weight: 400; letter-spacing: 0; font-synthesis: none; font-optical-sizing: auto; font-kerning: normal; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img, svg { display: block; max-width: 100%; }
+img { -webkit-user-drag: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2.5px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.nw { white-space: nowrap; }
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+@media (min-width: 720px) { .wrap { padding-left: 32px; padding-right: 32px; } }
+html:not(.js) .js-only { display: none !important; }
+
+/* ───────── tlačítka (stejná jako na hlavní stránce) ───────── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none; font-weight: 650; border-radius: 14px; border: 0; cursor: pointer; transition: transform .35s var(--spring), box-shadow .3s, background-color .3s, color .3s; -webkit-tap-highlight-color: transparent; }
+.btn:active { transform: scale(.97); }
+@media (hover: hover) { .btn:hover { transform: translateY(-2px); } }
+.btn-s { min-height: 44px; padding: 0 14px; font-size: 14.5px; font-weight: 650; background: var(--card); box-shadow: var(--sh-1); white-space: nowrap; gap: 7px; }
+.btn-l { min-height: 56px; padding: 0 9px 0 22px; font-size: 17px; background: var(--ink); color: #fff; box-shadow: 0 12px 26px -12px rgba(20,32,25,.75); }
+.btn-l .arr { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--accent); color: #fff; font-size: 18px; transition: transform .45s var(--spring); }
+@media (hover: hover) { .btn-l:hover .arr { transform: translateX(4px) rotate(-8deg); } }
+.btn-l.light { background: #fff; color: var(--ink); box-shadow: 0 12px 26px -12px rgba(0,0,0,.6); }
+
+/* ───────── hlavička ───────── */
+.hdr { position: relative; z-index: 40; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 60px; }
+.crumbs { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; font-weight: 650; font-size: 16px; letter-spacing: 0; text-decoration: none; white-space: nowrap; }
+.mark { width: 14px; height: 14px; border-radius: 3px; background: var(--accent); flex: none; }
+.crumb { display: none; }
+.wide { display: none; }
+
+/* ───────── úvod ───────── */
+.hero { padding-top: 6px; }
+.kick { display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 16px; padding: 5px 11px 5px 9px; border-radius: 9px; background: var(--card); box-shadow: var(--sh-1); font-size: 13.5px; font-weight: 650; line-height: 1.35; color: var(--ink-2); }
+.kick .sq { width: 10px; height: 10px; border-radius: 2.5px; background: var(--accent); flex: none; }
+.h1 { margin: 0; font-family: var(--font-head); font-size: 40px; line-height: 1.08; letter-spacing: -.01em; font-weight: 600; }
+.h1 .ln { display: block; text-wrap: balance; }
+/* "jasno": rovná červená linka v tloušťce tahu písma, při načtení se jednou vykreslí zleva (jako "čas" na hlavní stránce) */
+.u { position: relative; display: inline-block; }
+.u::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.12em; height: .09em; border-radius: .04em; background: var(--accent); transform-origin: 0 50%; }
+html.js .u::after { animation: drawU .6s var(--ease) .35s both; }
+@keyframes drawU { from { scale: 0 1; } }
+.sub { margin: 16px 0 0; font-size: 17px; line-height: 1.45; color: var(--ink-2); max-width: 31em; text-wrap: pretty; }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 20px; }
+.cta-note { font-size: 15px; color: var(--ink-2); font-weight: 500; }
+
+/* ───────── sekce ───────── */
+.sec { padding-top: 68px; }
+.h2 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 20px; font-family: var(--font-head); font-size: clamp(28px, 7.4vw, 46px); line-height: 1.12; letter-spacing: -.005em; font-weight: 600; }
+.h2 .sq, .demo-h .sq { width: .32em; height: .32em; border-radius: .07em; background: var(--accent); flex: none; translate: 0 -.04em; }
+
+/* ═════════ UKÁZKA: obchodní kokpit ═════════ */
+.demo-sec { padding-top: 44px; }
+.demo-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 18px; margin-bottom: 14px; }
+.demo-h { display: flex; align-items: baseline; gap: 10px; margin: 0; text-wrap: balance; font-family: var(--font-head); font-size: 25px; line-height: 1.2; letter-spacing: -.005em; font-weight: 600; }
+.demo-cap { margin: 0; font-size: 15px; font-weight: 500; color: var(--ink-2); }
+.desk { position: relative; }
+.app { position: relative; isolation: isolate; overflow: hidden; border-radius: 22px; background: var(--app); box-shadow: var(--sh-3), 0 0 0 1px rgba(20,32,25,.05); font-size: 15px; line-height: 1.4; }
+
+/* horní lišta aplikace */
+.app-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 10px 10px 12px; background: var(--ink); color: #EAF0EC; }
+.firm { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.firm-logo { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 9px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 750; letter-spacing: .02em; }
+.firm-t { display: flex; flex-direction: column; min-width: 0; }
+.firm-t b { font-size: 14.5px; font-weight: 650; line-height: 1.25; }
+.firm-t small { font-size: 12px; line-height: 1.3; color: var(--on-ink); }
+/* přepínač oboru: segmentové tlačítko v liště ukázky (radio skupina) */
+.obor { order: 3; flex-basis: 100%; display: grid; gap: 6px; margin-top: 2px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.1); }
+.obor-k { font-size: 12.5px; font-weight: 600; line-height: 1.3; color: var(--on-ink); }
+.seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 3px; border-radius: 12px; background: rgba(255,255,255,.08); }
+.seg button { min-width: 0; min-height: 44px; padding: 0 6px; border: 0; border-radius: 9px; background: transparent; color: #DCE5DF; font-size: 13.5px; font-weight: 650; line-height: 1.2; white-space: nowrap; cursor: pointer; transition: background-color .25s, color .25s; -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) { .seg button:hover { background: rgba(255,255,255,.1); } }
+.seg button[aria-checked="true"] { background: #fff; color: var(--ink); }
+.seg button:focus-visible { outline: 2.5px solid #F08A6E; outline-offset: 2px; }
+.tag { display: flex; flex-direction: column; align-items: flex-end; flex: none; padding: 5px 9px 6px; border-radius: 9px; background: var(--accent-d); color: #fff; line-height: 1.2; text-align: right; }
+.tag b { font-size: 11px; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; }
+.tag span { font-size: 11.5px; font-weight: 550; }
+
+/* záložky */
+.tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: #fff; border-bottom: 1px solid var(--line); }
+.tab { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-width: 0; min-height: 62px; padding: 8px 2px 9px; border: 0; background: transparent; color: var(--ink-3); font-size: 13px; font-weight: 650; line-height: 1.2; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .2s; }
+.tab .ti { display: grid; place-items: center; width: 30px; height: 26px; border-radius: 8px; transition: background-color .25s; }
+.tab svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.tab .tx { display: flex; flex-direction: column; min-width: 0; }
+.tab .td { display: none; }
+.tab::after { content: ""; position: absolute; left: 18%; right: 18%; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent); scale: 0 1; transition: scale .35s var(--ease); }
+.tab[aria-selected="true"] { color: var(--ink); }
+.tab[aria-selected="true"] svg { stroke: var(--accent-ink); }
+.tab[aria-selected="true"]::after { scale: 1 1; }
+.tab:focus-visible { outline-offset: -5px; border-radius: 10px; }
+.tab .dotw { position: absolute; top: 9px; left: calc(50% + 10px); width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
+
+/* panely */
+.panes { position: relative; }
+.pane { padding: 14px 12px 16px; }
+html:not(.js) .pane + .pane { border-top: 1px solid var(--line); }
+.pane-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; margin: 2px 2px 12px; }
+.pane-h h3 { margin: 0; font-size: 18px; line-height: 1.3; font-weight: 700; letter-spacing: -.005em; }
+.meta { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--ink-3); }
+.ai { display: inline-grid; place-items: center; min-width: 24px; height: 18px; padding: 0 5px; border-radius: 5px; background: var(--ink); color: #fff; font-size: 10.5px; font-weight: 750; letter-spacing: .05em; line-height: 1; }
+.h5 { margin: 0 0 8px; font-size: 12px; font-weight: 750; line-height: 1.4; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+.box { background: #fff; border-radius: 16px; box-shadow: var(--sh-1); padding: 14px; }
+
+/* 1 · přehled pro majitele */
+.ov { display: grid; gap: 10px; }
+.kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.kpi { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding: 11px 12px 12px; border-radius: 14px; background: #fff; box-shadow: var(--sh-1); transition: box-shadow .3s; }
+.kl { font-size: 12.5px; font-weight: 600; line-height: 1.3; color: var(--ink-3); }
+.kv { align-self: flex-start; transform-origin: 0 60%; font-family: var(--font-head); font-size: 27px; line-height: 1.2; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.kv small { font-family: var(--font-text); font-size: 13px; font-weight: 650; letter-spacing: 0; color: var(--ink-2); }
+.ks { font-size: 12px; line-height: 1.3; color: var(--ink-3); }
+.kpi.warn { box-shadow: inset 0 0 0 1.5px var(--accent), var(--sh-1); }
+.kpi.warn .kv { color: var(--accent-ink); }
+.kpi.okay .kv { color: var(--ok); }
+.bump { animation: bump .55s var(--spring); }
+@keyframes bump { 40% { scale: 1.14; } }
+.att-l { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.att-i { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; width: 100%; min-height: 58px; padding: 8px 10px; border: 0; border-radius: 12px; background: #FBF1ED; text-align: left; cursor: pointer; transition: background-color .2s, transform .3s var(--spring); }
+@media (hover: hover) { .att-i:hover { background: #F8E6DF; } }
+.att-i:active { transform: scale(.98); }
+.att-i .ic { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: var(--accent-soft); }
+.att-i .ic svg, .att-ok svg { width: 16px; height: 16px; fill: none; stroke: var(--accent-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.att-i b { display: block; font-size: 14.5px; font-weight: 650; line-height: 1.25; }
+.att-i small { display: block; font-size: 12.5px; font-weight: 600; line-height: 1.3; color: var(--accent-ink); }
+.att-i .go { font-size: 16px; color: var(--ink-3); padding-right: 2px; }
+.att-ok { display: flex; align-items: center; gap: 10px; min-height: 58px; margin: 0; padding: 8px 12px; border-radius: 12px; background: var(--ok-soft); color: var(--ok); font-size: 14.5px; font-weight: 650; }
+.att-ok svg { stroke: var(--ok); width: 18px; height: 18px; }
+.fun-l { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.fun-l li { display: grid; grid-template-columns: 84px minmax(0, 1fr) 24px 50px; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; line-height: 1.3; }
+.fun-l .fb { height: 12px; border-radius: 6px; background: var(--soft); overflow: hidden; }
+.fun-l .fb i { display: block; height: 100%; width: var(--w); border-radius: 6px; background: var(--ink); }
+.fun-l li:last-child .fb i { background: var(--accent); }
+.fun-l b { text-align: right; font-variant-numeric: tabular-nums; }
+.fun-l .cv { justify-self: end; padding: 1px 6px; border-radius: 6px; font-size: 12px; font-weight: 650; color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fun-l .cv.leak { background: var(--accent-soft); color: var(--accent-ink); }
+.fun-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.fun-head small { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+.fun-n { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: var(--soft); font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
+.fun-n b { color: var(--ink); font-weight: 650; }
+
+/* 2 · obchody: fáze od poptávky po zakázku */
+.strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin: 0 0 10px; padding: 4px; border-radius: 13px; background: var(--soft); }
+.strip button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-width: 0; min-height: 48px; padding: 4px 1px; border: 0; border-radius: 10px; background: transparent; color: var(--ink-3); font-size: 11px; font-weight: 650; line-height: 1.2; cursor: pointer; transition: background-color .2s, box-shadow .2s, color .2s; -webkit-tap-highlight-color: transparent; }
+.strip button b { font-size: 16px; font-weight: 750; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.strip button[aria-current="true"] { background: #fff; color: var(--ink); box-shadow: var(--sh-1); }
+.strip button .wn { position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.bscroll { position: relative; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -12px; padding: 2px 12px 6px; scroll-padding-inline: 12px; }
+.bscroll::-webkit-scrollbar { display: none; }
+.bscroll:focus-visible { outline-offset: -3px; border-radius: 14px; }
+.cols { display: grid; grid-auto-flow: column; grid-auto-columns: 84%; gap: 10px; }
+.col { min-width: 0; padding: 10px 8px 8px; border-radius: 16px; background: var(--col); scroll-snap-align: start; }
+.col-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 7px; margin: 0 4px 9px; }
+.col-h h4 { margin: 0; font-size: 13.5px; font-weight: 750; line-height: 1.3; }
+.col-n { padding: 0 6px; border-radius: 6px; background: rgba(20,32,25,.07); font-size: 12px; font-weight: 700; line-height: 1.5; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.col-s { margin-left: auto; font-size: 12.5px; font-weight: 650; color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.cards li { position: relative; min-width: 0; }
+html.js .cards li.pending { display: none; }
+.deal { position: relative; display: grid; gap: 7px; width: 100%; min-height: 44px; padding: 10px 10px 9px 11px; border: 0; border-radius: 12px; background: #fff; box-shadow: var(--sh-1); text-align: left; cursor: pointer; transition: transform .3s var(--spring), box-shadow .25s; -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) { .deal:hover { transform: translateY(-2px); box-shadow: var(--sh-2); } }
+.deal:active { transform: scale(.98); }
+.d-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; min-width: 0; }
+.d-firm { min-width: 0; overflow-wrap: anywhere; font-size: 14.5px; font-weight: 650; line-height: 1.25; }
+.d-val { flex: none; font-size: 13px; font-weight: 650; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.d-bot { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.d-next { flex: 1; display: flex; align-items: center; gap: 5px; min-width: 0; font-size: 12.5px; font-weight: 500; line-height: 1.3; color: var(--ink-3); }
+.d-next svg { width: 13px; height: 13px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.d-nt { min-width: 0; }
+.d-own { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--av); color: var(--ink-2); font-size: 10px; font-weight: 750; letter-spacing: .02em; }
+.deal.alert { box-shadow: inset 3px 0 0 var(--accent), var(--sh-1); }
+.deal.alert .d-next { color: var(--accent-ink); font-weight: 650; }
+.deal.won .d-next { color: var(--ok); font-weight: 600; }
+.d-new { position: absolute; top: -8px; left: 10px; padding: 1px 7px; border-radius: 6px; background: var(--accent-d); color: #fff; font-size: 10.5px; font-weight: 750; line-height: 1.5; letter-spacing: .03em; }
+.flash .deal, .deal.flash { animation: flash 1.9s var(--ease); }
+@keyframes flash { 0%, 25% { box-shadow: 0 0 0 3px var(--accent), var(--sh-2); } 100% { box-shadow: 0 0 0 3px rgba(216,64,28,0), var(--sh-1); } }
+.enter { animation: enter .65s var(--spring) both; }
+@keyframes enter { from { opacity: 0; translate: 0 -12px; scale: .96; } }
+
+/* detail obchodu (vysune se přes desku) */
+.scrim { position: absolute; inset: 0; z-index: 5; border: 0; padding: 0; background: rgba(20,32,25,.30); opacity: 0; cursor: pointer; transition: opacity .3s; }
+.scrim.open { opacity: 1; }
+.drawer { position: absolute; inset: 0; z-index: 6; display: flex; flex-direction: column; overflow: auto; overscroll-behavior: contain; background: var(--app); translate: 100% 0; visibility: hidden; transition: translate .45s var(--ease), visibility 0s .45s; }
+.drawer.open { translate: 0 0; visibility: visible; transition: translate .45s var(--ease), visibility 0s; }
+.dr-h { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 6px; padding: 8px 8px 8px 14px; background: var(--app); border-bottom: 1px solid var(--line); }
+.dr-h h4 { flex: 1; min-width: 0; margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; }
+.dr-x { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border: 0; border-radius: 12px; background: transparent; cursor: pointer; }
+.dr-x:hover { background: var(--soft); }
+.dr-x svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.dr-b { display: grid; gap: 12px; padding: 14px; }
+.dr-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 0; font-size: 14px; color: var(--ink-2); }
+.dr-meta b { font-size: 16px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.dr-meta .who { display: inline-flex; align-items: center; gap: 7px; }
+.stg { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+.stg li { display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; line-height: 1.2; color: var(--ink-3); min-width: 0; }
+.stg li::before { content: ""; height: 6px; border-radius: 3px; background: #D6DDD8; }
+.stg li.done::before { background: var(--ink); }
+.stg li.cur { color: var(--ink); font-weight: 750; }
+.stg li.cur::before { background: var(--accent); }
+.nx-alert { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 15px; font-weight: 700; color: var(--accent-ink); }
+.nx-alert svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.nx-why { margin: 0 0 12px; font-size: 14px; color: var(--ink-2); }
+.sug-l { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.sug { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 50px; padding: 8px 12px; border: 1.5px solid rgba(20,32,25,.16); border-radius: 12px; background: #fff; text-align: left; font-size: 14px; font-weight: 600; line-height: 1.3; cursor: pointer; transition: border-color .2s, background-color .2s, transform .3s var(--spring); }
+.sug:hover { border-color: var(--ink); }
+.sug:active { transform: scale(.98); }
+.sug .pl { display: grid; place-items: center; width: 24px; height: 24px; flex: none; border-radius: 7px; background: var(--soft); font-size: 17px; font-weight: 600; line-height: 1; }
+.nx-set { display: flex; align-items: flex-start; gap: 10px; margin: 0; font-size: 15px; font-weight: 650; }
+.nx-set svg { width: 18px; height: 18px; flex: none; margin-top: 1px; fill: none; stroke: var(--ink-3); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nx-ok { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--ok-soft); color: var(--ok); font-size: 13.5px; font-weight: 650; }
+.nx-ok:focus { outline: none; }
+.nx-ok svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hist { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.hist li { position: relative; display: flex; justify-content: space-between; gap: 10px; padding: 0 0 10px 18px; font-size: 13.5px; line-height: 1.35; }
+.hist li::before { content: ""; position: absolute; left: 2px; top: .42em; width: 7px; height: 7px; border-radius: 2px; background: var(--wire); }
+.hist li:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: calc(.42em + 10px); bottom: 2px; width: 1.5px; background: #D6DDD8; }
+.hist li:first-child::before { background: var(--ink); }
+.hist time { flex: none; color: var(--ink-3); font-size: 12.5px; }
+
+/* toast: nová poptávka */
+.toast { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 4; display: flex; align-items: center; gap: 10px; padding: 8px 6px 8px 10px; border-radius: 14px; background: var(--ink); color: #fff; box-shadow: var(--sh-3); opacity: 0; translate: 0 calc(100% + 14px); transition: translate .5s var(--spring), opacity .3s; }
+.toast.show { opacity: 1; translate: 0 0; }
+.toast .t-ic { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 9px; background: var(--accent-d); }
+.toast .t-ic svg { width: 17px; height: 17px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.toast p { flex: 1; min-width: 0; margin: 0; font-size: 13.5px; line-height: 1.3; }
+.toast p b { display: block; font-weight: 650; }
+.toast p span { color: var(--on-ink); font-size: 12.5px; }
+.t-go { min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: #fff; color: var(--ink); font-size: 14px; font-weight: 650; cursor: pointer; flex: none; }
+.t-x { display: grid; place-items: center; width: 40px; height: 44px; flex: none; border: 0; border-radius: 10px; background: transparent; color: #fff; cursor: pointer; }
+.t-x svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+/* 3 · příprava na schůzku */
+.mt { display: grid; gap: 10px; }
+.mt-l { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.mt-i { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; min-height: 66px; padding: 9px 12px; border: 0; border-radius: 14px; background: #fff; box-shadow: var(--sh-1); text-align: left; cursor: pointer; transition: box-shadow .2s; }
+.mt-i .w { font-size: 12.5px; font-weight: 750; color: var(--accent-ink); }
+.mt-i .f { font-size: 14.5px; font-weight: 650; line-height: 1.25; }
+.mt-i .o { font-size: 12px; color: var(--ink-3); line-height: 1.3; }
+.mt-note { display: none; }
+.mt-i[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--ink), var(--sh-1); }
+html:not(.js) .mt-i { cursor: default; }
+.brief { position: relative; overflow: hidden; }
+.br-h { display: flex; flex-direction: column; gap: 3px; margin: 0 0 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.br-h b { font-size: 17px; font-weight: 700; line-height: 1.3; }
+.src { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; }
+.br-sec { margin-top: 12px; }
+.br-sec p { margin: 0; font-size: 14.5px; line-height: 1.45; }
+.br-sec ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.br-sec li { position: relative; padding-left: 16px; font-size: 14.5px; line-height: 1.45; }
+.br-sec li::before { content: ""; position: absolute; left: 1px; top: .55em; width: 6px; height: 6px; border-radius: 1.5px; background: var(--wire); }
+.goal { padding: 10px 12px; border-radius: 12px; background: var(--accent-soft); font-weight: 650; }
+.prog { position: absolute; left: 0; right: 0; top: 0; height: 3px; overflow: hidden; }
+.prog i { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: 0 50%; scale: 0 1; opacity: 0; }
+.prog.run i { opacity: 1; scale: 1 1; transition: scale var(--dur, .8s) var(--ease); }
+html.js .rv { opacity: 0; translate: 0 6px; }
+html.js .rv.in { opacity: 1; translate: 0 0; transition: opacity .35s var(--ease), translate .5s var(--spring); }
+
+/* 4 · zápis z hovoru */
+.zp { display: grid; gap: 10px; }
+.tr-l { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 7px; }
+.tr-l li { max-width: 92%; padding: 8px 12px 9px; border-radius: 14px 14px 14px 4px; background: var(--soft); font-size: 14px; line-height: 1.4; }
+.tr-l li.me { justify-self: end; border-radius: 14px 14px 4px 14px; background: var(--ink); color: #fff; }
+.tr-l li b { display: block; margin-bottom: 1px; font-size: 11.5px; font-weight: 700; color: var(--ink-3); }
+.tr-l li.me b { color: var(--on-ink); }
+.btn-app { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font-size: 15px; font-weight: 650; cursor: pointer; transition: transform .3s var(--spring), background-color .2s, opacity .2s; -webkit-tap-highlight-color: transparent; }
+.btn-app:active { transform: scale(.98); }
+.btn-app.acc { background: var(--accent-d); }
+.btn-app:disabled { opacity: .5; cursor: default; transform: none; }
+.btn-app.done { background: var(--ok-soft); color: var(--ok); opacity: 1; }
+.btn-app svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.zp-r { position: relative; }
+.zp-empty { display: grid; place-content: center; justify-items: center; gap: 8px; min-height: 150px; padding: 18px; border: 2px dashed rgba(20,32,25,.16); border-radius: 16px; text-align: center; font-size: 14px; color: var(--ink-3); }
+.zp-empty svg { width: 26px; height: 26px; fill: none; stroke: var(--wire); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.zp-out { position: relative; overflow: hidden; }
+.zp-out:focus { outline: none; }
+.zp-sum { margin: 0 0 14px; font-size: 14.5px; line-height: 1.45; }
+.chg { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+.chg li { display: grid; grid-template-columns: 74px minmax(0, 1fr) 20px; align-items: center; gap: 8px; min-height: 42px; padding: 6px 10px; border-radius: 10px; background: var(--soft); font-size: 13.5px; line-height: 1.35; }
+.chg .k { font-size: 12.5px; font-weight: 600; color: var(--ink-3); }
+.chg s { color: var(--ink-3); text-decoration-thickness: 1.5px; }
+.chg .v b { font-weight: 700; }
+.chg .ck { width: 20px; height: 20px; border-radius: 6px; background: var(--ok); display: grid; place-items: center; scale: 0; transition: scale .4s var(--spring); transition-delay: calc(var(--i, 0) * 90ms); }
+.chg .ck svg { width: 12px; height: 12px; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.saved .chg .ck, html:not(.js) .chg .ck { scale: 1; }
+.zp-done { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; margin: 0; padding: 4px 4px 4px 12px; border-radius: 12px; background: var(--ok-soft); color: var(--ok); font-size: 14px; font-weight: 650; }
+.zp-done:focus { outline: none; }
+.lnk { min-height: 44px; padding: 0 8px; border: 0; background: none; color: var(--ink); font-size: 14px; font-weight: 650; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; }
+.zp-note { margin: 8px 2px 0; font-size: 12.5px; color: var(--ink-3); }
+
+/* pod ukázkou */
+.demo-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 20px; }
+.demo-cta p { margin: 0; font-size: 15px; font-weight: 500; color: var(--ink-2); max-width: 26em; }
+
+/* ───────── průběh ───────── */
+.plan { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ph { background: var(--card); border-radius: 22px; box-shadow: var(--sh-1); padding: 16px 16px 18px; }
+.wks { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3px; margin-bottom: 14px; }
+.wks i { height: 8px; border-radius: 3px; background: #E3E8E4; }
+.wks i.on { background: var(--accent); }
+.wk { font-size: 13.5px; font-weight: 700; color: var(--accent-ink); }
+.ph h3 { margin: 2px 0 4px; font-size: 21px; line-height: 1.3; font-weight: 650; letter-spacing: 0; }
+.ph p { margin: 0; color: var(--ink-2); font-size: 16px; line-height: 1.42; }
+.keep { margin-top: 12px; padding: 18px 16px; border-radius: 22px; background: var(--ink); color: #EAF0EC; }
+.keep h3 { margin: 0 0 12px; font-family: var(--font-head); font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: -.005em; color: #fff; }
+.chk { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.chk li { position: relative; padding-left: 30px; font-size: 16px; line-height: 1.4; font-weight: 500; }
+.chk li::before { content: ""; position: absolute; left: 0; top: .05em; width: 20px; height: 20px; border-radius: 6px; background: var(--accent-d) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; }
+
+/* ───────── kdo to postaví ───────── */
+.kdo-grid { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 18px 16px; align-items: center; }
+.idcard { position: relative; margin: 0; width: 100%; aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden; background-color: var(--board); background-image: radial-gradient(rgba(20,32,25,.13) 1px, transparent 1.5px); background-size: 14px 14px; box-shadow: var(--sh-2); }
+.idcard img { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; translate: 0 5%; }
+.id-sq { position: absolute; top: 12px; left: 12px; width: 14px; height: 14px; border-radius: 4px; background: var(--accent); }
+.name { margin: 0 0 8px; font-family: var(--font-head); font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: -.005em; }
+.bio { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.bio li { position: relative; padding-left: 20px; font-size: 15.5px; line-height: 1.38; color: var(--ink-2); }
+.bio li::before { content: ""; position: absolute; left: 0; top: .42em; width: 9px; height: 9px; border-radius: 2px; background: var(--accent); }
+.tr { grid-column: 1 / -1; min-width: 0; }
+.tr-k { display: inline-flex; margin: 0 0 10px; padding: 3px 10px; border-radius: 8px; background: var(--card); box-shadow: var(--sh-1); font-size: 13px; font-weight: 650; line-height: 1.5; color: var(--ink-2); }
+.stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.stats li { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; gap: 12px; padding: 12px 16px; background: var(--card); border-radius: 18px; box-shadow: var(--sh-1); }
+.stats b { position: relative; justify-self: start; font-family: var(--font-head); font-size: 38px; line-height: 1; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: lining-nums tabular-nums; padding-bottom: 8px; white-space: nowrap; }
+.stats b::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 4px; border-radius: 2px; background: var(--accent); }
+.stats span { font-size: 15px; font-weight: 500; line-height: 1.3; color: var(--ink-2); }
+
+/* ───────── závěr a kontakt ───────── */
+.contact { position: relative; background: var(--ink); color: #EAF0EC; border-radius: 30px; padding: 30px 18px 18px; }
+.c-h { margin: 0; font-family: var(--font-head); font-size: clamp(32px, 8.6vw, 58px); line-height: 1.1; letter-spacing: -.01em; font-weight: 600; text-wrap: balance; color: #fff; }
+.cw { display: inline-block; padding: 0 .16em .04em; border-radius: .16em; background: #fff; color: var(--ink); box-shadow: 0 10px 20px -10px rgba(0,0,0,.6); }
+.c-p { margin: 14px 0 0; font-size: 16.5px; line-height: 1.45; color: #DCE5DF; max-width: 30em; }
+.c-cta { margin-top: 22px; }
+.flow { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0; }
+.flow li { font-size: 15px; font-weight: 600; line-height: 1.35; color: #DCE5DF; white-space: nowrap; }
+.flow li + li::before { content: "→\FE0E"; content: "→\FE0E" / ""; margin: 0 10px; color: #F08A6E; }
+@media (max-width: 599px) { .flow li { font-size: 14px; } .flow li + li::before { margin: 0 6px; } }
+.cap { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; font-size: 15.5px; font-weight: 600; line-height: 1.35; color: #DCE5DF; }
+.cap .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--accent); flex: none; }
+.c-links { list-style: none; margin: 18px 0 22px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.c-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 12px; background: rgba(255,255,255,.08); text-decoration: none; font-weight: 600; font-size: 15px; transition: background-color .2s; }
+.c-links a:hover { background: rgba(255,255,255,.16); }
+.agenda { position: relative; background: var(--card); color: var(--ink); border-radius: 22px; padding: 20px 16px 18px; }
+.agenda h3 { margin: 0 0 14px; font-size: 19px; line-height: 1.3; font-weight: 650; letter-spacing: 0; }
+.ag { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: ag; }
+.ag li { position: relative; display: flex; align-items: flex-start; gap: 12px; font-size: 16px; line-height: 1.38; font-weight: 500; color: var(--ink-2); counter-increment: ag; }
+.ag li::before { content: counter(ag); display: grid; place-items: center; width: 28px; height: 28px; flex: none; margin-top: -2px; border-radius: 8px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 650; }
+
+/* patička */
+.foot { display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: space-between; padding-top: 26px; padding-bottom: 20px; font-size: 13px; color: var(--ink-3); }
+.foot a { display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0; color: var(--ink-2); font-weight: 600; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+
+/* spodní lišta s výzvou (jen mobil) */
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; padding: 18px 16px calc(12px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(227,233,228,.97) 68%, rgba(227,233,228,0)); transform: translateY(110%); visibility: hidden; transition: transform .45s var(--spring), visibility 0s .45s; }
+.bar.show { transform: none; visibility: visible; transition: transform .45s var(--spring), visibility 0s; }
+.bar .btn-l { width: 100%; justify-content: space-between; }
+
+@media (max-width: 399px) { .top { gap: 8px; } .btn-s { padding: 0 12px; font-size: 13.5px; } }
+
+/* ───────── velmi úzké telefony ───────── */
+@media (max-width: 374px) {
+  .h1 { font-size: 36px; }
+  .app-bar { padding-left: 10px; gap: 8px; }
+  .firm { gap: 8px; }
+  .firm-logo { width: 28px; height: 28px; font-size: 11px; }
+  .firm-t b { font-size: 13.5px; }
+  .tab { font-size: 12px; }
+  .kv { font-size: 24px; }
+  .fun-l li { grid-template-columns: 80px minmax(0, 1fr) 22px 48px; gap: 6px; }
+  .strip button { font-size: 10px; }
+  .stg { gap: 3px; }
+  .stg li { font-size: 10px; }
+  .chg li { grid-template-columns: 64px minmax(0, 1fr) 20px; }
+  .kdo-grid { grid-template-columns: 96px minmax(0, 1fr); }
+}
+
+/* ───────── širší obrazovky ───────── */
+@media (min-width: 600px) {
+  .wide { display: inline; }
+  .crumb { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+  .crumb::before { content: ""; width: 1.5px; height: 18px; border-radius: 1px; background: rgba(20,32,25,.22); rotate: 20deg; }
+  .h1 { font-size: 52px; }
+  .tag { flex-direction: row; align-items: center; gap: 7px; padding: 6px 10px; }
+  .tag span::before { content: "· "; }
+  .obor { display: flex; align-items: center; gap: 12px; }
+  .seg { display: inline-grid; grid-auto-flow: column; grid-template-columns: none; }
+  .seg button { padding: 0 14px; }
+  .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cols { grid-auto-columns: 46%; }
+  .contact { padding: 44px 36px 36px; }
+  .agenda { padding: 24px; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stats li { grid-template-columns: 1fr; gap: 10px; align-content: start; padding: 16px 18px 18px; }
+  .keep { padding: 24px; }
+  .chk { grid-template-columns: 1fr 1fr; gap: 10px 28px; }
+  .toast { left: auto; right: 14px; bottom: 14px; width: 390px; }
+}
+@media (min-width: 720px) {
+  .desk { padding: 22px; border-radius: 30px; background-color: var(--board); background-image: radial-gradient(rgba(20,32,25,.15) 1px, transparent 1.5px); background-size: 18px 18px; background-position: center; box-shadow: inset 0 0 0 1px rgba(20,32,25,.05); }
+  .pane { padding: 18px 18px 20px; }
+  .bscroll { margin: 0 -18px; padding: 2px 18px 6px; scroll-padding-inline: 18px; }
+  .drawer { left: auto; width: min(400px, 100%); box-shadow: -24px 0 40px -24px rgba(20,32,25,.4); }
+  .mt { grid-template-columns: 230px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .mt-l { grid-template-columns: 1fr; }
+  .mt-note { display: block; margin: 4px 4px 0; padding-left: 14px; border-left: 2px solid var(--wire); font-size: 13px; line-height: 1.45; color: var(--ink-3); }
+  .zp { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 14px; align-items: start; }
+  .ov { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 12px; }
+  .kpis { grid-column: 1 / -1; }
+}
+@media (min-width: 820px) {
+  .plan { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .kdo-grid { grid-template-columns: 220px minmax(0, 1fr); gap: 22px 48px; align-items: start; }
+  .idcard { grid-row: 1 / span 2; border-radius: 26px; }
+  .id-sq { top: 16px; left: 16px; width: 18px; height: 18px; }
+  .kdo-txt { padding-top: 6px; }
+  .tr { grid-column: 2; }
+  .name { font-size: 28px; margin-bottom: 12px; }
+  .bio li { font-size: 18px; }
+  .stats b { font-size: 50px; }
+  .contact { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 0 40px; align-items: start; }
+  .agenda { margin-top: 8px; }
+}
+@media (min-width: 900px) {
+  html { scroll-padding-top: 92px; }
+  .hdr { position: sticky; top: 0; background: rgba(227,233,228,.88); -webkit-backdrop-filter: saturate(1.2) blur(10px); backdrop-filter: saturate(1.2) blur(10px); transition: box-shadow .3s; }
+  .hdr.stuck { box-shadow: 0 1px 0 rgba(20,32,25,.08), 0 10px 26px -18px rgba(20,32,25,.35); }
+  .hdr.stuck .btn-h { background: var(--ink); color: #fff; }
+  .top { min-height: 76px; }
+  .btn-s { min-height: 46px; padding: 0 18px; font-size: 15px; }
+  .hero { padding-top: 10px; }
+  .h1 { font-size: clamp(50px, 4.9vw, 64px); line-height: 1.06; letter-spacing: -.012em; }
+  .hero-r { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px 56px; margin-top: 26px; }
+  .sub { margin-top: 0; font-size: 19px; max-width: 30em; }
+  .cta-row { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 0; }
+  .sec { padding-top: 96px; }
+  .demo-sec { padding-top: 56px; }
+  .demo-h { font-size: 30px; }
+  .desk { padding: 24px; border-radius: 34px; }
+  /* karta na desktopu: firma a hodnota pod sebou, obchodník vpravo, další krok přes celou šířku */
+  .deal { grid-template-columns: minmax(0, 1fr) auto; column-gap: 8px; row-gap: 2px; padding: 10px 10px 10px 11px; }
+  .d-top, .d-bot { display: contents; }
+  .d-firm { grid-column: 1; grid-row: 1; white-space: normal; overflow-wrap: anywhere; }
+  .d-val { grid-column: 1; grid-row: 2; justify-self: start; font-size: 12.5px; color: var(--ink-3); }
+  .d-own { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+  .d-next { grid-column: 1 / -1; grid-row: 3; margin-top: 6px; align-items: flex-start; }
+  .d-next svg { margin-top: 2px; }
+  .app { border-radius: 24px; }
+  .app-bar { padding: 12px 14px 12px 16px; }
+  .firm-logo { width: 36px; height: 36px; border-radius: 10px; font-size: 13px; }
+  .firm-t b { font-size: 15.5px; }
+  .firm-t small { font-size: 12.5px; }
+  .col-h { row-gap: 3px; margin-bottom: 12px; }
+  .col-h h4 { flex-basis: 100%; }
+  .tab { flex-direction: row; justify-content: flex-start; gap: 12px; min-height: 70px; padding: 12px 16px; text-align: left; font-size: 15px; }
+  .tab + .tab { box-shadow: inset 1px 0 0 var(--line); }
+  .tab .ti { width: 38px; height: 38px; border-radius: 11px; background: var(--soft); flex: none; }
+  .tab[aria-selected="true"] .ti { background: var(--accent-soft); }
+  .tab .td { display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tab::after { left: 0; right: 0; border-radius: 0; }
+  .tab .dotw { top: 14px; left: 44px; }
+  .panes { min-height: 430px; }
+  .pane { padding: 20px 22px 22px; }
+  .pane-h { margin-bottom: 14px; }
+  .pane-h h3 { font-size: 20px; }
+  .strip { display: none; }
+  .bscroll { overflow: visible; margin: 0; padding: 0; }
+  .cols { grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .kv { font-size: 32px; }
+  .kpi { padding: 14px 16px 15px; }
+  .box { padding: 16px 18px; }
+  .mt { grid-template-columns: 260px minmax(0, 1fr); }
+  .demo-cta { margin-top: 26px; }
+  .bar { display: none; }
+}
+@media (min-width: 1100px) {
+  .tab .td { font-size: 13px; }
+}
+@media (min-width: 1200px) {
+  /* přepínač oboru se vejde do jednoho řádku lišty mezi firmu a štítek */
+  .obor { order: 0; flex-basis: auto; margin: 0 auto 0 4px; padding: 0 0 0 18px; border-top: 0; border-left: 1px solid rgba(255,255,255,.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+}
+</style>
+<!-- Vlastní zařízení vyloučit z analytiky: navštiv /?notrack jednou (zpět /?dotrack) -->
+<script>
+(function () {
+  try {
+    var s = location.search;
+    if (s.indexOf("notrack") !== -1) localStorage.setItem("umami.disabled", "1");
+    else if (s.indexOf("dotrack") !== -1) localStorage.removeItem("umami.disabled");
+  } catch (e) {}
+})();
+</script>
+<!-- Umami analytics (privacy-friendly) -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="09bf3995-b08e-48a5-ab83-b7d53ffb7cb1"></script>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="top wrap">
+    <nav class="crumbs" aria-label="Kde jste">
+      <a class="brand" href="/"><span class="mark" aria-hidden="true"></span>Ondřej Kamarýt<span class="sr"> - hlavní stránka</span></a>
+      <span class="crumb" aria-current="page">Obchodní systém</span>
+    </nav>
+    <a class="btn btn-s btn-h" data-cal data-umami-event="os-header" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit hovor <span aria-hidden="true">→&#xFE0E;</span></a>
+  </div>
+</header>
+
+<main>
+<!-- ═════════ ÚVOD ═════════ -->
+<section class="hero wrap" aria-labelledby="h1">
+  <div class="hero-g">
+    <div class="hero-l">
+      <p class="kick"><span class="sq" aria-hidden="true"></span><span>Obchodní systém pro firmy se&nbsp;<span class="nw">2-8</span> obchodníky</span></p>
+      <h1 class="h1" id="h1"><span class="ln">Každý obchod má další krok.</span> <span class="ln">Vy&nbsp;máte v&nbsp;pondělí <span class="u">jasno</span>.</span></h1>
+    </div>
+    <div class="hero-r">
+      <p class="sub">Postavím vám obchod od poptávky po zakázku: jasné fáze, CRM a&nbsp;AI, která obchodníkům ušetří rutinu. Za&nbsp;6&nbsp;týdnů to u&nbsp;vás běží.</p>
+      <div class="cta-row">
+        <a class="btn btn-l" id="hero-cta" data-cal data-umami-event="os-hero" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a>
+        <span class="cta-note">25&nbsp;minut zdarma, bez závazku</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ UKÁZKA: jak bude obchod vypadat, až bude systém hotový (vymyšlená firma a data) ═════════ -->
+<section class="demo-sec wrap" id="ukazka" aria-labelledby="demo-h">
+  <div class="demo-head">
+    <h2 class="demo-h" id="demo-h"><span class="sq" aria-hidden="true"></span>Takhle může vypadat váš obchod</h2>
+    <p class="demo-cap">Jedna z&nbsp;možných podob. U&nbsp;vás ho postavím podle toho, jak obchodujete. Firma i&nbsp;čísla jsou vymyšlené.</p>
+  </div>
+
+  <div class="desk">
+    <div class="app" id="app">
+      <div class="app-bar">
+        <span class="firm"><span class="firm-logo" id="firm-logo" aria-hidden="true">UV</span><span class="firm-t"><b id="firm-name">Ukázková výroba s.r.o.</b><small id="firm-what">regály a&nbsp;montáž<span class="wide"> skladů · 4&nbsp;obchodníci</span></small></span></span>
+        <div class="obor js-only" id="obor">
+          <span class="obor-k" id="obor-k">Ukázka pro:</span>
+          <div class="seg" id="seg" role="radiogroup" aria-labelledby="obor-k">
+            <button type="button" role="radio" aria-checked="true" data-ob="vyroba">Výroba<span class="wide"> a&nbsp;montáž</span></button>
+            <button type="button" role="radio" aria-checked="false" data-ob="sluzby" tabindex="-1">B2B služby</button>
+            <button type="button" role="radio" aria-checked="false" data-ob="velkoobchod" tabindex="-1">Velkoobchod<span class="wide"> a&nbsp;distribuce</span></button>
+          </div>
+        </div>
+        <span class="tag"><b>Ukázka</b><span>vymyšlená data</span></span>
+      </div>
+
+      <div class="tabs js-only" id="tabs" aria-label="Části ukázky">
+        <button class="tab" type="button" id="t-prehled" data-tab="prehled" aria-controls="p-prehled" aria-selected="true">
+          <span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16v-5M12 16V6M17 16v-8"/></svg></span>
+          <span class="tx"><span class="tl">Přehled</span><span class="td">pro vás, každé pondělí</span></span>
+        </button>
+        <button class="tab" type="button" id="t-obchody" data-tab="obchody" aria-controls="p-obchody" aria-selected="false">
+          <span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="4.5" height="16" rx="1.5"/><rect x="9.75" y="4" width="4.5" height="11" rx="1.5"/><rect x="16" y="4" width="4.5" height="7" rx="1.5"/></svg></span>
+          <span class="tx"><span class="tl">Obchody</span><span class="td">fáze a&nbsp;další kroky</span></span>
+          <span class="dotw" id="tab-warn" aria-hidden="true"></span>
+        </button>
+        <button class="tab" type="button" id="t-schuzka" data-tab="schuzka" aria-controls="p-schuzka" aria-selected="false">
+          <span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+          <span class="tx"><span class="tl">Schůzka</span><span class="td">podklady připraví AI</span></span>
+        </button>
+        <button class="tab" type="button" id="t-zapis" data-tab="zapis" aria-controls="p-zapis" aria-selected="false">
+          <span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M14 3.5V8.5h5M9 13h7M9 16.5h5"/></svg></span>
+          <span class="tx"><span class="tl">Zápis</span><span class="td">z&nbsp;hovoru rovnou do CRM</span></span>
+        </button>
+      </div>
+
+      <div class="panes" id="panes">
+
+        <!-- 1 · přehled pro majitele -->
+        <section class="pane" id="p-prehled" aria-labelledby="h-prehled">
+          <div class="pane-h"><h3 id="h-prehled">Přehled pro majitele</h3><span class="meta">každé pondělí v&nbsp;8:00 i&nbsp;e-mailem</span></div>
+          <div class="ov">
+            <div class="kpis">
+              <div class="kpi"><span class="kl">Rozpracováno</span><b class="kv" id="k-open">5,1<small> mil.&nbsp;Kč</small></b><span class="ks" id="k-open-n">10&nbsp;obchodů</span></div>
+              <div class="kpi"><span class="kl" id="k-won-l">Vyhráno v&nbsp;říjnu</span><b class="kv" id="k-won">1,4<small> mil.&nbsp;Kč</small></b><span class="ks" id="k-won-n">3&nbsp;zakázky</span></div>
+              <div class="kpi"><span class="kl" id="k-leads-l">Nové poptávky</span><b class="kv" id="k-leads">8</b><span class="ks">tento týden</span></div>
+              <div class="kpi warn" id="k-warn-box"><span class="kl">Bez dalšího kroku</span><b class="kv" id="k-warn">2</b><span class="ks" id="k-warn-s">obchody</span></div>
+            </div>
+            <div class="box att">
+              <h4 class="h5">Potřebuje pozornost</h4>
+              <ul class="att-l" id="att-l">
+                <li><button class="att-i" type="button" data-open="kovar"><span class="ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 2.2l6.3 11.3H1.7z"/><path d="M8 6.6v3.2M8 11.8v.1"/></svg></span><span><b>Stavby Kovář · 860&nbsp;tis.</b><small>Nabídka 9&nbsp;dní bez reakce</small></span><span class="go" aria-hidden="true">→&#xFE0E;</span></button></li>
+                <li><button class="att-i" type="button" data-open="simek"><span class="ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 2.2l6.3 11.3H1.7z"/><path d="M8 6.6v3.2M8 11.8v.1"/></svg></span><span><b>Elektro Šimek · 340&nbsp;tis.</b><small>Po zaměření nic nedomluveno</small></span><span class="go" aria-hidden="true">→&#xFE0E;</span></button></li>
+              </ul>
+              <p class="att-ok" id="att-ok" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>Všechny obchody mají další krok.</p>
+            </div>
+            <div class="box fun">
+              <div class="fun-head"><h4 class="h5">Kde se obchody ztrácí</h4><small>90&nbsp;dní</small></div>
+              <ol class="fun-l" id="fun-l">
+                <li><span>Poptávky</span><span class="fb"><i style="--w:100%"></i></span><b>42</b><span class="cv"></span></li>
+                <li><span>Zaměření</span><span class="fb"><i style="--w:57%"></i></span><b>24</b><span class="cv">57&nbsp;%</span></li>
+                <li><span>Nabídky</span><span class="fb"><i style="--w:36%"></i></span><b>15</b><span class="cv">63&nbsp;%</span></li>
+                <li><span>Zakázky</span><span class="fb"><i style="--w:14%"></i></span><b>6</b><span class="cv leak">40&nbsp;%</span></li>
+              </ol>
+              <p class="fun-n" id="fun-n"><b>Nejvíc obchodů se ztrácí po nabídce.</b> Návrh na poradu: ozvat se do&nbsp;3&nbsp;dnů od odeslání.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · obchody: fáze, další krok, upozornění -->
+        <section class="pane" id="p-obchody" aria-labelledby="h-obchody">
+          <div class="pane-h"><h3 id="h-obchody">Obchody</h3><span class="meta" id="flow">od poptávky po zakázku</span></div>
+          <div class="strip js-only" id="strip" role="group" aria-label="Přejít na fázi">
+            <button type="button" data-col="0" aria-current="true"><b>3</b>Poptávka</button>
+            <button type="button" data-col="1"><b>2</b>Zaměření</button>
+            <button type="button" data-col="2"><b>3</b>Nabídka</button>
+            <button type="button" data-col="3"><b>2</b>Jednání</button>
+            <button type="button" data-col="4"><b>3</b>Zakázka</button>
+          </div>
+          <div class="bscroll" id="bscroll" tabindex="0" role="region" aria-label="Obchody podle fáze, posouvejte do stran">
+            <div class="cols">
+              <section class="col" data-stage="0" aria-labelledby="c0"><div class="col-h"><h4 id="c0">Poptávka</h4><span class="col-n">3</span><span class="col-s">860&nbsp;tis.</span></div>
+                <ul class="cards">
+                  <li><button class="deal" type="button" data-id="lin"><span class="d-new">nová</span><span class="d-top"><span class="d-firm">Doprava Lín</span><span class="d-val">420&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Odpovědět do 11:30</span></span><span class="d-own" aria-hidden="true">JM</span></span></button></li>
+                  <li><button class="deal" type="button" data-id="horak"><span class="d-top"><span class="d-firm">Pekárny Horák</span><span class="d-val">180&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Zavolat · dnes 14:00</span></span><span class="d-own" aria-hidden="true">JM</span></span></button></li>
+                  <li><button class="deal" type="button" data-id="rosa"><span class="d-top"><span class="d-firm">Nábytek Rosa</span><span class="d-val">260&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Domluvit schůzku · zítra</span></span><span class="d-own" aria-hidden="true">PK</span></span></button></li>
+                </ul>
+              </section>
+              <section class="col" data-stage="1" aria-labelledby="c1"><div class="col-h"><h4 id="c1">Zaměření</h4><span class="col-n">2</span><span class="col-s">880&nbsp;tis.</span></div>
+                <ul class="cards">
+                  <li><button class="deal" type="button" data-id="mlynek"><span class="d-top"><span class="d-firm">Agro Mlýnek</span><span class="d-val">540&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Zaměření · út 10:00</span></span><span class="d-own" aria-hidden="true">PK</span></span></button></li>
+                  <li><button class="deal alert" type="button" data-id="simek"><span class="d-top"><span class="d-firm">Elektro Šimek</span><span class="d-val">340&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.2l6.3 11.3H1.7z"/><path d="M8 6.6v3.2M8 11.8v.1"/></svg><span class="d-nt">Chybí další krok</span></span><span class="d-own" aria-hidden="true">JM</span></span></button></li>
+                </ul>
+              </section>
+              <section class="col" data-stage="2" aria-labelledby="c2"><div class="col-h"><h4 id="c2">Nabídka</h4><span class="col-n">3</span><span class="col-s">1,9&nbsp;mil.</span></div>
+                <ul class="cards">
+                  <li><button class="deal alert" type="button" data-id="kovar"><span class="d-top"><span class="d-firm">Stavby Kovář</span><span class="d-val">860&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.2l6.3 11.3H1.7z"/><path d="M8 6.6v3.2M8 11.8v.1"/></svg><span class="d-nt">Chybí další krok</span></span><span class="d-own" aria-hidden="true">TN</span></span></button></li>
+                  <li><button class="deal" type="button" data-id="logis"><span class="d-top"><span class="d-firm">Logis Kolín</span><span class="d-val">680&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Hovor · dnes 15:30</span></span><span class="d-own" aria-hidden="true">TN</span></span></button></li>
+                  <li><button class="deal" type="button" data-id="brazda"><span class="d-top"><span class="d-firm">Sklady Brázda</span><span class="d-val">390&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Ověřit nabídku · čt</span></span><span class="d-own" aria-hidden="true">PK</span></span></button></li>
+                </ul>
+              </section>
+              <section class="col" data-stage="3" aria-labelledby="c3"><div class="col-h"><h4 id="c3">Jednání</h4><span class="col-n">2</span><span class="col-s">1,4&nbsp;mil.</span></div>
+                <ul class="cards">
+                  <li><button class="deal" type="button" data-id="vrba"><span class="d-top"><span class="d-firm">Dřevo Vrba</span><span class="d-val">1,1&nbsp;mil.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Podpis smlouvy · st 14:30</span></span><span class="d-own" aria-hidden="true">MB</span></span></button></li>
+                  <li><button class="deal" type="button" data-id="mlekarna"><span class="d-top"><span class="d-firm">Mlékárna Bor</span><span class="d-val">310&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg><span class="d-nt">Potvrdit termín montáže · pá</span></span><span class="d-own" aria-hidden="true">MB</span></span></button></li>
+                </ul>
+              </section>
+              <section class="col" data-stage="4" aria-labelledby="c4"><div class="col-h"><h4 id="c4">Zakázka</h4><span class="col-n">3</span><span class="col-s">1,4&nbsp;mil.</span></div>
+                <ul class="cards">
+                  <li><button class="deal won" type="button" data-id="kovo"><span class="d-top"><span class="d-firm">Kovo Lhota</span><span class="d-val">620&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span class="d-nt">Vyhráno 14.&nbsp;10.</span></span><span class="d-own" aria-hidden="true">MB</span></span></button></li>
+                  <li><button class="deal won" type="button" data-id="hajek"><span class="d-top"><span class="d-firm">Pivovar Hájek</span><span class="d-val">480&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span class="d-nt">Vyhráno 9.&nbsp;10.</span></span><span class="d-own" aria-hidden="true">PK</span></span></button></li>
+                  <li><button class="deal won" type="button" data-id="sindelar"><span class="d-top"><span class="d-firm">Autodíly Kos</span><span class="d-val">300&nbsp;tis.</span></span><span class="d-bot"><span class="d-next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span class="d-nt">Vyhráno 2.&nbsp;10.</span></span><span class="d-own" aria-hidden="true">JM</span></span></button></li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 · příprava na schůzku od AI -->
+        <section class="pane" id="p-schuzka" aria-labelledby="h-schuzka">
+          <div class="pane-h"><h3 id="h-schuzka">Příprava na schůzku</h3><span class="meta">připravila <span class="ai">AI</span></span></div>
+          <div class="mt">
+            <ul class="mt-l" id="mt-l">
+              <li><button class="mt-i" type="button" data-m="mlynek" aria-pressed="true"><span class="w">Út 10:00</span><span class="f">Agro Mlýnek</span><span class="o">Petra · zaměření skladu</span></button></li>
+              <li><button class="mt-i" type="button" data-m="vrba" aria-pressed="false"><span class="w">St 14:30</span><span class="f">Dřevo Vrba</span><span class="o">Martin · podpis smlouvy</span></button></li>
+              <li class="mt-note">Obchodník podklady dostane ráno v&nbsp;den schůzky. Nemusí nic hledat v&nbsp;e-mailech.</li>
+            </ul>
+            <article class="box brief" id="brief" aria-live="polite">
+              <span class="prog js-only" aria-hidden="true"><i></i></span>
+              <div class="br-h rv"><b>Agro Mlýnek</b><span class="src">Z&nbsp;CRM, e-mailů, webu firmy a&nbsp;poznámek z&nbsp;telefonu</span></div>
+              <div class="br-sec rv"><h4 class="h5">Kdo přijde</h4><p>Hana Šustrová, provozní ředitelka. O&nbsp;rozpočtu rozhoduje s&nbsp;jednatelem.</p></div>
+              <div class="br-sec rv"><h4 class="h5">Co víme</h4><ul><li>Rozšiřují sklad v&nbsp;Kolíně o&nbsp;1&nbsp;200&nbsp;paletových míst.</li><li>Do telefonu řešila hlavně termín montáže, cenu skoro vůbec.</li><li>Srovnávají s&nbsp;jednou další nabídkou.</li></ul></div>
+              <div class="br-sec rv"><h4 class="h5">Na co se zeptat</h4><ul><li>Do kdy musí nový sklad běžet?</li><li>Kdo kromě jednatele o&nbsp;zakázce rozhoduje?</li></ul></div>
+              <div class="br-sec rv"><h4 class="h5">Cíl schůzky</h4><p class="goal">Zaměřit sklad a&nbsp;odsouhlasit rozložení regálů.</p></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 4 · zápis z hovoru: AI navrhne, obchodník potvrdí -->
+        <section class="pane" id="p-zapis" aria-labelledby="h-zapis">
+          <div class="pane-h"><h3 id="h-zapis">Zápis z&nbsp;hovoru</h3><span class="meta" id="zp-meta">Logis Kolín · Tomáš · 14&nbsp;min</span></div>
+          <div class="zp">
+            <div class="box">
+              <h4 class="h5">Z&nbsp;přepisu hovoru</h4>
+              <ul class="tr-l" id="tr-l">
+                <li><b>Zákazník</b>„Cena sedí, ale montáž potřebujeme do konce listopadu.“</li>
+                <li class="me"><b>Tomáš</b>„To zvládneme. Pošlu upravenou nabídku s&nbsp;termínem.“</li>
+                <li><b>Zákazník</b>„Dobře. A&nbsp;přidejte do ní i&nbsp;druhou řadu regálů.“</li>
+              </ul>
+              <button class="btn-app js-only" type="button" id="zp-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M9 13h7M9 16.5h5"/></svg><span>Zpracovat hovor</span></button>
+            </div>
+            <div class="zp-r">
+              <div class="zp-empty js-only" id="zp-empty"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M14 3.5V8.5h5M9 13h7M9 16.5h5"/></svg>Zápis a&nbsp;změny v&nbsp;CRM se objeví tady.</div>
+              <div class="box zp-out" id="zp-out" tabindex="-1">
+                <span class="prog js-only" aria-hidden="true"><i></i></span>
+                <div class="rv"><h4 class="h5">Zápis <span class="ai">AI</span></h4>
+                <p class="zp-sum" id="zp-sum">Cena v&nbsp;pořádku. Podmínka: montáž do 30.&nbsp;11. Zákazník chce přidat druhou řadu regálů.</p></div>
+                <div class="rv"><h4 class="h5">Do CRM po potvrzení</h4>
+                <ul class="chg" id="chg">
+                  <li style="--i:0"><span class="k">Hodnota</span><span class="v"><s>680&nbsp;tis.</s> →&#xFE0E; <b>820&nbsp;tis.&nbsp;Kč</b></span><span class="ck" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span></li>
+                  <li style="--i:1"><span class="k">Fáze</span><span class="v"><s>Nabídka</s> →&#xFE0E; <b>Jednání</b></span><span class="ck" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span></li>
+                  <li style="--i:2"><span class="k">Další krok</span><span class="v"><b>Poslat upravenou nabídku&nbsp;· zítra&nbsp;12:00</b></span><span class="ck" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span></li>
+                </ul></div>
+                <div class="rv"><button class="btn-app acc js-only" type="button" id="zp-save"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Potvrdit a&nbsp;uložit</span></button>
+                <p class="zp-done js-only" id="zp-done" tabindex="-1" hidden><span id="zp-done-t">Uloženo, obchod je ve fázi Jednání.</span> <button class="lnk" type="button" data-goto="logis">Zobrazit v&nbsp;obchodech&nbsp;→&#xFE0E;</button></p></div>
+              </div>
+              <p class="zp-note">AI navrhne, obchodník potvrdí. Nic se nezapíše samo.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- detail obchodu -->
+        <button class="scrim js-only" id="scrim" type="button" tabindex="-1" aria-label="Zavřít detail" hidden></button>
+        <div class="drawer js-only" id="drawer" role="dialog" aria-labelledby="dr-title" hidden>
+          <div class="dr-h"><h4 id="dr-title">Obchod</h4><button class="dr-x" id="dr-x" type="button" aria-label="Zavřít detail"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
+          <div class="dr-b" id="dr-body"></div>
+        </div>
+      </div>
+
+      <div class="toast js-only" id="toast" role="status" hidden>
+        <span class="t-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6.5h16v11H4z"/><path d="M4 7l8 6 8-6"/></svg></span>
+        <p><b id="t-title">Nová poptávka z&nbsp;webu</b><span id="t-text">Doprava Lín · přidělena Janě</span></p>
+        <button class="t-go" type="button" id="t-go">Zobrazit</button>
+        <button class="t-x" type="button" id="t-x" aria-label="Skrýt upozornění"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-cta">
+    <a class="btn btn-l" data-cal data-umami-event="os-demo" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Chci to mít u&nbsp;nás <span class="arr" aria-hidden="true">→&#xFE0E;</span></a>
+    <p>Podobu přizpůsobím vaší firmě a&nbsp;CRM, které už máte, nebo vybereme nové.</p>
+  </div>
+</section>
+
+<!-- ═════════ JAK TO PROBĚHNE ═════════ -->
+<section class="sec wrap" id="prubeh" aria-labelledby="h-prubeh">
+  <h2 class="h2" id="h-prubeh"><span class="sq" aria-hidden="true"></span>Jak to proběhne</h2>
+  <ol class="plan">
+    <li class="ph">
+      <span class="wks" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="wk">Týden 1</span>
+      <h3>Rozbor</h3>
+      <p>Mluvím s&nbsp;vámi i&nbsp;s&nbsp;obchodníky a&nbsp;projdu poslední obchody. Uvidíte, kde se ztrácí.</p>
+    </li>
+    <li class="ph">
+      <span class="wks" aria-hidden="true"><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+      <span class="wk">Týden <span class="nw">2-4</span></span>
+      <h3>Stavba</h3>
+      <p>Fáze a&nbsp;pravidla, CRM, šablony a&nbsp;přehled pro vás. AI tam, kde ušetří nejvíc času.</p>
+    </li>
+    <li class="ph">
+      <span class="wks" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="on"></i><i class="on"></i></span>
+      <span class="wk">Týden <span class="nw">5-6</span></span>
+      <h3>Rozjezd</h3>
+      <p>Zaškolím obchodníky a&nbsp;dva týdny systém ladím za plného provozu.</p>
+    </li>
+  </ol>
+  <div class="keep">
+    <h3>Co vám zůstane</h3>
+    <ul class="chk">
+      <li>Popsaný proces: kdo co dělá a&nbsp;do kdy</li>
+      <li>CRM nastavené a&nbsp;naplněné vašimi daty</li>
+      <li>AI tam, kde obchodníkům šetří čas</li>
+      <li>Pondělní přehled pro vás</li>
+      <li>Návod pro nové obchodníky</li>
+      <li>Účty i&nbsp;data jsou vaše, nezávisí to na mně</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═════════ KDO TO POSTAVÍ ═════════ -->
+<section class="sec wrap" id="kdo" aria-labelledby="h-kdo">
+  <h2 class="h2" id="h-kdo"><span class="sq" aria-hidden="true"></span>Kdo to postaví</h2>
+  <div class="kdo-grid">
+    <figure class="idcard">
+      <picture><source srcset="../assets/photo.webp" type="image/webp"><img src="../assets/photo.png" alt="Ondřej Kamarýt" width="600" height="800" draggable="false" loading="lazy" decoding="async"></picture>
+      <span class="id-sq" aria-hidden="true"></span>
+    </figure>
+    <div class="kdo-txt">
+      <p class="name">Ondřej Kamarýt</p>
+      <ul class="bio">
+        <li>7&nbsp;let v&nbsp;obchodě, v&nbsp;zaměstnání vedu obchod</li>
+        <li>předtím IT a&nbsp;digitalizace poliklinik, takže systém i&nbsp;postavím, ne jen poradím</li>
+      </ul>
+    </div>
+    <div class="tr">
+      <p class="tr-k">Výsledky z&nbsp;mé role v&nbsp;zaměstnání · FY&nbsp;2025</p>
+      <ul class="stats">
+        <li><b>50&#8239;%</b><span>obratu firmy jsem přinesl osobně</span></li>
+        <li><b>3×</b><span>větší tým</span></li>
+        <li><b>25&#8239;%</b><span>roční růst obratu</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ ZÁVĚR ═════════ -->
+<section class="sec wrap" id="hovor" aria-labelledby="h-hovor">
+  <div class="contact">
+    <div class="lead">
+      <h2 class="c-h" id="h-hovor">Jak by to vypadalo <span class="cw">u&nbsp;vás</span>?</h2>
+      <p class="c-p">Cenu řeknu po hovoru, odvíjí se od firmy: od počtu obchodníků, CRM a&nbsp;toho, co už máte.</p>
+      <div class="c-cta"><a class="btn btn-l light" data-cal data-umami-event="os-konec" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a></div>
+      <ol class="flow" aria-label="Co bude po kliknutí">
+        <li>25&nbsp;minut zdarma</li>
+        <li>návrh a&nbsp;cena</li>
+        <li>6&nbsp;týdnů stavby</li>
+      </ol>
+      <p class="cap"><span class="dot" aria-hidden="true"></span>Systém stavím vždy jen pro jednu firmu najednou.</p>
+      <ul class="c-links">
+        <li><a href="mailto:ondrej.kamaryt@gmail.com">ondrej.kamaryt@gmail.com</a></li>
+        <li><a href="tel:+420773635240">+420&nbsp;773&nbsp;635&nbsp;240</a></li>
+        <li><a href="/#kontakt" data-umami-event="os-formular">Napsat přes formulář <span aria-hidden="true">→&#xFE0E;</span></a></li>
+      </ul>
+    </div>
+    <div class="agenda">
+      <h3>Na hovoru projdeme</h3>
+      <ol class="ag">
+        <li>Jak k&nbsp;vám chodí poptávky a&nbsp;kde se ztrácí</li>
+        <li>Co z&nbsp;ukázky dává smysl právě u&nbsp;vás</li>
+        <li>Rozsah a&nbsp;termín</li>
+      </ol>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot wrap">
+  <span>© 2026 Ondřej Kamarýt · Praha · osobně i&nbsp;online</span>
+  <a href="/">Externí vedení obchodu</a>
+</footer>
+
+<div class="bar" id="bar" aria-hidden="true">
+  <a class="btn btn-l" data-cal data-umami-event="os-lista" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener" tabindex="-1">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  // Odkaz do kalendáře pro odkazy s data-cal (stejná konstanta jako na hlavní stránce). Při změně přepsat i statické href (běh bez JS).
+  const CAL_URL = 'https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma';
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NB = ' ';
+  const wait = (ms) => new Promise((r) => setTimeout(r, RM ? 0 : ms));
+  // každá část zvlášť: když jedna spadne, ostatní (hlavně výzvy) běží dál
+  const part = (name, fn) => { try { fn(); } catch (e) { console.error('[' + name + ']', e); } };
+  // pevné mezery v textech ze skriptu: po jednopísmenných předložkách a spojkách a mezi číslem a slovem
+  const nb = (s) => {
+    for (let k = 0; k < 2; k++) s = s.replace(/(^|[\s („])([vkszouaiVKSZOUAI]) /g, '$1$2' + NB);
+    return s.replace(/(\d) (?=[\p{L}\d])/gu, '$1' + NB).replace(/ (\d{1,2}:\d{2})/g, NB + '$1').replace(/ · /g, NB + '· ').replace(/· (\S{1,5})$/, '·' + NB + '$1');
+  };
+
+  /* ───────── výzvy do kalendáře ───────── */
+  part('cal', () => { $$('[data-cal]').forEach((a) => { a.href = CAL_URL; }); });
+
+  /* ───────── ukázka: obchodní kokpit (datově řízený, tři obory) ───────── */
+  part('ukazka', () => {
+    const app = $('#app');
+    if (!app) return;
+
+    let tracked = false, obTracked = false; // interakce a přepnutí oboru se měří jednou za návštěvu
+    const touch = () => {
+      if (tracked) return;
+      tracked = true;
+      try { if (window.umami) window.umami.track('os-demo-interakce'); } catch (_) { /* nic */ }
+    };
+
+    const IC = {
+      clock: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.3l2.2 1.4"/></svg>',
+      alert: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.2l6.3 11.3H1.7z"/><path d="M8 6.6v3.2M8 11.8v.1"/></svg>',
+      check: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>',
+      doc: '<path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M9 13h7M9 16.5h5"/>',
+      done: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    };
+
+    /* Data: jeden objekt na obor. Vše vymyšlené. Hodnoty obchodů v tis. Kč; st = index fáze.
+       Obchod: next (další krok) | alert + why + sug (návrhy AI) [+ at = text upozornění na kartě] | won (poslední fáze).
+       isNew = poptávka, která jednou za návštěvu "přijde" živě. call = zápis z hovoru, set = co se po potvrzení zapíše. */
+    const OB = {
+      vyroba: {
+        firm: 'Ukázková výroba s.r.o.', logo: 'UV', what: 'regály a montáž', whatWide: ' skladů · 4 obchodníci',
+        stages: ['Poptávka', 'Zaměření', 'Nabídka', 'Jednání', 'Zakázka'],
+        short: ['Poptávka', 'Zaměření', 'Nabídka', 'Jednání', 'Zakázka'],
+        flow: 'od poptávky po zakázku',
+        people: { JM: ['Jana Malá', 'Jana'], PK: ['Petra Kolářová', 'Petra'], TN: ['Tomáš Novotný', 'Tomáš'], MB: ['Martin Beneš', 'Martin'] },
+        kpi: { leads: 'Nové poptávky', leadsBase: 7, won: 'Vyhráno v říjnu', wonN: ['zakázka', 'zakázky', 'zakázek'] },
+        funnel: [['Poptávky', 42], ['Zaměření', 24], ['Nabídky', 15], ['Zakázky', 6]],
+        funNote: '<b>Nejvíc obchodů se ztrácí po nabídce.</b> Návrh na poradu: ozvat se do 3 dnů od odeslání.',
+        toast: ['Nová poptávka z webu', 'Doprava Lín · přidělena Janě'],
+        deals: {
+          lin: { firm: 'Doprava Lín', val: 420, own: 'JM', st: 0, isNew: true, next: 'Odpovědět do 11:30', hist: [['Poptávka z webu, přidělena automaticky', 'dnes 9:30']] },
+          horak: { firm: 'Pekárny Horák', val: 180, own: 'JM', st: 0, next: 'Zavolat · dnes 14:00', hist: [['Hovor naplánován', 'pá'], ['Poptávka z telefonu', 'pá']] },
+          rosa: { firm: 'Nábytek Rosa', val: 260, own: 'PK', st: 0, next: 'Domluvit zaměření · zítra', hist: [['Poptávka z veletrhu', 'čt']] },
+          mlynek: { firm: 'Agro Mlýnek', val: 540, own: 'PK', st: 1, next: 'Zaměření · út 10:00', hist: [['Podklady na zaměření připravila AI', 'dnes'], ['Zaměření domluveno', 'po'], ['Poptávka z webu', 'pá']] },
+          simek: { firm: 'Elektro Šimek', val: 340, own: 'JM', st: 1, alert: true, why: 'Po zaměření nic nedomluveno', sug: ['Poslat nabídku · do čt', 'Domluvit druhou schůzku · příští týden'], hist: [['Zápis ze zaměření od AI', 'čt'], ['Zaměření domluveno', '9. 10.'], ['Poptávka z telefonu', '6. 10.']] },
+          kovar: { firm: 'Stavby Kovář', val: 860, own: 'TN', st: 2, alert: true, why: 'Nabídka 9 dní bez reakce', sug: ['Zavolat a zeptat se na nabídku · zítra 9:00', 'Poslat doplnění k nabídce · dnes'], hist: [['Nabídka odeslána', '12. 10.'], ['Zápis ze zaměření od AI', '8. 10.'], ['Poptávka z webu', '1. 10.']] },
+          logis: { firm: 'Logis Kolín', val: 680, own: 'TN', st: 2, next: 'Hovor · dnes 15:30', hist: [['Nabídka odeslána', '15. 10.'], ['Zaměření u zákazníka', '10. 10.'], ['Doporučení od zákazníka', '3. 10.']] },
+          brazda: { firm: 'Sklady Brázda', val: 390, own: 'PK', st: 2, next: 'Ověřit nabídku · čt', hist: [['Nabídka odeslána', '16. 10.'], ['Poptávka z webu', '7. 10.']] },
+          vrba: { firm: 'Dřevo Vrba', val: 1100, own: 'MB', st: 3, next: 'Podpis smlouvy · st 14:30', hist: [['Smlouva u právníka zákazníka', '17. 10.'], ['Nabídka přijata', '13. 10.']] },
+          bor: { firm: 'Mlékárna Bor', val: 310, own: 'MB', st: 3, next: 'Potvrdit termín montáže · pá', hist: [['Jednání o termínu', '16. 10.'], ['Nabídka odeslána', '9. 10.']] },
+          kovo: { firm: 'Kovo Lhota', val: 620, own: 'MB', st: 4, won: 'Vyhráno 14. 10.', hist: [['Smlouva podepsána', '14. 10.'], ['Nabídka odeslána', '30. 9.']] },
+          hajek: { firm: 'Pivovar Hájek', val: 480, own: 'PK', st: 4, won: 'Vyhráno 9. 10.', hist: [['Smlouva podepsána', '9. 10.'], ['Nabídka odeslána', '25. 9.']] },
+          kos: { firm: 'Autodíly Kos', val: 300, own: 'JM', st: 4, won: 'Vyhráno 2. 10.', hist: [['Smlouva podepsána', '2. 10.'], ['Nabídka odeslána', '22. 9.']] },
+        },
+        meet: [
+          { w: 'Út 10:00', firm: 'Agro Mlýnek', o: 'Petra · zaměření skladu', src: 'Z CRM, e-mailů, webu firmy a poznámek z telefonu',
+            kdo: 'Hana Šustrová, provozní ředitelka. O rozpočtu rozhoduje s jednatelem.',
+            vime: ['Rozšiřují sklad v Kolíně o 1 200 paletových míst.', 'Do telefonu řešila hlavně termín montáže, cenu skoro vůbec.', 'Srovnávají s jednou další nabídkou.'],
+            ask: ['Do kdy musí nový sklad běžet?', 'Kdo kromě jednatele o zakázce rozhoduje?'],
+            cil: 'Zaměřit sklad a odsouhlasit rozložení regálů.' },
+          { w: 'St 14:30', firm: 'Dřevo Vrba', o: 'Martin · podpis smlouvy', src: 'Z CRM, e-mailů a zápisů z jednání',
+            kdo: 'Jiří Vrba, jednatel. Podepisuje sám.',
+            vime: ['Právník vrátil smlouvu se 2 připomínkami, obě jsou zapracované.', 'Chtějí platit ve 3 splátkách.', 'Montáž plánují na leden.'],
+            ask: ['Sedí jim splátky podle návrhu?', 'Kdo převezme sklad po montáži?'],
+            cil: 'Podepsat smlouvu a potvrdit termín montáže.' },
+        ],
+        call: {
+          deal: 'logis', meta: 'Logis Kolín · Tomáš · 14 min',
+          lines: [['Zákazník', 'Cena sedí, ale montáž potřebujeme do konce listopadu.'], ['Tomáš', 'To zvládneme. Pošlu upravenou nabídku s termínem.', 1], ['Zákazník', 'Dobře. A přidejte do ní i druhou řadu regálů.']],
+          sum: 'Cena v pořádku. Podmínka: montáž do 30. 11. Zákazník chce přidat druhou řadu regálů.',
+          chg: [['Hodnota', '680 tis.', '820 tis. Kč'], ['Fáze', 'Nabídka', 'Jednání'], ['Další krok', '', 'Poslat upravenou nabídku · zítra 12:00']],
+          set: { val: 820, st: 3, next: 'Poslat upravenou nabídku · zítra 12:00' },
+          hist: 'Zápis z hovoru od AI, potvrdil Tomáš', done: 'Uloženo, obchod je ve fázi Jednání.',
+        },
+      },
+
+      sluzby: {
+        firm: 'Ukázkové IT s.r.o.', logo: 'UI', what: 'správa IT pro firmy', whatWide: ' · 3 obchodníci',
+        stages: ['Poptávka', 'Úvodní schůzka', 'Návrh řešení', 'Pilot', 'Smlouva'],
+        short: ['Poptávka', 'Schůzka', 'Návrh', 'Pilot', 'Smlouva'],
+        flow: 'od poptávky po smlouvu',
+        people: { LS: ['Lucie Svobodová', 'Lucie'], DK: ['David Král', 'David'], EV: ['Eva Veselá', 'Eva'] },
+        kpi: { leads: 'Nové poptávky', leadsBase: 5, won: 'Podepsáno v říjnu', wonN: ['smlouva', 'smlouvy', 'smluv'] },
+        funnel: [['Schůzky', 30], ['Návrhy', 18], ['Piloty', 7], ['Smlouvy', 6]],
+        funNote: '<b>Nejvíc obchodů se ztrácí mezi návrhem a pilotem.</b> Návrh na poradu: návrh prezentovat i tomu, kdo podepisuje.',
+        toast: ['Nová poptávka z webu', 'Advokáti Říha · přidělena Lucii'],
+        deals: {
+          riha: { firm: 'Advokáti Říha', val: 360, own: 'LS', st: 0, isNew: true, next: 'Odpovědět do 12:00', hist: [['Poptávka z webu, přidělena automaticky', 'dnes 9:40']] },
+          dvorak: { firm: 'Účetní Dvořák', val: 240, own: 'DK', st: 0, next: 'Zavolat · dnes 13:30', hist: [['Poptávka z telefonu', 'po']] },
+          broz: { firm: 'Projekce Brož', val: 300, own: 'EV', st: 0, next: 'Domluvit schůzku · zítra', hist: [['Doporučení od zákazníka', 'pá']] },
+          hron: { firm: 'Logistika Hron', val: 720, own: 'LS', st: 1, next: 'Úvodní schůzka · út 9:30', hist: [['Podklady na schůzku připravila AI', 'dnes'], ['Schůzka domluvena', 'čt'], ['Poptávka z webu', 'st']] },
+          pavlik: { firm: 'Tiskárna Pavlík', val: 280, own: 'DK', st: 1, alert: true, why: 'Po schůzce nic nedomluveno', sug: ['Poslat shrnutí schůzky a další postup · dnes', 'Domluvit technickou prohlídku · čt'], hist: [['Zápis ze schůzky od AI', 'po'], ['Schůzka domluvena', '13. 10.'], ['Poptávka z webu', '8. 10.']] },
+          skalka: { firm: 'Hotel Na Skalce', val: 450, own: 'EV', st: 2, alert: true, why: 'Návrh 8 dní bez reakce, ředitel ho asi neviděl', sug: ['Zavolat řediteli a projít návrh · zítra 10:00', 'Poslat srovnání dvou variant · dnes'], hist: [['Návrh řešení odeslán', '13. 10.'], ['Zápis ze schůzky od AI', '9. 10.'], ['Poptávka z webu', '2. 10.']] },
+          kubat: { firm: 'Stavební Kubát', val: 960, own: 'LS', st: 2, next: 'Hovor · dnes 16:00', hist: [['Návrh řešení odeslán', '16. 10.'], ['Audit sítě', '12. 10.'], ['Úvodní schůzka', '7. 10.']] },
+          mraz: { firm: 'Agentura Mráz', val: 330, own: 'DK', st: 2, next: 'Prezentace návrhu · čt 14:00', hist: [['Návrh řešení odeslán', '17. 10.'], ['Úvodní schůzka', '14. 10.']] },
+          klas: { firm: 'Pekárna Klas', val: 380, own: 'EV', st: 3, next: 'Vyhodnotit pilot · pá', hist: [['Pilot spuštěn', '1. 10.'], ['Návrh přijat', '26. 9.']] },
+          bures: { firm: 'Autoservis Bureš', val: 260, own: 'DK', st: 3, next: 'Pilot do 31. 10. · průběžný hovor st', hist: [['Pilot spuštěn', '8. 10.'], ['Návrh přijat', '3. 10.']] },
+          hola: { firm: 'Notářka Holá', val: 220, own: 'LS', st: 4, won: 'Podepsáno 15. 10.', hist: [['Smlouva podepsána', '15. 10.'], ['Pilot vyhodnocen', '10. 10.']] },
+          zelena: { firm: 'Ordinace Zelená', val: 190, own: 'EV', st: 4, won: 'Podepsáno 8. 10.', hist: [['Smlouva podepsána', '8. 10.'], ['Pilot vyhodnocen', '2. 10.']] },
+          valenta: { firm: 'Elektro Valenta', val: 540, own: 'DK', st: 4, won: 'Podepsáno 1. 10.', hist: [['Smlouva podepsána', '1. 10.'], ['Pilot vyhodnocen', '24. 9.']] },
+        },
+        meet: [
+          { w: 'Út 9:30', firm: 'Logistika Hron', o: 'Lucie · úvodní schůzka', src: 'Z CRM, e-mailů, webu firmy a inzerátů',
+            kdo: 'Petr Hron, jednatel, a Monika Dušková, vedoucí provozu. Podepisuje jednatel, technické věci řeší ona.',
+            vime: ['Mají 45 počítačů a 3 pobočky, správu dělá externista na telefonu.', 'Minulý měsíc jim dva dny nešel sklad kvůli výpadku serveru.', 'Hledají IT technika, inzerát visí 2 měsíce.'],
+            ask: ['Kolik je stál poslední výpadek?', 'Kdo kromě jednatele bude o dodavateli rozhodovat?'],
+            cil: 'Domluvit audit sítě a termín prezentace návrhu.' },
+          { w: 'Čt 14:00', firm: 'Agentura Mráz', o: 'David · prezentace návrhu', src: 'Z CRM, e-mailů a zápisu z úvodní schůzky',
+            kdo: 'Tereza Mrázová, majitelka. Rozhoduje sama, ale radí se s účetním.',
+            vime: ['Návrh počítá se zálohami a správou 18 notebooků.', 'Na úvodní schůzce se ptala hlavně na cenu za uživatele.', 'Se stávajícím dodavatelem mají smlouvu do konce roku.'],
+            ask: ['Má účetní k návrhu výhrady?', 'Chtějí začít pilotem na jednom oddělení?'],
+            cil: 'Domluvit měsíční pilot od listopadu.' },
+        ],
+        call: {
+          deal: 'kubat', meta: 'Stavební Kubát · Lucie · 18 min',
+          lines: [['Zákazník', 'Návrh se nám líbí, ale musí ho schválit i finanční ředitel.'], ['Lucie', 'Navrhuji měsíční pilot na centrále, ať vidí výsledky.', 1], ['Zákazník', 'Dobře. Začněme v listopadu, ale zatím bez skladu.']],
+          sum: 'Souhlas s pilotem od 1. 11. na centrále, sklad zatím ne. O smlouvě rozhodne i finanční ředitel podle výsledků pilotu.',
+          chg: [['Hodnota', '960 tis.', '780 tis. Kč'], ['Fáze', 'Návrh řešení', 'Pilot'], ['Kontakty', '', '+ finanční ředitel, schvaluje'], ['Další krok', '', 'Poslat smlouvu na pilot · zítra 10:00']],
+          set: { val: 780, st: 3, next: 'Poslat smlouvu na pilot · zítra 10:00' },
+          hist: 'Zápis z hovoru od AI, potvrdila Lucie', done: 'Uloženo, obchod je ve fázi Pilot.',
+        },
+      },
+
+      velkoobchod: {
+        firm: 'Ukázková distribuce s.r.o.', logo: 'UD', what: 'instalatérský materiál', whatWide: ' · 6 obchodníků',
+        stages: ['Nový kontakt', 'Ověření', 'Nabídka a ceník', 'První objednávka', 'Pravidelný odběr'],
+        short: ['Kontakt', 'Ověření', 'Ceník', 'Objednávka', 'Odběr'],
+        flow: 'od kontaktu po pravidelný odběr',
+        people: { RP: ['Radek Pospíšil', 'Radek'], KN: ['Klára Němcová', 'Klára'], JD: ['Jiří Doležal', 'Jiří'], MZ: ['Michal Zeman', 'Michal'] },
+        kpi: { leads: 'Nové kontakty', leadsBase: 9, won: 'Pravidelný odběr', wonN: ['odběratel', 'odběratelé', 'odběratelů'] },
+        funnel: [['Kontakty', 60], ['Nabídky', 30], ['Objednávky', 18], ['Pravidelní', 7]],
+        funNote: '<b>Nejvíc odběratelů odpadne po první objednávce.</b> Návrh na poradu: po první dodávce zavolat do týdne.',
+        toast: ['Nový kontakt z webu', 'Topenáři Bláha · přidělen Kláře'],
+        deals: {
+          blaha: { firm: 'Topenáři Bláha', val: 380, own: 'KN', st: 0, isNew: true, next: 'Zavolat do 11:00', hist: [['Registrace na webu, přidělena automaticky', 'dnes 9:15']] },
+          kriz: { firm: 'Instalace Kříž', val: 240, own: 'RP', st: 0, next: 'Ověřit IČO a obrat · dnes', hist: [['Kontakt z veletrhu', 'čt']] },
+          vanek: { firm: 'Koupelny Vaněk', val: 420, own: 'MZ', st: 0, next: 'Domluvit návštěvu · zítra', hist: [['Poptávka z telefonu', 'pá']] },
+          rezac: { firm: 'Řezáč Topení', val: 650, own: 'JD', st: 1, next: 'Návštěva · st 9:00', hist: [['Podklady na návštěvu připravila AI', 'dnes'], ['Návštěva domluvena', 'po'], ['Stažený ceník z webu', 'pá']] },
+          holub: { firm: 'Stavby Holub', val: 310, own: 'KN', st: 1, alert: true, why: 'Po návštěvě nic nedomluveno', sug: ['Poslat ceník s cenovou hladinou B · dnes', 'Domluvit návštěvu se stavbyvedoucím · čt'], hist: [['Zápis z návštěvy od AI', 'po'], ['Návštěva domluvena', '13. 10.'], ['Kontakt z webu', '9. 10.']] },
+          safranek: { firm: 'Montáže Šafránek', val: 540, own: 'RP', st: 2, next: 'Hovor · dnes 15:00', hist: [['Ceník odeslán', '15. 10.'], ['Ověřeno: IČO, obrat, platby', '11. 10.'], ['Kontakt od dodavatele kotlů', '8. 10.']] },
+          dusek: { firm: 'Teplo Dušek', val: 290, own: 'MZ', st: 2, next: 'Ověřit ceník · pá', hist: [['Ceník odeslán', '17. 10.'], ['Ověřeno: IČO, obrat, platby', '14. 10.']] },
+          rak: { firm: 'Bytové domy Rak', val: 880, own: 'JD', st: 3, next: 'Doručit první závoz · čt', hist: [['První objednávka přijata', '16. 10.'], ['Ceník přijat', '10. 10.']] },
+          lukes: { firm: 'Servis Lukeš', val: 260, own: 'KN', st: 3, next: 'Zavolat po první dodávce · po', hist: [['První dodávka doručena', '17. 10.'], ['První objednávka přijata', '14. 10.']] },
+          mares: { firm: 'Instal Mareš', val: 1450, own: 'RP', st: 4, alert: true, at: 'Pokles odběru', why: 'Odběr za září a říjen o 35 % nižší než loni, nikdo se neozval', sug: ['Zavolat a zjistit důvod · zítra 8:30', 'Nabídnout objemovou slevu na 4. čtvrtletí · dnes'], hist: [['Upozornění: pokles odběru', 'dnes'], ['Objednávka 38 tis. Kč', '2. 10.'], ['Objednávka 41 tis. Kč', '11. 9.']] },
+          kolar: { firm: 'Topservis Kolář', val: 920, own: 'JD', st: 4, won: 'Odběr podle plánu', hist: [['Objednávka 86 tis. Kč', '15. 10.'], ['Objednávka 79 tis. Kč', '24. 9.']] },
+          pech: { firm: 'Pech a syn', val: 760, own: 'MZ', st: 4, won: 'Odběr podle plánu', hist: [['Objednávka 64 tis. Kč', '13. 10.'], ['Objednávka 58 tis. Kč', '22. 9.']] },
+        },
+        meet: [
+          { w: 'St 9:00', firm: 'Řezáč Topení', o: 'Jiří · první návštěva', src: 'Z CRM, e-mailů, webu firmy a stažených ceníků',
+            kdo: 'Pavel Řezáč, majitel. Nakupuje sám, faktury řeší jeho žena.',
+            vime: ['Mají 12 montérů, dělají hlavně rekonstrukce bytů.', 'Materiál berou u dvou konkurentů, stěžují si na termíny dodání.', 'Z webu si stáhli ceník kotlů a ohřívačů.'],
+            ask: ['Kolik měsíčně utratí za materiál?', 'Co jim nejvíc vadí na dnešním dodavateli?'],
+            cil: 'Domluvit zkušební objednávku s dodáním do 48 hodin.' },
+          { w: 'Pá 10:30', firm: 'Instal Mareš', o: 'Radek · pokles odběru', src: 'Z CRM, historie objednávek a e-mailů',
+            kdo: 'Jan Mareš, jednatel. Nákup od září řeší nový nákupčí.',
+            vime: ['Odběr za září a říjen klesl o 35 % proti loňsku.', 'S novým nákupčím zatím nikdo z vás nemluvil.', 'Dvě poslední objednávky měly zpožděnou dodávku.'],
+            ask: ['Berou část materiálu jinde, a proč?', 'Co potřebuje nový nákupčí, aby zůstal u vás?'],
+            cil: 'Poznat nákupčího a vrátit odběr na loňskou úroveň.' },
+        ],
+        call: {
+          deal: 'safranek', meta: 'Montáže Šafránek · Radek · 9 min',
+          lines: [['Zákazník', 'Ceník je v pořádku. Potřebujeme ale vozit přímo na stavbu.'], ['Radek', 'Na stavbu vozíme od 15 tisíc. Pošlete první objednávku ještě dnes?', 1], ['Zákazník', 'Pošlu ji odpoledne. A chtěl bych splatnost 30 dní.']],
+          sum: 'Ceník přijat. Dodávky přímo na stavbu, splatnost 30 dní. První objednávka dnes odpoledne.',
+          chg: [['Hodnota', '540 tis.', '600 tis. Kč ročně'], ['Fáze', 'Nabídka a ceník', 'První objednávka'], ['Splatnost', '14 dní', '30 dní'], ['Další krok', '', 'Potvrdit objednávku a závoz · dnes 16:00']],
+          set: { val: 600, st: 3, next: 'Potvrdit objednávku a závoz · dnes 16:00' },
+          hist: 'Zápis z hovoru od AI, potvrdil Radek', done: 'Uloženo, obchod je ve fázi První objednávka.',
+        },
+      },
+    };
+
+    /* stav */
+    let obKey = 'vyroba', O = OB.vyroba, D = {}, cols = [];
+    let leadIn = false, cur = 0, toastOn = false, toastT = 0;
+    let drawerOpen = false, drFor = null, drTrigger = null;
+    let briefKey = 0, briefDone = false, briefRun = 0;
+
+    const esc = (s) => nb(String(s)).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const fmt = (v) => (v >= 1000 ? (v / 1000).toFixed(1).replace('.', ',') + NB + 'mil.' : v + NB + 'tis.');
+    const big = (v) => (v >= 1000 ? (v / 1000).toFixed(1).replace('.', ',') + '<small> mil.' + NB + 'Kč</small>' : v + '<small> tis.' + NB + 'Kč</small>');
+    const plural = (n, a, b, c) => (n === 1 ? a : n >= 2 && n <= 4 ? b : c);
+    const card = (id) => $(`.deal[data-id="${id}"]`, app);
+    const visible = (id) => { const c = card(id); return !!c && !c.closest('li').classList.contains('pending'); };
+    const lastSt = () => O.stages.length - 1;
+    const newId = () => Object.keys(D).find((id) => D[id].isNew);
+    const who = (d) => O.people[d.own];
+
+    const zGo = $('#zp-go'), zOut = $('#zp-out'), zEmpty = $('#zp-empty'), zSave = $('#zp-save'), zDone = $('#zp-done');
+    const bs = $('#bscroll'), strip = $('#strip'), brief = $('#brief'), toast = $('#toast');
+    const drawer = $('#drawer'), scrim = $('#scrim'), drBody = $('#dr-body'), drTitle = $('#dr-title');
+
+    /* karta obchodu */
+    function paintCard(id) {
+      const d = D[id], el = card(id);
+      if (!el) return;
+      const text = d.alert ? (d.at || 'Chybí další krok') : (d.next || d.won);
+      const icon = d.alert ? IC.alert : d.next ? IC.clock : IC.check;
+      el.classList.toggle('alert', !!d.alert);
+      el.classList.toggle('won', !d.alert && !d.next && !!d.won);
+      $('.d-firm', el).textContent = nb(d.firm);
+      $('.d-val', el).textContent = fmt(d.val);
+      $('.d-own', el).textContent = d.own;
+      $('.d-next', el).innerHTML = icon + '<span class="d-nt"></span>';
+      $('.d-nt', el).textContent = nb(text);
+      el.setAttribute('aria-label', `${d.firm}, ${fmt(d.val)} Kč, ${nb(text)}, ${who(d)[1]}`);
+    }
+    const cardHTML = (id) => `<li${D[id].isNew && !leadIn ? ' class="pending"' : ''}><button class="deal" type="button" data-id="${id}">` +
+      (D[id].isNew ? '<span class="d-new">nová</span>' : '') +
+      '<span class="d-top"><span class="d-firm"></span><span class="d-val"></span></span><span class="d-bot"><span class="d-next"></span><span class="d-own" aria-hidden="true"></span></span></button></li>';
+
+    /* vykreslení oboru */
+    function renderBar() {
+      $('#firm-logo').textContent = O.logo;
+      $('#firm-name').textContent = O.firm;
+      $('#firm-what').innerHTML = esc(O.what) + `<span class="wide">${esc(O.whatWide)}</span>`;
+    }
+    function renderBoard() {
+      $('.cols', app).innerHTML = O.stages.map((s, i) =>
+        `<section class="col" data-stage="${i}" aria-labelledby="c${i}"><div class="col-h"><h4 id="c${i}">${esc(s)}</h4><span class="col-n"></span><span class="col-s"></span></div>` +
+        `<ul class="cards">${Object.keys(D).filter((id) => D[id].st === i).map(cardHTML).join('')}</ul></section>`).join('');
+      cols = $$('.col', app);
+      strip.innerHTML = O.short.map((s, i) => `<button type="button" data-col="${i}" aria-current="${i === 0}"><b></b>${esc(s)}</button>`).join('');
+      Object.keys(D).forEach(paintCard);
+      $('#flow').textContent = nb(O.flow);
+      bs.scrollLeft = 0;
+    }
+    function renderFunnel() {
+      const f = O.funnel, n0 = f[0][1];
+      const cv = f.map((r, i) => (i ? Math.round(r[1] / f[i - 1][1] * 100) : null));
+      const min = Math.min(...cv.filter((v) => v !== null));
+      $('#fun-l').innerHTML = f.map((r, i) =>
+        `<li><span>${esc(r[0])}</span><span class="fb"><i style="--w:${Math.round(r[1] / n0 * 100)}%"></i></span><b>${r[1]}</b>` +
+        `<span class="cv${cv[i] === min ? ' leak' : ''}">${cv[i] === null ? '' : cv[i] + NB + '%'}</span></li>`).join('');
+      $('#fun-n').innerHTML = nb(O.funNote);
+      $('#k-leads-l').textContent = O.kpi.leads;
+      $('#k-won-l').textContent = nb(O.kpi.won);
+    }
+    function renderBrief(i) {
+      const b = O.meet[i];
+      brief.innerHTML = '<span class="prog" aria-hidden="true"><i></i></span>' +
+        `<div class="br-h rv"><b>${esc(b.firm)}</b><span class="src">${esc(b.src)}</span></div>` +
+        `<div class="br-sec rv"><h4 class="h5">Kdo přijde</h4><p>${esc(b.kdo)}</p></div>` +
+        `<div class="br-sec rv"><h4 class="h5">Co víme</h4><ul>${b.vime.map((v) => `<li>${esc(v)}</li>`).join('')}</ul></div>` +
+        `<div class="br-sec rv"><h4 class="h5">Na co se zeptat</h4><ul>${b.ask.map((v) => `<li>${esc(v)}</li>`).join('')}</ul></div>` +
+        `<div class="br-sec rv"><h4 class="h5">Cíl schůzky</h4><p class="goal">${esc(b.cil)}</p></div>`;
+    }
+    function renderMeet() {
+      const ul = $('#mt-l'), note = $('.mt-note', ul);
+      $$('li:not(.mt-note)', ul).forEach((li) => li.remove());
+      O.meet.forEach((m, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<button class="mt-i" type="button" data-m="${i}" aria-pressed="${i === 0}"><span class="w">${esc(m.w)}</span><span class="f">${esc(m.firm)}</span><span class="o">${esc(m.o)}</span></button>`;
+        ul.insertBefore(li, note);
+      });
+      briefKey = 0; briefDone = false;
+      brief.dataset.run = '';
+      renderBrief(0);
+    }
+    function renderCall() {
+      const c = O.call;
+      $('#zp-meta').textContent = nb(c.meta);
+      $('#tr-l').innerHTML = c.lines.map(([w, t, me]) => `<li${me ? ' class="me"' : ''}><b>${esc(w)}</b>„${esc(t)}“</li>`).join('');
+      $('#zp-sum').textContent = nb(c.sum);
+      $('#chg').innerHTML = c.chg.map(([k, o, n], i) =>
+        `<li style="--i:${i}"><span class="k">${esc(k)}</span><span class="v">${o ? `<s>${esc(o)}</s> →︎ ` : ''}<b>${esc(n)}</b></span><span class="ck" aria-hidden="true">${IC.check}</span></li>`).join('');
+      $('#zp-done-t').textContent = nb(c.done);
+      $('[data-goto]', zDone).dataset.goto = c.deal;
+      // výchozí stav zápisu
+      zOut.dataset.run = '';
+      zGo.disabled = false; zGo.classList.remove('done');
+      $('span', zGo).textContent = 'Zpracovat hovor';
+      $('svg', zGo).innerHTML = IC.doc;
+      zOut.hidden = true; zOut.classList.remove('saved'); zEmpty.hidden = false;
+      zSave.hidden = false; zDone.hidden = true;
+    }
+
+    /* čísla: sloupce, pruh fází, přehled pro majitele */
+    function bump(el) { if (RM || !el) return; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+    function recount() {
+      const sbtn = $$('button', strip);
+      cols.forEach((c, i) => {
+        const ids = $$('.deal', c).map((b) => b.dataset.id).filter(visible);
+        $('.col-n', c).textContent = ids.length;
+        $('.col-s', c).textContent = fmt(ids.reduce((s, id) => s + D[id].val, 0));
+        if (sbtn[i]) {
+          $('b', sbtn[i]).textContent = ids.length;
+          const warn = ids.some((id) => D[id].alert);
+          let wn = $('.wn', sbtn[i]);
+          if (warn && !wn) { wn = document.createElement('span'); wn.className = 'wn'; wn.setAttribute('aria-hidden', 'true'); sbtn[i].appendChild(wn); }
+          if (!warn && wn) wn.remove();
+        }
+      });
+      const ids = Object.keys(D).filter(visible);
+      const open = ids.filter((id) => D[id].st < lastSt());
+      const won = ids.filter((id) => D[id].st === lastSt());
+      const sum = (arr) => arr.reduce((s, id) => s + D[id].val, 0);
+      $('#k-open').innerHTML = big(sum(open));
+      $('#k-open-n').textContent = open.length + NB + plural(open.length, 'obchod', 'obchody', 'obchodů');
+      $('#k-won').innerHTML = big(sum(won));
+      $('#k-won-n').textContent = won.length + NB + plural(won.length, ...O.kpi.wonN);
+      $('#k-leads').textContent = String(O.kpi.leadsBase + (leadIn ? 1 : 0));
+      const alerts = ids.filter((id) => D[id].alert);
+      const kw = $('#k-warn');
+      if (kw.textContent !== String(alerts.length)) bump(kw);
+      kw.textContent = String(alerts.length);
+      $('#k-warn-s').textContent = alerts.length ? plural(alerts.length, 'obchod', 'obchody', 'obchodů') : 'vše má další krok';
+      $('#k-warn-box').classList.toggle('warn', alerts.length > 0);
+      $('#k-warn-box').classList.toggle('okay', alerts.length === 0);
+      $('#tab-warn').hidden = alerts.length === 0;
+      // seznam "Potřebuje pozornost"
+      const ul = $('#att-l');
+      ul.innerHTML = '';
+      alerts.forEach((id) => {
+        const d = D[id];
+        const li = document.createElement('li');
+        li.innerHTML = `<button class="att-i" type="button" data-open="${id}"><span class="ic" aria-hidden="true">${IC.alert}</span><span><b></b><small></small></span><span class="go" aria-hidden="true">→︎</span></button>`;
+        $('b', li).textContent = nb(d.firm) + ' · ' + fmt(d.val);
+        $('small', li).textContent = nb(d.why) + ' · ' + who(d)[1];
+        ul.appendChild(li);
+      });
+      $('#att-ok').hidden = alerts.length > 0;
+    }
+
+    /* záložky */
+    const tablist = $('#tabs');
+    const tabs = $$('.tab', tablist);
+    const panes = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
+    tablist.setAttribute('role', 'tablist');
+    tabs.forEach((t, i) => {
+      t.setAttribute('role', 'tab');
+      panes[i].setAttribute('role', 'tabpanel');
+      panes[i].setAttribute('aria-labelledby', t.id);
+      panes[i].tabIndex = -1;
+    });
+    function select(i, focus) {
+      if (drawerOpen) closeDrawer(false);
+      cur = i;
+      tabs.forEach((t, k) => {
+        const on = k === i;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panes[k].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+      if (toastOn) hideToast();
+      shown(tabs[i].dataset.tab);
+    }
+    const idx = (name) => tabs.findIndex((t) => t.dataset.tab === name);
+    tabs.forEach((t, i) => t.addEventListener('click', () => { touch(); select(i); }));
+    tablist.addEventListener('keydown', (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      let j = null;
+      if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = tabs.length - 1;
+      if (j === null) return;
+      e.preventDefault(); touch(); select(j, true);
+    });
+
+    /* deska: posouvání sloupců na mobilu + pruh fází */
+    const pad = () => parseFloat(getComputedStyle(bs).paddingLeft) || 0;
+    const scrollable = () => bs.scrollWidth > bs.clientWidth + 4;
+    function goCol(i, smooth) {
+      if (!scrollable() || !cols[i]) return;
+      bs.scrollTo({ left: cols[i].offsetLeft - pad(), behavior: smooth && !RM ? 'smooth' : 'auto' });
+    }
+    function markCol() {
+      const sbtn = $$('button', strip);
+      if (!sbtn.length) return;
+      let best = 0, bestD = Infinity;
+      cols.forEach((c, i) => { const dd = Math.abs(c.offsetLeft - pad() - bs.scrollLeft); if (dd < bestD) { bestD = dd; best = i; } });
+      sbtn.forEach((b, i) => b.setAttribute('aria-current', String(i === best)));
+    }
+    let sRaf = 0;
+    bs.addEventListener('scroll', () => { if (!sRaf) sRaf = requestAnimationFrame(() => { sRaf = 0; markCol(); }); }, { passive: true });
+    bs.addEventListener('pointerdown', touch, { passive: true });
+    strip.addEventListener('click', (e) => { const b = e.target.closest('[data-col]'); if (b) { touch(); goCol(+b.dataset.col, true); } });
+
+    function flash(id) {
+      const c = card(id);
+      if (RM || !c) return;
+      const li = c.closest('li');
+      li.classList.remove('flash'); void li.offsetWidth; li.classList.add('flash');
+      setTimeout(() => li.classList.remove('flash'), 2000);
+    }
+    // ukázat obchod na desce (z přehledu, z upozornění, ze zápisu)
+    function reveal(id, openIt) {
+      select(idx('obchody'));
+      goCol(D[id].st, false);
+      const el = card(id);
+      if (!openIt) { flash(id); el.focus({ preventScroll: true }); return; }
+      openDrawer(id, el);
+    }
+
+    /* detail obchodu */
+    function renderDrawer(id, saved) {
+      const d = D[id], w = who(d);
+      drTitle.textContent = nb(d.firm);
+      const stg = O.short.map((s, i) => `<li class="${i < d.st ? 'done' : i === d.st ? 'cur' : ''}">${esc(s)}</li>`).join('');
+      let next;
+      if (d.alert) {
+        next = `<p class="nx-alert">${IC.alert}${esc(d.at || 'Chybí další krok')}</p><p class="nx-why">${esc(d.why)}.</p>` +
+          '<p class="h5">AI navrhuje</p><ul class="sug-l">' + d.sug.map((s, i) => `<li><button class="sug" type="button" data-sug="${i}"><span class="pl" aria-hidden="true">+</span><span>${esc(s)}</span></button></li>`).join('') + '</ul>';
+      } else if (d.next) {
+        next = `<p class="nx-set">${IC.clock}<span>${esc(d.next)}</span></p>` +
+          (saved ? `<p class="nx-ok" tabindex="-1">${IC.check}<span>Uloženo. ${esc(w[1])} dostane připomínku.</span></p>` : '');
+      } else next = `<p class="nx-set">${IC.check}<span>${esc(d.won)}</span></p>`;
+      const hist = d.hist.map(([t, h]) => `<li><span>${esc(t)}</span><time>${esc(h)}</time></li>`).join('');
+      drBody.innerHTML =
+        `<p class="dr-meta"><b>${fmt(d.val)}${NB}Kč</b><span class="who"><span class="d-own" aria-hidden="true">${d.own}</span>${esc(w[0])}</span></p>` +
+        `<ol class="stg" aria-label="Fáze: ${esc(O.stages[d.st])}">${stg}</ol>` +
+        `<div class="box"><h5 class="h5">Další krok</h5>${next}</div>` +
+        `<div class="box"><h5 class="h5">Historie</h5><ol class="hist">${hist}</ol></div>`;
+    }
+    function openDrawer(id, trigger) {
+      drFor = id; drTrigger = trigger || card(id);
+      renderDrawer(id);
+      drawer.hidden = false; scrim.hidden = false;
+      panes.forEach((p) => { p.inert = true; });
+      drawerOpen = true;
+      drawer.scrollTop = 0;
+      // fokus až po zviditelnění (ve skrytém stavu má detail visibility: hidden)
+      requestAnimationFrame(() => { drawer.classList.add('open'); scrim.classList.add('open'); $('#dr-x').focus({ preventScroll: true }); });
+      const r = app.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > innerHeight) {
+        const top = $('#panes').getBoundingClientRect().top;
+        if (top < 0 || top > innerHeight * 0.5) window.scrollBy({ top: top - 70, behavior: RM ? 'auto' : 'smooth' });
+      }
+    }
+    function closeDrawer(restore = true) {
+      if (!drawerOpen) return;
+      drawerOpen = false;
+      drawer.classList.remove('open'); scrim.classList.remove('open');
+      panes.forEach((p) => { p.inert = false; });
+      const done = () => { if (!drawerOpen) { drawer.hidden = true; scrim.hidden = true; } };
+      if (RM) done(); else setTimeout(done, 460);
+      if (restore && drTrigger && document.contains(drTrigger)) drTrigger.focus({ preventScroll: true });
+    }
+    $('#dr-x').addEventListener('click', () => closeDrawer());
+    scrim.addEventListener('click', () => closeDrawer());
+    drawer.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.stopPropagation(); closeDrawer(); } });
+    drBody.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-sug]');
+      if (!b || !drFor) return;
+      touch();
+      const d = D[drFor];
+      d.next = d.sug[+b.dataset.sug];
+      d.alert = false;
+      d.hist.unshift(['Další krok naplánován', 'teď']);
+      paintCard(drFor); recount(); renderDrawer(drFor, true);
+      const ok = $('.nx-ok', drBody);
+      if (ok) ok.focus({ preventScroll: true });
+      flash(drFor);
+    });
+    app.addEventListener('click', (e) => {
+      const d = e.target.closest('.deal');
+      if (d) { touch(); openDrawer(d.dataset.id, d); return; }
+      const a = e.target.closest('[data-open]');
+      if (a) { touch(); reveal(a.dataset.open, true); return; }
+      const g = e.target.closest('[data-goto]');
+      if (g) { touch(); reveal(g.dataset.goto, false); }
+    });
+
+    /* nová poptávka: jednou za návštěvu přijde živě (v oboru, který je zrovna vybraný) */
+    function hideToast() {
+      toastOn = false;
+      clearTimeout(toastT);
+      toast.classList.remove('show');
+      setTimeout(() => { if (!toastOn) toast.hidden = true; }, RM ? 0 : 450);
+    }
+    function revealLead(animate) {
+      if (leadIn) return;
+      leadIn = true;
+      const li = $('.cards li.pending', app);
+      if (li) {
+        li.classList.remove('pending');
+        if (animate && !RM) { li.classList.add('enter'); setTimeout(() => li.classList.remove('enter'), 800); }
+      }
+      recount();
+      bump($('#k-leads'));
+    }
+    $('#t-go').addEventListener('click', () => { touch(); hideToast(); const id = newId(); if (id) reveal(id, false); });
+    $('#t-x').addEventListener('click', () => { touch(); hideToast(); });
+
+    /* příprava na schůzku (AI): podklady se "připraví" při prvním zobrazení a při přepnutí schůzky */
+    // postupné odhalení řádků; nové spuštění na stejném místě to předchozí ukončí
+    async function stagger(root, dur) {
+      const run = String(++briefRun);
+      root.dataset.run = run;
+      const rows = $$('.rv', root), prog = $('.prog', root);
+      rows.forEach((r) => r.classList.remove('in'));
+      if (RM) { rows.forEach((r) => r.classList.add('in')); return true; }
+      if (prog) { prog.classList.remove('run'); prog.style.setProperty('--dur', dur + 'ms'); void prog.offsetWidth; prog.classList.add('run'); }
+      await wait(dur);
+      for (const r of rows) { if (root.dataset.run !== run) return false; r.classList.add('in'); await wait(110); }
+      if (prog) prog.classList.remove('run');
+      return root.dataset.run === run;
+    }
+    $('#mt-l').addEventListener('click', (e) => {
+      const b = e.target.closest('.mt-i');
+      if (!b) return;
+      touch();
+      if (+b.dataset.m === briefKey) return;
+      briefKey = +b.dataset.m;
+      $$('.mt-i', app).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      renderBrief(briefKey);
+      stagger(brief, 650);
+    });
+
+    /* zápis z hovoru: AI zpracuje, obchodník potvrdí, změna se propíše do desky i přehledu */
+    zGo.addEventListener('click', async () => {
+      touch();
+      zGo.disabled = true;
+      $('span', zGo).textContent = 'Zpracovávám…';
+      zEmpty.hidden = true; zOut.hidden = false;
+      const ok = await stagger(zOut, 900);
+      if (!ok) return; // mezitím se přepnul obor
+      $('span', zGo).textContent = 'Hovor zpracován';
+      zGo.classList.add('done');
+      $('svg', zGo).innerHTML = IC.done;
+      zOut.focus({ preventScroll: true });
+    });
+    zSave.addEventListener('click', () => {
+      touch();
+      const c = O.call, d = D[c.deal];
+      Object.assign(d, c.set);
+      d.alert = false;
+      d.hist.unshift([c.hist, 'teď']);
+      $('.cards', cols[c.set.st]).prepend(card(c.deal).closest('li'));
+      paintCard(c.deal); recount();
+      zOut.classList.add('saved');
+      zSave.hidden = true; zDone.hidden = false;
+      zDone.focus({ preventScroll: true });
+    });
+
+    /* co se stane při zobrazení panelu */
+    function shown(name) {
+      if (name === 'obchody') markCol();
+      if (name === 'schuzka' && !briefDone) { briefDone = true; stagger(brief, 650); }
+    }
+
+    /* obor: načíst data a vykreslit výchozí stav */
+    function load(key) {
+      obKey = key; O = OB[key];
+      D = JSON.parse(JSON.stringify(O.deals));
+      renderBar(); renderBoard(); renderFunnel(); renderMeet(); renderCall();
+      recount();
+    }
+    const seg = $('#seg'), segBtns = $$('button', seg);
+    function setObor(key, focus) {
+      if (key === obKey || !OB[key]) return;
+      if (drawerOpen) closeDrawer(false);
+      if (toastOn) hideToast();
+      segBtns.forEach((b) => {
+        const on = b.dataset.ob === key;
+        b.setAttribute('aria-checked', String(on));
+        b.tabIndex = on ? 0 : -1;
+        if (on && focus) b.focus();
+      });
+      load(key);
+      select(cur);
+      touch();
+      if (!obTracked) {
+        obTracked = true;
+        try { if (window.umami) window.umami.track('os-demo-obor', { obor: key }); } catch (_) { /* nic */ }
+      }
+    }
+    seg.addEventListener('click', (e) => { const b = e.target.closest('[data-ob]'); if (b) setObor(b.dataset.ob); });
+    seg.addEventListener('keydown', (e) => {
+      const i = segBtns.indexOf(document.activeElement);
+      if (i < 0) return;
+      let j = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (i + 1) % segBtns.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = (i - 1 + segBtns.length) % segBtns.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = segBtns.length - 1;
+      if (j === null) return;
+      e.preventDefault(); setObor(segBtns[j].dataset.ob, true);
+    });
+
+    /* start */
+    if (RM || !('IntersectionObserver' in window)) leadIn = true;
+    load('vyroba');
+    select(0);
+    if (!leadIn) {
+      const io = new IntersectionObserver((es) => {
+        if (!es[0].isIntersecting) return;
+        io.disconnect();
+        setTimeout(() => {
+          if (leadIn) return;
+          const onBoard = cur === idx('obchody');
+          revealLead(onBoard);
+          if (onBoard) { if (!drawerOpen) flash(newId()); return; } // na desce stačí, že karta přijede
+          $('#t-title').textContent = nb(O.toast[0]);
+          $('#t-text').textContent = nb(O.toast[1]);
+          toast.hidden = false; toastOn = true;
+          requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+          toastT = setTimeout(hideToast, 8000);
+        }, 2200);
+      }, { threshold: 0.45 });
+      io.observe(app);
+    }
+  });
+
+  /* ───────── lepivá výzva: na desktopu ztmavne v hlavičce, na mobilu vyjede spodní lišta (ne přes ukázku a závěr) ───────── */
+  part('lista', () => {
+    const hdr = $('.hdr'), bar = $('#bar'), heroCta = $('#hero-cta'), end = $('#hovor'), demo = $('#app');
+    if (!('IntersectionObserver' in window) || !heroCta || !bar) return;
+    const link = $('a', bar);
+    let passed = false, inEnd = false, inDemo = false;
+    const upd = () => {
+      hdr.classList.toggle('stuck', passed);
+      const show = passed && !inEnd && !inDemo;
+      bar.classList.toggle('show', show);
+      bar.setAttribute('aria-hidden', String(!show));
+      link.tabIndex = show ? 0 : -1;
+    };
+    new IntersectionObserver(([e]) => { passed = !e.isIntersecting && e.boundingClientRect.top < 0; upd(); }).observe(heroCta);
+    new IntersectionObserver(([e]) => { inEnd = e.isIntersecting; upd(); }, { rootMargin: '0px 0px -25% 0px' }).observe(end);
+    if (demo) new IntersectionObserver(([e]) => { inDemo = e.isIntersecting; upd(); }, { rootMargin: '0px 0px -30% 0px' }).observe(demo);
+  });
+
+  // pojistka v <head>: bez tohoto příznaku se stránka po 4 s vrátí do režimu bez JS
+  document.documentElement.classList.add('js');
+  window.osready = true;
+})();
+</script>
+</body>
+</html>

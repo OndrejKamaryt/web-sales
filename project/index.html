@@ -8,20 +8,20 @@
   ondrejkamaryt.cz · externí vedení obchodu.
   Vlastní zařízení vyloučit z analytiky: /?notrack (zpět /?dotrack). Náhledy: ?utm_source=osloveni, ?stav=obsazeno.
 -->
-<meta name="description" content="Šéfa obchodu nemusíte hned zaměstnat. Na zkoušku povedu váš obchod externě: nastavím obchodní proces a vedu obchodníky. Úvodní hovor 25 minut zdarma.">
+<meta name="description" content="Obchodníci dostanou šéfa, vy čas na firmu. Na zkoušku povedu váš obchod externě: nastavím proces a vedu obchodníky. Bez náboru. Úvodní hovor 25 minut zdarma.">
 <link rel="canonical" href="https://ondrejkamaryt.cz/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="cs_CZ">
-<meta property="og:title" content="Šéfa obchodu nemusíte hned zaměstnat.">
-<meta property="og:description" content="Šéfa obchodu nemusíte hned zaměstnat. Na zkoušku povedu váš obchod externě: nastavím obchodní proces a vedu obchodníky. Úvodní hovor 25 minut zdarma.">
+<meta property="og:title" content="Obchodníci dostanou šéfa. Vy čas na firmu.">
+<meta property="og:description" content="Obchodníci dostanou šéfa, vy čas na firmu. Na zkoušku povedu váš obchod externě: nastavím proces a vedu obchodníky. Bez náboru. Úvodní hovor 25 minut zdarma.">
 <meta property="og:url" content="https://ondrejkamaryt.cz/">
 <meta property="og:image" content="https://ondrejkamaryt.cz/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Ondřej Kamarýt - Šéfa obchodu nemusíte hned zaměstnat.">
+<meta property="og:image:alt" content="Ondřej Kamarýt - Obchodníci dostanou šéfa. Vy čas na firmu.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Šéfa obchodu nemusíte hned zaměstnat.">
-<meta name="twitter:description" content="Šéfa obchodu nemusíte hned zaměstnat. Na zkoušku povedu váš obchod externě: nastavím obchodní proces a vedu obchodníky. Úvodní hovor 25 minut zdarma.">
+<meta name="twitter:title" content="Obchodníci dostanou šéfa. Vy čas na firmu.">
+<meta name="twitter:description" content="Obchodníci dostanou šéfa, vy čas na firmu. Na zkoušku povedu váš obchod externě: nastavím proces a vedu obchodníky. Bez náboru. Úvodní hovor 25 minut zdarma.">
 <meta name="twitter:image" content="https://ondrejkamaryt.cz/assets/og-image.png">
 <meta name="theme-color" content="#E3E9E4">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -95,10 +95,11 @@ button, input { font: inherit; color: inherit; }
 .stage { display: grid; gap: 26px; }
 .intro { padding-top: 10px; }
 .h1 { margin: 0; font-family: var(--font-head); font-size: 40px; line-height: 1.06; letter-spacing: -.01em; font-weight: 600; }
-/* "hned": rovná červená linka v tloušťce tahu písma, při načtení se jednou vykreslí zleva */
-.hned { position: relative; display: inline-block; }
-.hned::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.13em; height: .09em; border-radius: .04em; background: var(--accent); transform-origin: 0 50%; }
-html.js .hned::after { animation: drawU .6s var(--ease) .35s both; }
+/* zvýrazněné slovo v H1: rovná červená linka v tloušťce tahu písma, při načtení se jednou vykreslí zleva */
+.hl { position: relative; display: inline-block; }
+.h1 .nw { white-space: nowrap; }
+.hl::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.13em; height: .09em; border-radius: .04em; background: var(--accent); transform-origin: 0 50%; }
+html.js .hl::after { animation: drawU .6s var(--ease) .35s both; }
 @keyframes drawU { from { scale: 0 1; } }
 .sub { margin: 12px 0 0; font-size: 16.5px; line-height: 1.4; color: var(--ink-2); max-width: 31em; text-wrap: pretty; }
 .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 18px; }
@@ -570,8 +571,8 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
   <div class="stage">
 
     <div class="intro">
-      <h1 class="h1" id="h1">Šéfa obchodu nemusíte <span class="hned">hned</span> zaměstnat.</h1>
-      <p class="sub">Na zkoušku povedu váš obchod externě: nejdřív nastavím obchodní proces, pak vedu obchodníky.</p>
+      <h1 class="h1" id="h1">Obchodníci dostanou šéfa. <span class="nw">Vy <span class="hl">čas</span></span> na&nbsp;firmu.</h1>
+      <p class="sub">Na zkoušku povedu váš obchod externě: nastavím obchodní proces a&nbsp;vedu obchodníky. Bez náboru, začít můžeme hned.</p>
       <div class="cta-row">
         <a class="btn btn-l" id="hero-cta" data-cal data-umami-event="cta-hero" href="https://cal.com/ondrej-kamaryt/vstupni-konzultace-zdarma" target="_blank" rel="noopener">Domluvit úvodní hovor <span class="arr" aria-hidden="true">→&#xFE0E;</span></a>
         <span class="cta-note">25&nbsp;minut zdarma, bez závazku</span>
@@ -724,10 +725,10 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
     </li>
   </ol>
 
-  <a class="ticket" href="#kontakt" data-choice="crm" data-umami-event="ps-system">
+  <a class="ticket" href="/obchodni-system/" data-umami-event="ps-system">
     <span class="t-main">
       <span class="t-q"><span class="ps">P.S.</span>Šéfa nehledáte, jen chcete obchod zefektivnit?</span>
-      <span class="t-a">Obchodní systém: celý proces od poptávky po zakázku za 6&nbsp;týdnů. 120&nbsp;000&nbsp;Kč, pevná cena</span>
+      <span class="t-a">Obchodní systém: podívejte se, jak může vypadat váš obchod</span>
     </span>
     <span class="t-stub" aria-hidden="true">→&#xFE0E;</span>
   </a>
@@ -1203,7 +1204,7 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
       if (pop) { const ch = r.closest('.chip'); ch.classList.remove('pop'); void ch.offsetWidth; ch.classList.add('pop'); }
     };
 
-    // Předvolba jen z kontextu: odkaz z oslovení dá "Hledáme šéfa obchodu", P.S. dá "Chceme zefektivnit obchod".
+    // Předvolba jen z kontextu: odkaz z oslovení dá "Hledáme šéfa obchodu", P.S. vede na podstránku /obchodni-system/.
     if (qs.get('utm_source') === 'osloveni') pick('sef');
     $$('[data-choice]').forEach((a) => a.addEventListener('click', () => pick(a.dataset.choice, true)));
     // Skrytý zdroj: utm parametry z adresy, ať je v Netlify vidět, odkud poptávka přišla.
