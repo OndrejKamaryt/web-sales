@@ -262,6 +262,30 @@ html.js .race:not(.play) .tok { opacity: 0; } /* žeton se ukáže až s rozjezd
 html:not(.js) .replay { display: none; }
 
 .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+/* kolik to stojí: zaměstnanec (mzda z inzerátu + odvody) vs externě (orientačně podle počtu obchodníků) */
+.cost { grid-column: 1 / -1; display: grid; gap: 18px; }
+.cost-h { margin: 0; font-family: var(--font-head); font-weight: 600; font-size: 22px; line-height: 1.15; letter-spacing: -.005em; }
+.c-ctl { display: grid; gap: 16px; align-content: start; }
+.c-row { display: grid; gap: 6px; }
+.c-lab { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+.c-lab output { font-size: 17px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.c-range { width: 100%; height: 44px; margin: 0; background: transparent; accent-color: var(--accent); cursor: pointer; }
+.c-step { display: inline-flex; align-items: center; gap: 4px; justify-self: start; padding: 4px; border-radius: 13px; background: #EEF1EE; }
+.c-step button { width: 44px; height: 44px; border: 0; border-radius: 10px; background: var(--card); box-shadow: var(--sh-1); font: 600 22px/1 var(--font); color: var(--ink); cursor: pointer; transition: transform .3s var(--spring); }
+.c-step button:active { transform: scale(.94); }
+.c-step button:disabled { opacity: .35; cursor: default; box-shadow: none; }
+.c-step output { min-width: 52px; text-align: center; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.c-bars { display: grid; gap: 16px; align-content: start; }
+.c-bar .k { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 0; font-size: 15.5px; font-weight: 650; }
+.c-bar .k b { font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.c-bar .track { display: block; height: 14px; margin: 8px 0 6px; border-radius: 7px; background: #EEF1EE; overflow: hidden; }
+.c-bar .fill { display: block; width: var(--w, 100%); height: 100%; border-radius: 7px; background: var(--wire); transition: width .5s var(--ease); }
+.c-bar.ext .fill { background: var(--accent); }
+.c-bar small { display: block; font-size: 13.5px; line-height: 1.35; color: var(--ink-3); }
+.c-diff { margin: 0; font-size: 16px; font-weight: 650; }
+.c-diff b { color: var(--accent-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.c-note { margin: 0; font-size: 13px; line-height: 1.45; color: var(--ink-3); }
+html:not(.js) .c-js { display: none; }
 .facts li { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 16px 12px 12px; background: var(--card); border-radius: 18px; box-shadow: var(--sh-1); font-weight: 600; font-size: 16.5px; line-height: 1.3; }
 .ico { width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft); display: grid; place-items: center; flex: none; }
 .ico svg { width: 22px; height: 22px; fill: none; stroke: var(--accent-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: rotate .5s var(--spring), translate .5s var(--spring); }
@@ -497,6 +521,9 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
   .hint { font-size: 16px; max-width: 180px; }
   .won { font-size: 17px; }
   .proc { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+  .cost { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); column-gap: 48px; row-gap: 20px; }
+  .cost-h, .c-note { grid-column: 1 / -1; }
+  .cost-h { font-size: 26px; }
   .facts { align-content: space-between; }
   .sec { padding-top: 96px; }
   .tile { padding: 24px; }
@@ -642,6 +669,22 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
       <li><span class="ico" aria-hidden="true"><svg class="i-tag" viewBox="0 0 24 24"><path d="M3.5 4.5h7.5l9.5 9.5-6.5 6.5L4.5 11z"/><circle cx="8.5" cy="9" r="1.6"/></svg></span>Pevná měsíční cena, bez odvodů a&nbsp;náboru.</li>
     </ul>
 
+    <div class="tile cost" id="cena">
+      <h3 class="cost-h">Kolik vás to bude stát?</h3>
+      <div class="c-ctl c-js">
+        <label class="c-row" for="c-sal"><span class="c-lab">Hrubá mzda z&nbsp;inzerátu <output id="c-sal-out" for="c-sal">100&nbsp;000&nbsp;Kč</output></span>
+          <input class="c-range" id="c-sal" type="range" min="70000" max="160000" step="5000" value="100000"></label>
+        <div class="c-row"><span class="c-lab" id="c-n-lab">Kolik máte obchodníků?</span>
+          <div class="c-step" role="group" aria-labelledby="c-n-lab"><button type="button" id="c-minus" aria-label="Méně obchodníků">−</button><output id="c-n" aria-live="polite">4</output><button type="button" id="c-plus" aria-label="Víc obchodníků">+</button></div></div>
+      </div>
+      <div class="c-bars">
+        <div class="c-bar emp"><p class="k">Zaměstnanec <b id="c-emp">133&nbsp;800&nbsp;Kč</b></p><span class="track"><span class="fill" id="c-emp-bar"></span></span><small>měsíčně s&nbsp;odvody, k&nbsp;tomu nábor</small></div>
+        <div class="c-bar ext"><p class="k">Externě <b id="c-ext">zhruba 80&nbsp;000&nbsp;Kč</b></p><span class="track"><span class="fill" id="c-ext-bar" style="--w:60%"></span></span><small>měsíčně, bez odvodů a&nbsp;náboru</small></div>
+        <p class="c-diff" id="c-diff">Rozdíl: zhruba <b id="c-diff-v">646&nbsp;000&nbsp;Kč</b> ročně</p>
+      </div>
+      <p class="c-note">Odvody 33,8&nbsp;% (24,8&nbsp;% + 9&nbsp;%). Cena externě je orientační, odvíjí se od každé firmy zvlášť. Přesnou řeknu na hovoru. Nejsem plátce DPH.</p>
+    </div>
+
   </div>
 </section>
 
@@ -668,7 +711,7 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
         <span class="pc pc3"><b>zakázka</b><i></i><i></i><span class="cal"><i></i></span></span>
       </div>
       <div class="st-t"><span class="num">2</span><h3>Proces</h3></div>
-      <p>Od poptávky po zakázku: kdo co dělá, CRM, přehled čísel. AI tam, kde šetří čas: připraví podklady na schůzku, sepíše zápis z&nbsp;hovoru, pohlídá další krok.</p>
+      <p>Od poptávky po zakázku: kdo co dělá, CRM, přehled čísel. AI nasadím tam, kde u&nbsp;vás ušetří nejvíc času, třeba na přípravu schůzek, zápisy z&nbsp;hovorů nebo hlídání dalších kroků.</p>
     </li>
     <li class="step">
       <div class="viz v3" aria-hidden="true">
@@ -728,7 +771,7 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
         <li>zkouška</li>
       </ol>
       <!-- Varianta po obsazení vedení (bez data, dokud ho Ondřej nerozhodne); náhled: ?stav=obsazeno -->
-      <p class="cap"><span class="dot" aria-hidden="true"></span><span id="cap" data-obsazeno="Vedení obchodu mám teď obsazené. Obchodní systém můžu začít hned.">Obchod vedu jen v&nbsp;jedné firmě. Teď můžu začít.</span></p>
+      <p class="cap"><span class="dot" aria-hidden="true"></span><span id="cap" data-obsazeno="Vedení obchodu mám teď obsazené. Obchodní systém můžu začít hned.">Teď mám prostor ještě pro jednu firmu.</span></p>
       <ul class="c-links">
         <li><a href="mailto:ondrej.kamaryt@gmail.com">ondrej.kamaryt@gmail.com</a></li>
         <li><a href="tel:+420773635240">+420&nbsp;773&nbsp;635&nbsp;240</a></li>
@@ -1207,6 +1250,34 @@ html.js .viz:not(.play) *, html.js .viz:not(.play) *::before, html.js .viz:not(.
       requestAnimationFrame(() => fcard.classList.add('sent'));
       th.focus({ preventScroll: true });
     });
+  });
+
+  // kolik to stojí: zaměstnanec = mzda × 1,338 (odvody 24,8 % + 9 %), externě orientačně podle počtu obchodníků
+  part('cena', () => {
+    const sal = $('#c-sal'); if (!sal) return;
+    const salOut = $('#c-sal-out'), nOut = $('#c-n'), minus = $('#c-minus'), plus = $('#c-plus');
+    const emp = $('#c-emp'), ext = $('#c-ext'), empBar = $('#c-emp-bar'), extBar = $('#c-ext-bar'), diff = $('#c-diff'), diffV = $('#c-diff-v');
+    const N_MIN = 2, N_MAX = 8;
+    const extPrice = (n) => (n <= 3 ? 65000 : n <= 5 ? 80000 : 95000);
+    const kc = (v) => v.toLocaleString('cs-CZ') + ' Kč';
+    let n = 4, tracked = false;
+    function render() {
+      const e = Math.round(+sal.value * 1.338 / 100) * 100, x = extPrice(n), top = Math.max(e, x);
+      salOut.textContent = kc(+sal.value);
+      nOut.textContent = String(n);
+      emp.textContent = kc(e);
+      ext.textContent = 'zhruba ' + kc(x);
+      empBar.style.setProperty('--w', (e / top * 100).toFixed(1) + '%');
+      extBar.style.setProperty('--w', (x / top * 100).toFixed(1) + '%');
+      const d = Math.round((e - x) * 12 / 1000) * 1000;
+      diff.hidden = d <= 0; diffV.textContent = kc(d);
+      minus.disabled = n <= N_MIN; plus.disabled = n >= N_MAX;
+    }
+    function touched() { if (!tracked && window.umami) { window.umami.track('kalkulacka'); tracked = true; } }
+    sal.addEventListener('input', () => { render(); touched(); });
+    minus.addEventListener('click', () => { n = Math.max(N_MIN, n - 1); render(); touched(); });
+    plus.addEventListener('click', () => { n = Math.min(N_MAX, n + 1); render(); touched(); });
+    render();
   });
 
   // pojistka v <head>: bez tohoto příznaku se stránka po 4 s vrátí do režimu bez JS; když skript doběhne později, režim s JS se vrátí
